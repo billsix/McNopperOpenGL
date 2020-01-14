@@ -6,7 +6,7 @@
 #		Set SoC=iMX6 for i.MX6.
 #
 # (c) Norbert Nopper
-# 
+#
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -22,9 +22,9 @@ ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 	IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
 		# Raspberry Pi and i.MX6
-		
+
 		SET(OpenGL "ES2")
-		
+
 		add_definitions(-DGLUS_ES2)
 
 		IF(${SoC} MATCHES "iMX6")
@@ -35,50 +35,50 @@ ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 		ELSE()
 			# Raspberry Pi
 
-			include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)		
+			include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
 
 		ENDIF()
-		
+
 	ELSE()
 		# Support only desktop
-					
+
 	ENDIF()
-	
+
 ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	# Windows
-	
+
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-	
+
 	IF(${OpenGL} MATCHES "ES31")
 		# Desktop OpenGL ES 3.1
 
 		add_definitions(-DGLUS_ES31)
-	
-		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)	
+
+		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)
 
 	ELSEIF(${OpenGL} MATCHES "ES2")
 		# Desktop OpenGL ES 2.0
 
 		add_definitions(-DGLUS_ES2)
-	
-		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)	
+
+		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)
 
 	ELSEIF(${OpenGL} MATCHES "ES")
 		# Desktop OpenGL ES 3.0
 
 		add_definitions(-DGLUS_ES)
-	
-		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)	
+
+		include_directories(C:\\Imagination\\PowerVR_Graphics\\PowerVR_SDK\\SDK_2016_R1.2\\Builds\\Include)
 
 	ELSE()
 		# Desktop
-			
+
 	ENDIF()
-		
+
 ENDIF()
-	
-include_directories(${EXTERNAL_INCLUDE_DIR})	
-		
+
+include_directories(${EXTERNAL_INCLUDE_DIR})
+
 # Files only valid for desktop OpenGL
 list(APPEND ONLY_GL_C_FILES		${GLUS_SOURCE_DIR}/src/glus_window_glfw.c
 								${GLUS_SOURCE_DIR}/src/glus_programpipeline.c
@@ -108,56 +108,57 @@ IF(${OpenGL} MATCHES "ES")
 
 	IF(${OpenGL} MATCHES "ES31")
 		# OpenGL ES 3.1
-		
+
 		list(REMOVE_ITEM C_FILES ${ONLY_GL_C_FILES} ${ES2_C_FILES})
 
 	ELSEIF(${OpenGL} MATCHES "ES2")
 		# OpenGL ES 2.0
-		
+
 		list(REMOVE_ITEM C_FILES ${ONLY_GL_C_FILES} ${ES31_C_FILES})
 
-	ELSE()		
+	ELSE()
 		# OpenGL ES 3.0
-		
+
 		list(REMOVE_ITEM C_FILES ${ONLY_GL_C_FILES} ${ES31_C_FILES} ${ES2_C_FILES})
-	
+
 	ENDIF()
-	
+
 	IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
 		# Raspberry Pi and i.MX6
 
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_android_es.c)
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_es.c)
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_windows_es.c)
-		
-		IF(${SoC} MATCHES "iMX6")			
+
+		IF(${SoC} MATCHES "iMX6")
 			# i.MX6
-			
+
 			list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_raspberrypi_es.c)
-			
+
 		ELSE()
 			# Raspberry Pi
-		
+
 			list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_imx6_es.c)
-			
+
 		ENDIF()
-		
+
 	ELSE()
 		# Windows simulation
-	
+
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_android_es.c)
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_es.c)
 		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_imx6_es.c)
-		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_raspberrypi_es.c)		
-		
-	ENDIF()	
-	
+		list(REMOVE_ITEM C_FILES ${GLUS_SOURCE_DIR}/src/glus_os_linux_raspberrypi_es.c)
+
+	ENDIF()
+
 ELSE()
 	# OpenGL 3 and 4
-	
+
 	list(REMOVE_ITEM C_FILES ${ES_C_FILES} ${ES2_C_FILES} ${ES31_C_FILES} ${VG_C_FILES})
-	
+
 ENDIF()
 
-add_library(GLUS ${C_FILES} ${H_FILES})
+add_library(GLUS SHARED ${C_FILES} ${H_FILES})
 target_include_directories (GLUS PUBLIC ${GLUS_SOURCE_DIR}/src)
+target_link_libraries(${PROJECT_NAME} m GLEW GL glfw )
