@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -115,7 +116,7 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusImageLoadTga("rock_color.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/rock_color.tga", &image);
 
     glGenTextures(1, &g_texture);
     glBindTexture(GL_TEXTURE_2D, g_texture);
@@ -131,7 +132,7 @@ GLUSboolean init(GLUSvoid)
     glBindTexture(GL_TEXTURE_2D, 0);
 
 
-    glusImageLoadTga("rock_normal.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "rock_normal.tga", &image);
 
     glGenTextures(1, &g_normalMap);
     glBindTexture(GL_TEXTURE_2D, g_normalMap);

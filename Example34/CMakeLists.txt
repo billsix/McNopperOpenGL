@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 3.6)
 
-get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-project (${PROJECT_NAME})
+project (34-SubsurfaceScattering)
 
 file(GLOB SOURCES "src/*.cpp" "src/*.c")
 file(GLOB SHADERS "shader/*.glsl")

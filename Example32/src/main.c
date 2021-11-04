@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <math.h>
 #include <stdio.h>
 

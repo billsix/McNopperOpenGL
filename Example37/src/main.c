@@ -11,6 +11,7 @@
  * see http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"

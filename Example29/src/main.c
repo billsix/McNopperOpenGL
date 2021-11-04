@@ -10,6 +10,7 @@
  * see http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-1-writing-a-simple-raytracer/
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"

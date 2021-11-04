@@ -1,0 +1,6 @@
+#ifndef _config_h_
+#define _config_h_
+
+
+#cmakedefine RESOURCE_PATH "@RESOURCE_PATH@"
+#endif

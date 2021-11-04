@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -180,7 +181,7 @@ GLUSboolean init(GLUSvoid)
 
     // Color texture set up.
 
-    glusImageLoadTga("tiger.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "tiger.tga", &image);
 
     glGenTextures(1, &g_textureFurColor);
     glBindTexture(GL_TEXTURE_2D, g_textureFurColor);

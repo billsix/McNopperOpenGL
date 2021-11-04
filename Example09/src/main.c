@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -144,7 +145,7 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusImageLoadTga("particle.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "particle.tga", &image);
 
     glGenTextures(1, &g_texture);
 

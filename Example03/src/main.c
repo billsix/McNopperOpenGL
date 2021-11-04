@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -96,7 +97,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Load the image.
-    glusImageLoadTga("desert.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "desert.tga", &image);
 
     // Generate and bind a texture.
     glGenTextures(1, &g_texture);

@@ -10,6 +10,7 @@
  * see http://john-chapman-graphics.blogspot.co.uk/2013/01/ssao-tutorial.html
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -276,7 +277,7 @@ GLUSboolean init(GLUSvoid)
 	// Texture set up for the ground plane.
 	//
 
-	glusImageLoadTga("wood_texture.tga", &image);
+	glusImageLoadTga(RESOURCE_PATH "wood_texture.tga", &image);
 
 	glGenTextures(1, &g_texture);
 	glBindTexture(GL_TEXTURE_2D, g_texture);

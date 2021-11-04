@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include "GL/glus.h"
 
 #include "globals.h"

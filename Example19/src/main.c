@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -143,7 +144,7 @@ GLUSboolean init(GLUSvoid)
 
     // Texture set up.
 
-    glusImageLoadTga("ice.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "ice.tga", &image);
 
     glGenTextures(1, &g_texture);
     glBindTexture(GL_TEXTURE_2D, g_texture);

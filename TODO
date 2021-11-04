@@ -1,0 +1,6 @@
+add config.h to the top of every c file
+for each c file that uses a resource, add the path at the beginning
+remove in 07 the local variable foo
+figure out why I have to be in buildInstall to run it, I think it's because shader dirs need to be updated too
+get working on windows
+get working on macos

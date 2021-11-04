@@ -18,6 +18,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include "render_sphere.h"
 
 static GLUSprogram g_program;

@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -134,7 +135,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Load the image.
-    glusImageLoadTga("four_shapes_color.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "four_shapes_color.tga", &image);
 
     glActiveTexture(GL_TEXTURE0);
 
@@ -156,7 +157,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Load the image.
-    glusImageLoadTga("four_shapes_normal.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "four_shapes_normal.tga", &image);
 
     glActiveTexture(GL_TEXTURE1);
 

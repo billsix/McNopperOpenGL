@@ -8,6 +8,7 @@
  * Copyright Norbert Nopper
  */
 
+#include "config.h"
 #include <stdio.h>
 
 #include "GL/glus.h"
@@ -108,7 +109,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
     // NDC coordinates go from -1.0 to 1.0. So (1.0 - (-1.0)) * 0.5 / length is half the length.
     halfPixelSize[0] = 1.0f / (GLfloat)width;
     halfPixelSize[1] = 1.0f / (GLfloat)height;
-    
+
     glUniform2fv(g_halfPixelSizeLocation, 1, halfPixelSize);
 }
 
