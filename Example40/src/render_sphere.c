@@ -58,8 +58,8 @@ GLUSboolean initSphere(GLUSfloat sphereCenter[4], GLUSfloat sphereRadius, GLUSfl
 
     GLUSshape sphere;
 
-    glusFileLoadText("../Example40/shader/sphere.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example40/shader/sphere.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example40/shader/sphere.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example40/shader/sphere.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

@@ -115,8 +115,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example19/shader/basic_proj.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example19/shader/texture_multi_proj.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example19/shader/basic_proj.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example19/shader/texture_multi_proj.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -144,7 +144,7 @@ GLUSboolean init(GLUSvoid)
 
     // Texture set up.
 
-    glusImageLoadTga(RESOURCE_PATH "ice.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/ice.tga", &image);
 
     glGenTextures(1, &g_texture);
     glBindTexture(GL_TEXTURE_2D, g_texture);

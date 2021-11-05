@@ -74,8 +74,8 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16], struct LightProperties* ligh
 
     //
 
-    glusFileLoadText("../Example28/shader/phong.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example28/shader/phong.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example28/shader/phong.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example28/shader/phong.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -104,7 +104,7 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16], struct LightProperties* ligh
     //
 
     // Use a helper function to load an wavefront object file.
-    glusShapeLoadWavefront("teapot.obj", &wavefrontObj);
+    glusShapeLoadWavefront(RESOURCE_PATH "/res/teapot.obj", &wavefrontObj);
 
     g_numberVertices = wavefrontObj.numberVertices;
 

@@ -98,8 +98,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example27/shader/shadow.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example27/shader/shadow.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example27/shader/shadow.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example27/shader/shadow.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programShadow, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -108,8 +108,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example27/shader/color.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example27/shader/color.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example27/shader/color.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example27/shader/color.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

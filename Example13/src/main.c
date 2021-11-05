@@ -49,11 +49,11 @@ GLUSboolean init(GLUSvoid)
 	GLUStextfile geometrySource;
 	GLUStextfile fragmentSource;
 
-	glusFileLoadText("../Example13/shader/tessellation.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example13/shader/tessellation.cont.glsl", &controlSource);
-	glusFileLoadText("../Example13/shader/tessellation.eval.glsl", &evaluationSource);
-	glusFileLoadText("../Example13/shader/tessellation.geom.glsl", &geometrySource);
-	glusFileLoadText("../Example13/shader/tessellation.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example13/shader/tessellation.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example13/shader/tessellation.cont.glsl", &controlSource);
+	glusFileLoadText(RESOURCE_PATH "/Example13/shader/tessellation.eval.glsl", &evaluationSource);
+	glusFileLoadText(RESOURCE_PATH "/Example13/shader/tessellation.geom.glsl", &geometrySource);
+	glusFileLoadText(RESOURCE_PATH "/Example13/shader/tessellation.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 

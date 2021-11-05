@@ -150,8 +150,8 @@ GLUSboolean init(GLUSvoid)
 
 	//
 
-	glusFileLoadText("../Example33/shader/brdf.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example33/shader/brdf.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/brdf.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/brdf.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_modelProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 
@@ -175,8 +175,8 @@ GLUSboolean init(GLUSvoid)
 
 	//
 
-	glusFileLoadText("../Example33/shader/fullscreen.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example33/shader/fullscreen.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/fullscreen.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/fullscreen.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_fullscreenProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 
@@ -194,8 +194,8 @@ GLUSboolean init(GLUSvoid)
 	//
 	//
 
-	glusFileLoadText("../Example33/shader/background.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example33/shader/background.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/background.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example33/shader/background.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_backgroundProgram, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
@@ -434,7 +434,7 @@ GLUSboolean init(GLUSvoid)
 	//
 
 	// Use a helper function to load an wavefront object file.
-	glusShapeLoadWavefront("venusm.obj", &wavefront);
+	glusShapeLoadWavefront(RESOURCE_PATH "/res/venusm.obj", &wavefront);
 
 	g_numberVerticesModel = wavefront.numberVertices;
 

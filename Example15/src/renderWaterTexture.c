@@ -79,8 +79,8 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 	GLUStextfile vertexSource;
 	GLUStextfile fragmentSource;
 
-	glusFileLoadText("../Example15/shader/WaterTexture.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example15/shader/WaterTexture.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example15/shader/WaterTexture.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example15/shader/WaterTexture.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_programWaterTexture, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

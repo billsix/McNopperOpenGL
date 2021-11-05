@@ -127,8 +127,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example26/shader/ambient_diffuse_texture.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example26/shader/ambient_diffuse_texture.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example26/shader/ambient_diffuse_texture.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example26/shader/ambient_diffuse_texture.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -136,9 +136,9 @@ GLUSboolean init(GLUSvoid)
     glusFileDestroyText(&fragmentSource);
 
 
-    glusFileLoadText("../Example26/shader/fur.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example26/shader/fur.geom.glsl", &geometrySource);
-    glusFileLoadText("../Example26/shader/fur.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programFur, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 
@@ -181,7 +181,7 @@ GLUSboolean init(GLUSvoid)
 
     // Color texture set up.
 
-    glusImageLoadTga(RESOURCE_PATH "tiger.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/tiger.tga", &image);
 
     glGenTextures(1, &g_textureFurColor);
     glBindTexture(GL_TEXTURE_2D, g_textureFurColor);
@@ -226,7 +226,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Use a helper function to load an wavefront object file.
-    glusShapeLoadWavefront("bunny.obj", &bunnyShape);
+    glusShapeLoadWavefront(RESOURCE_PATH "/res/bunny.obj", &bunnyShape);
 
     // This model does not have any texture coordinates, so generate them.
     glusShapeTexGenByAxesf(&bunnyShape, 2.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f);

@@ -109,8 +109,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUSshape wavefrontObj;
 
-    glusFileLoadText("../Example16/shader/phong.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example16/shader/phong.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example16/shader/phong.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example16/shader/phong.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -139,7 +139,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Use a helper function to load an wavefront object file.
-    glusShapeLoadWavefront("monkey.obj", &wavefrontObj);
+    glusShapeLoadWavefront(RESOURCE_PATH "/res/monkey.obj", &wavefrontObj);
 
     g_numberVertices = wavefrontObj.numberVertices;
 

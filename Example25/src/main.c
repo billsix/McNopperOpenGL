@@ -111,8 +111,8 @@ GLUSboolean init(GLUSvoid)
 	GLUSgroupList* groupWalker;
 	GLUSmaterialList* materialWalker;
 
-	glusFileLoadText("../Example25/shader/phong_textured.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example25/shader/phong_textured.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example25/shader/phong_textured.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example25/shader/phong_textured.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
@@ -146,7 +146,7 @@ GLUSboolean init(GLUSvoid)
 	// Use a helper function to load the wavefront object file.
 	//
 
-	glusWavefrontLoad("ChessKing.obj", &g_wavefront);
+	glusWavefrontLoad(RESOURCE_PATH "/res/ChessKing.obj", &g_wavefront);
 
 	glGenBuffers(1, &g_wavefront.verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);

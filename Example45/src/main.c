@@ -71,9 +71,9 @@ GLUSboolean init(GLUSvoid)
 
 	GLfloat halfPixelSize[2];
 
-    glusFileLoadText("../Example45/shader/voxelize.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example45/shader/voxelize.geom.glsl", &geometrySource);
-    glusFileLoadText("../Example45/shader/voxelize.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 
@@ -93,7 +93,7 @@ GLUSboolean init(GLUSvoid)
     // 3D model
     //
 
-	glusWavefrontLoad("ChessKing.obj", &g_wavefront);
+	glusWavefrontLoad(RESOURCE_PATH "/resChessKing.obj", &g_wavefront);
 
 	glGenBuffers(1, &g_wavefront.verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);
@@ -228,8 +228,8 @@ GLUSboolean init(GLUSvoid)
     // Full screen rendering.
     //
 
-    glusFileLoadText("../Example45/shader/fullscreen.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example45/shader/draw_voxels.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example45/shader/fullscreen.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example45/shader/draw_voxels.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_fullscreenProgram, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

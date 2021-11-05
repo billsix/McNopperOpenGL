@@ -88,8 +88,8 @@ GLUSboolean init(GLUSvoid)
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
 
-    glusFileLoadText("../Example11/shader/glass.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example11/shader/glass.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example11/shader/glass.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example11/shader/glass.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -98,8 +98,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example11/shader/background.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example11/shader/background.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example11/shader/background.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example11/shader/background.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programBackground, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -130,27 +130,27 @@ GLUSboolean init(GLUSvoid)
     glGenTextures(1, &g_cubemap);
     glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_pos_x.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_pos_x.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_neg_x.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_neg_x.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_pos_y.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_pos_y.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_neg_y.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_neg_y.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_pos_z.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_pos_z.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 
-    glusImageLoadTga(RESOURCE_PATH "cm_neg_z.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/cm_neg_z.tga", &image);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
     glusImageDestroyTga(&image);
 

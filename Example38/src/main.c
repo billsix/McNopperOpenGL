@@ -48,8 +48,8 @@ GLUSboolean init(GLUSvoid)
     GLUStextfile fragmentSource;
 
     // Load the source of the vertex and fragment shader.
-    glusFileLoadText("../Example38/shader/simple.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example38/shader/red.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example38/shader/simple.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example38/shader/red.frag.glsl", &fragmentSource);
 
     // Build the programs.
     glusProgramBuildSeparableFromSource(&g_vertexProgram, GL_VERTEX_SHADER, (const GLchar**) &vertexSource.text);

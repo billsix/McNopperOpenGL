@@ -143,8 +143,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example36/shader/phong_linked_list.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example36/shader/phong_linked_list.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example36/shader/phong_linked_list.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example36/shader/phong_linked_list.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -175,8 +175,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-	glusFileLoadText("../Example36/shader/fullscreen_blend.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example36/shader/fullscreen_blend.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example36/shader/fullscreen_blend.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example36/shader/fullscreen_blend.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 
@@ -206,7 +206,7 @@ GLUSboolean init(GLUSvoid)
 
 	glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, g_headIndexTexture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
 
-	// Buffer to clear/reset the head pointers.
+	// Buffer to clearet the head pointers.
 
 	glGenBuffers(1, &g_clearBuffer);
 
@@ -224,7 +224,7 @@ GLUSboolean init(GLUSvoid)
 	//
 
     // Use a helper function to load an wavefront object file.
-    glusShapeLoadWavefront("dragon.obj", &wavefrontObj);
+    glusShapeLoadWavefront(RESOURCE_PATH "/res/dragon.obj", &wavefrontObj);
 
     g_numberVertices = wavefrontObj.numberVertices;
 

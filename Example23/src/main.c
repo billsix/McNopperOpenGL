@@ -93,11 +93,11 @@ GLUSboolean init(GLUSvoid)
 
 	GLUStgaimage image;
 
-	glusFileLoadText("../Example23/shader/tessellation.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example23/shader/tessellation.cont.glsl", &controlSource);
-	glusFileLoadText("../Example23/shader/tessellation.eval.glsl", &evaluationSource);
-	glusFileLoadText("../Example23/shader/tessellation.geom.glsl", &geometrySource);
-	glusFileLoadText("../Example23/shader/tessellation.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example23/shader/tessellation.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example23/shader/tessellation.cont.glsl", &controlSource);
+	glusFileLoadText(RESOURCE_PATH "/Example23/shader/tessellation.eval.glsl", &evaluationSource);
+	glusFileLoadText(RESOURCE_PATH "/Example23/shader/tessellation.geom.glsl", &geometrySource);
+	glusFileLoadText(RESOURCE_PATH "/Example23/shader/tessellation.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 
@@ -135,7 +135,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Load the image.
-    glusImageLoadTga(RESOURCE_PATH "four_shapes_color.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/four_shapes_color.tga", &image);
 
     glActiveTexture(GL_TEXTURE0);
 
@@ -157,7 +157,7 @@ GLUSboolean init(GLUSvoid)
     //
 
     // Load the image.
-    glusImageLoadTga(RESOURCE_PATH "four_shapes_normal.tga", &image);
+    glusImageLoadTga(RESOURCE_PATH "/res/four_shapes_normal.tga", &image);
 
     glActiveTexture(GL_TEXTURE1);
 

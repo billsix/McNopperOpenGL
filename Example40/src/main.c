@@ -88,15 +88,15 @@ GLUSboolean init(GLUSvoid)
     GLfloat sphereCenter[4] = {0.0f, 0.0f, -0.01f, 1.0f};
     GLfloat sphereRadius = 1.0f;
 
-    glusFileLoadText("../Example40/shader/cloth.comp.glsl", &computeSource);
+    glusFileLoadText(RESOURCE_PATH "/Example40/shader/cloth.comp.glsl", &computeSource);
 
     glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar**) &computeSource.text);
 
     glusFileDestroyText(&computeSource);
 
 
-    glusFileLoadText("../Example40/shader/cloth.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example40/shader/cloth.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example40/shader/cloth.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example40/shader/cloth.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

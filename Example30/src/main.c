@@ -158,15 +158,15 @@ GLUSboolean init(GLUSvoid)
 	GLUStextfile fragmentSource;
 	GLUStextfile computeSource;
 
-	glusFileLoadText("../Example30/shader/fullscreen.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example30/shader/texture.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH "/Example30/shader/fullscreen.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH "/Example30/shader/texture.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 
 	glusFileDestroyText(&vertexSource);
 	glusFileDestroyText(&fragmentSource);
 
-	glusFileLoadText("../Example30/shader/raytrace.comp.glsl", &computeSource);
+	glusFileLoadText(RESOURCE_PATH "/Example30/shader/raytrace.comp.glsl", &computeSource);
 
 	glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar**)&computeSource.text);
 

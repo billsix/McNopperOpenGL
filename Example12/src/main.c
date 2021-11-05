@@ -130,8 +130,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example12/shader/rendershadow.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example12/shader/rendershadow.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example12/shader/rendershadow.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example12/shader/rendershadow.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programShadow, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -140,8 +140,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText("../Example12/shader/useshadow.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example12/shader/useshadow.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH "/Example12/shader/useshadow.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH "/Example12/shader/useshadow.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
