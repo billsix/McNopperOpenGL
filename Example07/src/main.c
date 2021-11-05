@@ -128,7 +128,9 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusImageLoadTga(RESOURCE_PATH "/res//rock_color.tga", &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
+                                                "/rock_color.tga",
+                   &image);
 
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
@@ -144,7 +146,9 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
-  glusImageLoadTga(RESOURCE_PATH "/res/rock_normal.tga", &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
+                                                "rock_normal.tga",
+                   &image);
 
   glGenTextures(1, &g_normalMap);
   glBindTexture(GL_TEXTURE_2D, g_normalMap);

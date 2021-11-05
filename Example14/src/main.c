@@ -79,18 +79,21 @@ static const GLint QUADRANT_STEP = 2;
  * The height map of the terrain. Width and height does not have to be the same
  * but they have to be power of two plus one.
  */
-static const char *HEIGHT_MAP = "grand_canyon_height.tga";
+static const char *HEIGHT_MAP =
+    RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "grand_canyon_height.tga";
 
 /**
  * The color map of the terrain.
  */
-static const char *COLOR_MAP = "grand_canyon_color.tga";
+static const char *COLOR_MAP =
+    RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "grand_canyon_color.tga";
 
 /**
  * The normal map of the terrain. Width and height does not have to be the same
  * but they have to be power of two plus one.
  */
-static const char *NORMAL_MAP = "grand_canyon_normal.tga";
+static const char *NORMAL_MAP =
+    RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "grand_canyon_normal.tga";
 
 /**
  * Flag, if animation is on or off

@@ -179,7 +179,9 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH "/res/teapot.obj", &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
+                                                      "teapot.obj",
+                         &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 

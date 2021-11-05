@@ -104,7 +104,8 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Load the image.
-  glusImageLoadTga(RESOURCE_PATH "/res/desert.tga", &image);
+  glusImageLoadTga(
+      RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "desert.tga", &image);
 
   // Generate and bind a texture.
   glGenTextures(1, &g_texture);

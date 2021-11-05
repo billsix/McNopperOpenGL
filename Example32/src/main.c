@@ -350,7 +350,9 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH "/res/venusm.obj", &wavefront);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
+                                                      "venusm.obj",
+                         &wavefront);
 
   g_numberVerticesModel = wavefront.numberVertices;
 

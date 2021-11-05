@@ -124,7 +124,9 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH "/res/elephant.obj", &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
+                                                      "elephant.obj",
+                         &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 

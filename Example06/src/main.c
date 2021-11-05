@@ -102,7 +102,8 @@ GLUSboolean init(GLUSvoid) {
 
   // Texture set up.
 
-  glusImageLoadTga(RESOURCE_PATH "/res/crate.tga", &image);
+  glusImageLoadTga(
+      RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "crate.tga", &image);
 
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
