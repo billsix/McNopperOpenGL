@@ -30,6 +30,14 @@ ELSE(CMAKE_BUILD_TYPE MATCHES Debug)
   set(RESOURCE_PATH "${CMAKE_INSTALL_PREFIX}/share/")
 ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
 
+if(WIN32)
+set(PATH_SEPERATOR "\\")
+else()
+set(PATH_SEPERATOR "/")
+endif(WIN32)
+
+
+
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 

@@ -111,8 +111,8 @@ GLUSboolean init(GLUSvoid)
 	GLUSgroupList* groupWalker;
 	GLUSmaterialList* materialWalker;
 
-	glusFileLoadText(RESOURCE_PATH "/Example25/shader/phong_textured.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example25/shader/phong_textured.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example25" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_textured.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example25" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_textured.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 

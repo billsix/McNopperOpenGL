@@ -433,8 +433,8 @@ GLUSboolean init(GLUSvoid)
 
 	// Load full screen rendering shaders
 
-	glusFileLoadText(RESOURCE_PATH "/Example37/shader/fullscreen.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example37/shader/texture.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 

@@ -87,8 +87,8 @@ GLUSboolean init(GLUSvoid)
 
     GLfloat normalMatrix[9];
 
-    glusFileLoadText(RESOURCE_PATH "/Example07/shader/normmap.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example07/shader/normmap.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example07" PATH_SEPERATOR "shader" PATH_SEPERATOR "normmap.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example07" PATH_SEPERATOR "shader" PATH_SEPERATOR "normmap.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

@@ -443,9 +443,9 @@ GLUSboolean init(GLUSvoid)
 
     // Pass one.
 
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassOne.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassOne.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassOne.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.frag.glsl", &fragmentSource);
 
     // Compile and ...
     glusProgramCreateFromSource(&g_programPassOne, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
@@ -479,11 +479,11 @@ GLUSboolean init(GLUSvoid)
 
     // Pass two.
 
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassTwo.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassTwo.cont.glsl", &controlSource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassTwo.eval.glsl", &evaluationSource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassTwo.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH "/Example14/shader/PassTwo.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.cont.glsl", &controlSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.eval.glsl", &evaluationSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.frag.glsl", &fragmentSource);
 
     if (!glusProgramBuildFromSource(&g_shaderProgramPassTwo, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text))
     {

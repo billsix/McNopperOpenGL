@@ -132,8 +132,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUSshape wavefrontObj;
 
-    glusFileLoadText(RESOURCE_PATH "/Example35/shader/phong_depth_peel.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example35/shader/phong_depth_peel.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_depth_peel.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_depth_peel.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -167,8 +167,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-	glusFileLoadText(RESOURCE_PATH "/Example35/shader/fullscreen_blend.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example35/shader/fullscreen_blend.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen_blend.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen_blend.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 

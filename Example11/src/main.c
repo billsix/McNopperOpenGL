@@ -88,8 +88,8 @@ GLUSboolean init(GLUSvoid)
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
 
-    glusFileLoadText(RESOURCE_PATH "/Example11/shader/glass.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example11/shader/glass.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example11" PATH_SEPERATOR "shader" PATH_SEPERATOR "glass.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example11" PATH_SEPERATOR "shader" PATH_SEPERATOR "glass.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -98,8 +98,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example11/shader/background.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example11/shader/background.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example11" PATH_SEPERATOR "shader" PATH_SEPERATOR "background.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example11" PATH_SEPERATOR "shader" PATH_SEPERATOR "background.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programBackground, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

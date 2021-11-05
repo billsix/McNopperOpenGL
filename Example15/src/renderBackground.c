@@ -45,8 +45,8 @@ GLUSboolean initBackground()
 
     GLUSshape background;
 
-    glusFileLoadText(RESOURCE_PATH "/Example15/shader/Background.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example15/shader/Background.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR "Background.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR "Background.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programBackground, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

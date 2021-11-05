@@ -74,8 +74,8 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16], struct LightProperties* ligh
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example42/shader/phong.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example42/shader/phong.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

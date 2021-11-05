@@ -43,9 +43,9 @@ GLUSboolean init(GLUSvoid)
     GLUStextfile geometrySource;
     GLUStextfile fragmentSource;
 
-    glusFileLoadText(RESOURCE_PATH "/Example44/shader/conservative.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example44/shader/conservative.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH "/Example44/shader/conservative.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR "conservative.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR "conservative.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR "conservative.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 

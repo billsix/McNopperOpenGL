@@ -129,8 +129,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUStgaimage image;
 
-    glusFileLoadText(RESOURCE_PATH "/Example24/shader/erode.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example24/shader/erode.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example24" PATH_SEPERATOR "shader" PATH_SEPERATOR "erode.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example24" PATH_SEPERATOR "shader" PATH_SEPERATOR "erode.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

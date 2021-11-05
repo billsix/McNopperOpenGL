@@ -115,8 +115,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example19/shader/basic_proj.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example19/shader/texture_multi_proj.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR "shader" PATH_SEPERATOR "basic_proj.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture_multi_proj.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

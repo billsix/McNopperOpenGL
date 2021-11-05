@@ -62,8 +62,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUSshape cube;
 
-    glusFileLoadText(RESOURCE_PATH "/Example04/shader/basic.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example04/shader/color.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example04" PATH_SEPERATOR "shader" PATH_SEPERATOR "basic.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example04" PATH_SEPERATOR "shader" PATH_SEPERATOR "color.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

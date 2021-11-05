@@ -127,8 +127,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example26/shader/ambient_diffuse_texture.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example26/shader/ambient_diffuse_texture.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "ambient_diffuse_texture.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "ambient_diffuse_texture.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -136,9 +136,9 @@ GLUSboolean init(GLUSvoid)
     glusFileDestroyText(&fragmentSource);
 
 
-    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH "/Example26/shader/fur.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programFur, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 

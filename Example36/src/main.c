@@ -143,8 +143,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example36/shader/phong_linked_list.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example36/shader/phong_linked_list.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_linked_list.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_linked_list.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -175,8 +175,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-	glusFileLoadText(RESOURCE_PATH "/Example36/shader/fullscreen_blend.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example36/shader/fullscreen_blend.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen_blend.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen_blend.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
 

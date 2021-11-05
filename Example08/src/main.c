@@ -71,8 +71,8 @@ GLUSboolean init(GLUSvoid)
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
 
-    glusFileLoadText(RESOURCE_PATH "/Example08/shader/cubemap.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example08/shader/cubemap.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example08" PATH_SEPERATOR "shader" PATH_SEPERATOR "cubemap.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example08" PATH_SEPERATOR "shader" PATH_SEPERATOR "cubemap.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

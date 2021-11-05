@@ -106,8 +106,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example15/shader/Water.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example15/shader/Water.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR "Water.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR "Water.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

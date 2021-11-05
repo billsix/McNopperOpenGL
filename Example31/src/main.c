@@ -149,8 +149,8 @@ GLUSboolean init(GLUSvoid)
 	// Each point light is rendered as a sphere.
 	//
 
-	glusFileLoadText(RESOURCE_PATH "/Example31/shader/point_light.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example31/shader/point_light.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR "point_light.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR "point_light.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_programPointLight, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
@@ -223,8 +223,8 @@ GLUSboolean init(GLUSvoid)
 	//
 	//
 
-	glusFileLoadText(RESOURCE_PATH "/Example31/shader/deferred_shading.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example31/shader/deferred_shading.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR "deferred_shading.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR "deferred_shading.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_programDeferredShading, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 

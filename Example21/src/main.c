@@ -98,8 +98,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUSshape plane;
 
-    glusFileLoadText(RESOURCE_PATH "/Example21/shader/texture.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example21/shader/texture.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLchar**) &vertexSource.text, 0, 0, 0, (const GLchar**) &fragmentSource.text);
 
@@ -107,7 +107,7 @@ GLUSboolean init(GLUSvoid)
     glusFileDestroyText(&fragmentSource);
 
 
-    glusFileLoadText(RESOURCE_PATH "/Example21/shader/texture.comp.glsl", &computeSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.comp.glsl", &computeSource);
 
     glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar**) &computeSource.text);
 

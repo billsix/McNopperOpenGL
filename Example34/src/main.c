@@ -136,8 +136,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example34/shader/renderdepthmap.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example34/shader/renderdepthmap.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR "renderdepthmap.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR "renderdepthmap.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_programDepthPass, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
@@ -146,8 +146,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example34/shader/subsurfacescattering.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example34/shader/subsurfacescattering.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR "subsurfacescattering.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR "subsurfacescattering.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

@@ -194,8 +194,8 @@ GLUSboolean init(GLUSvoid)
 
 	//
 
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/texture.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/texture.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_program, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
@@ -221,8 +221,8 @@ GLUSboolean init(GLUSvoid)
 	// SSAO shader etc.
 	//
 
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/ssao.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/ssao.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "ssao.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "ssao.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_ssaoProgram, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
@@ -250,8 +250,8 @@ GLUSboolean init(GLUSvoid)
 	// Blur shader etc.
 	//
 
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/blur.vert.glsl", &vertexSource);
-	glusFileLoadText(RESOURCE_PATH "/Example28/shader/blur.frag.glsl", &fragmentSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "blur.vert.glsl", &vertexSource);
+	glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "blur.frag.glsl", &fragmentSource);
 
 	glusProgramBuildFromSource(&g_blurProgram, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 

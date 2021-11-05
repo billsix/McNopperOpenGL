@@ -3,4 +3,5 @@
 
 
 #cmakedefine RESOURCE_PATH "@RESOURCE_PATH@"
+#cmakedefine PATH_SEPERATOR "@PATH_SEPERATOR@"
 #endif

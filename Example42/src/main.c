@@ -82,8 +82,8 @@ GLUSboolean init(GLUSvoid)
 
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example42/shader/fxaa.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example42/shader/fxaa.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "fxaa.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "fxaa.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

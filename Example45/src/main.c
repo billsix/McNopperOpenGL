@@ -71,9 +71,9 @@ GLUSboolean init(GLUSvoid)
 
 	GLfloat halfPixelSize[2];
 
-    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH "/Example45/shader/voxelize.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.geom.glsl", &geometrySource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
 
@@ -228,8 +228,8 @@ GLUSboolean init(GLUSvoid)
     // Full screen rendering.
     //
 
-    glusFileLoadText(RESOURCE_PATH "/Example45/shader/fullscreen.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example45/shader/draw_voxels.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "fullscreen.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "draw_voxels.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_fullscreenProgram, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 

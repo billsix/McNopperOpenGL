@@ -126,8 +126,8 @@ GLUSboolean init(GLUSvoid)
 
     GLUSshape wavefrontObj;
 
-    glusFileLoadText(RESOURCE_PATH "/Example17/shader/phong_clip.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH "/Example17/shader/phong_clip.frag.glsl", &fragmentSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_clip.vert.glsl", &vertexSource);
+    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong_clip.frag.glsl", &fragmentSource);
 
     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
