@@ -51,196 +51,206 @@ static GLuint g_vao;
 
 static GLuint g_numberIndicesSphere;
 
-GLUSboolean init(GLUSvoid)
-{
-    GLUSshape sphere;
+GLUSboolean init(GLUSvoid) {
+  GLUSshape sphere;
 
-    GLUStextfile vertexSource;
-    GLUStextfile geometrySource;
-    GLUStextfile fragmentSource;
+  GLUStextfile vertexSource;
+  GLUStextfile geometrySource;
+  GLUStextfile fragmentSource;
 
-    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR "shader" PATH_SEPERATOR "dublicate.vert.glsl", &vertexSource);
-    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR "shader" PATH_SEPERATOR "dublicate.geom.glsl", &geometrySource);
-    glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR "shader" PATH_SEPERATOR "dublicate.frag.glsl", &fragmentSource);
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR
+                                                "shader" PATH_SEPERATOR
+                                                "dublicate.vert.glsl",
+                   &vertexSource);
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR
+                                                "shader" PATH_SEPERATOR
+                                                "dublicate.geom.glsl",
+                   &geometrySource);
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example10" PATH_SEPERATOR
+                                                "shader" PATH_SEPERATOR
+                                                "dublicate.frag.glsl",
+                   &fragmentSource);
 
-    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
+                             0, 0, (const GLUSchar **)&geometrySource.text,
+                             (const GLUSchar **)&fragmentSource.text);
 
-    glusFileDestroyText(&vertexSource);
-    glusFileDestroyText(&geometrySource);
-    glusFileDestroyText(&fragmentSource);
+  glusFileDestroyText(&vertexSource);
+  glusFileDestroyText(&geometrySource);
+  glusFileDestroyText(&fragmentSource);
 
-    //
+  //
 
-    g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
-    g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
-    g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
-    g_lightPositionLocation = glGetUniformLocation(g_program.program, "u_lightPosition");
+  g_projectionMatrixLocation =
+      glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation =
+      glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_normalMatrixLocation =
+      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_lightPositionLocation =
+      glGetUniformLocation(g_program.program, "u_lightPosition");
 
-    g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
-    g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
+  g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
+  g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
 
-    //
+  //
 
-    glusShapeCreateSpheref(&sphere, 1.0f, 32);
-    g_numberIndicesSphere = sphere.numberIndices;
+  glusShapeCreateSpheref(&sphere, 1.0f, 32);
+  g_numberIndicesSphere = sphere.numberIndices;
 
-    glGenBuffers(1, &g_verticesVBO);
+  glGenBuffers(1, &g_verticesVBO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-    glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) sphere.vertices, GL_STATIC_DRAW);
-    glGenBuffers(1, &g_normalsVBO);
+  glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+  glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 4 * sizeof(GLfloat),
+               (GLfloat *)sphere.vertices, GL_STATIC_DRAW);
+  glGenBuffers(1, &g_normalsVBO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-    glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 3 * sizeof(GLfloat), (GLfloat*) sphere.normals, GL_STATIC_DRAW);
-    glGenBuffers(1, &g_indicesVBO);
+  glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+  glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 3 * sizeof(GLfloat),
+               (GLfloat *)sphere.normals, GL_STATIC_DRAW);
+  glGenBuffers(1, &g_indicesVBO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.numberIndices * sizeof(GLuint), (GLuint*) sphere.indices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.numberIndices * sizeof(GLuint),
+               (GLuint *)sphere.indices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    glusShapeDestroyf(&sphere);
+  glusShapeDestroyf(&sphere);
 
-    //
+  //
 
-    glUseProgram(g_program.program);
+  glUseProgram(g_program.program);
 
-    glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                       1.0f, 0.0f);
 
-    glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
+  glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
 
-    glusMatrix4x4ExtractMatrix3x3f(g_normalMatrix, g_viewMatrix);
+  glusMatrix4x4ExtractMatrix3x3f(g_normalMatrix, g_viewMatrix);
 
-    glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, g_normalMatrix);
+  glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, g_normalMatrix);
 
-    glusMatrix4x4MultiplyPoint4f(g_lightPosition, g_viewMatrix, g_lightPosition);
+  glusMatrix4x4MultiplyPoint4f(g_lightPosition, g_viewMatrix, g_lightPosition);
 
-    glUniform4fv(g_lightPositionLocation, 1, g_lightPosition);
+  glUniform4fv(g_lightPositionLocation, 1, g_lightPosition);
 
-    //
+  //
 
-    glGenVertexArrays(1, &g_vao);
-    glBindVertexArray(g_vao);
+  glGenVertexArrays(1, &g_vao);
+  glBindVertexArray(g_vao);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-    glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(g_vertexLocation);
+  glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+  glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(g_vertexLocation);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-    glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(g_normalLocation);
+  glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+  glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(g_normalLocation);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
 
-    //
+  //
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    glClearDepth(1.0f);
+  glClearDepth(1.0f);
 
-    glEnable(GL_DEPTH_TEST);
+  glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE);
 
-    return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height)
-{
-    glViewport(0, 0, width, height);
+GLUSvoid reshape(GLUSint width, GLUSint height) {
+  glViewport(0, 0, width, height);
 
-    glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f,
+                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
-    glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE,
+                     g_projectionMatrix);
 }
 
-GLUSboolean update(GLUSfloat time)
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+GLUSboolean update(GLUSfloat time) {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDrawElements(GL_TRIANGLES, g_numberIndicesSphere, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, g_numberIndicesSphere, GL_UNSIGNED_INT, 0);
 
-    return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSvoid terminate(GLUSvoid)
-{
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+GLUSvoid terminate(GLUSvoid) {
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    if (g_verticesVBO)
-    {
-        glDeleteBuffers(1, &g_verticesVBO);
+  if (g_verticesVBO) {
+    glDeleteBuffers(1, &g_verticesVBO);
 
-        g_verticesVBO = 0;
-    }
+    g_verticesVBO = 0;
+  }
 
-    if (g_normalsVBO)
-    {
-        glDeleteBuffers(1, &g_normalsVBO);
+  if (g_normalsVBO) {
+    glDeleteBuffers(1, &g_normalsVBO);
 
-        g_normalsVBO = 0;
-    }
+    g_normalsVBO = 0;
+  }
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    if (g_indicesVBO)
-    {
-        glDeleteBuffers(1, &g_indicesVBO);
+  if (g_indicesVBO) {
+    glDeleteBuffers(1, &g_indicesVBO);
 
-        g_indicesVBO = 0;
-    }
+    g_indicesVBO = 0;
+  }
 
-    glBindVertexArray(0);
+  glBindVertexArray(0);
 
-    if (g_vao)
-    {
-        glDeleteVertexArrays(1, &g_vao);
+  if (g_vao) {
+    glDeleteVertexArrays(1, &g_vao);
 
-        g_vao = 0;
-    }
+    g_vao = 0;
+  }
 
-    glUseProgram(0);
+  glUseProgram(0);
 
-    glusProgramDestroy(&g_program);
+  glusProgramDestroy(&g_program);
 }
 
-int main(int argc, char* argv[])
-{
-	EGLint eglConfigAttributes[] = {
-	        EGL_RED_SIZE, 8,
-	        EGL_GREEN_SIZE, 8,
-	        EGL_BLUE_SIZE, 8,
-	        EGL_DEPTH_SIZE, 24,
-	        EGL_STENCIL_SIZE, 0,
-	        EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-	        EGL_NONE
-	};
+int main(int argc, char *argv[]) {
+  EGLint eglConfigAttributes[] = {
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
+      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_NONE};
 
-    EGLint eglContextAttributes[] = {
-    		EGL_CONTEXT_MAJOR_VERSION, 3,
-    		EGL_CONTEXT_MINOR_VERSION, 2,
-    		EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE, EGL_TRUE,
-    		EGL_CONTEXT_OPENGL_PROFILE_MASK, EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
-    		EGL_NONE
-    };
+  EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
+                                   3,
+                                   EGL_CONTEXT_MINOR_VERSION,
+                                   2,
+                                   EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE,
+                                   EGL_TRUE,
+                                   EGL_CONTEXT_OPENGL_PROFILE_MASK,
+                                   EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+                                   EGL_NONE};
 
-    glusWindowSetInitFunc(init);
+  glusWindowSetInitFunc(init);
 
-    glusWindowSetReshapeFunc(reshape);
+  glusWindowSetReshapeFunc(reshape);
 
-    glusWindowSetUpdateFunc(update);
+  glusWindowSetUpdateFunc(update);
 
-    glusWindowSetTerminateFunc(terminate);
+  glusWindowSetTerminateFunc(terminate);
 
-    if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes, eglContextAttributes, 0))
-    {
-        printf("Could not create window!\n");
-        return -1;
-    }
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
+                        eglConfigAttributes, eglContextAttributes, 0)) {
+    printf("Could not create window!\n");
+    return -1;
+  }
 
-    glusWindowRun();
+  glusWindowRun();
 
-    return 0;
+  return 0;
 }
