@@ -45,4 +45,12 @@ list(REMOVE_ITEM C_FILES ${ES_C_FILES} ${ES2_C_FILES} ${ES31_C_FILES} ${VG_C_FIL
 
 add_library(GLUS ${C_FILES} ${H_FILES} ../gl3w/src/gl3w.c)
 target_include_directories (GLUS PUBLIC ${GLUS_SOURCE_DIR}/src)
-target_link_libraries(${PROJECT_NAME} m GL glfw )
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} glfw opengl32)
+elseif(APPLE)
+    find_package(OpenGL REQUIRED)
+    target_link_libraries(${PROJECT_NAME}  glfw ${GLFW_LIBRARIES})
+else()
+    target_link_libraries(${PROJECT_NAME} m GL glfw ) 
+endif()

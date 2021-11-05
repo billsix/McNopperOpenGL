@@ -14,6 +14,14 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 #link_directories(${EXTERNAL_LIB_DIR} ${LIBRARY_OUTPUT_PATH})
 
+if(APPLE OR WIN32)
+     set(BUILD_SHARED_LIBS OFF)
+     if(WIN32)
+         # no console on start
+         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+     endif(WIN32)
+endif()
+
 IF(CMAKE_BUILD_TYPE MATCHES Debug)
   message("Debug mode")
   set(RESOURCE_PATH "${CMAKE_SOURCE_DIR}/")
