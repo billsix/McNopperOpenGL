@@ -604,15 +604,13 @@ GLUSboolean GLUSAPIENTRY glusWindowCreate(const GLUSchar* title, const GLUSint w
 
 	glfwMakeContextCurrent(g_window);
 
-	glewExperimental = GLUS_TRUE;
-
-	err = glewInit();
+	err = gl3wInit();
 
 	if (GLUS_OK != err)
 	{
 		glusWindowDestroy();
 
-		glusLogPrint(GLUS_LOG_ERROR, "GLEW could not be initialized: %x", err);
+		glusLogPrint(GLUS_LOG_ERROR, "GL3W could not be initialized: %x", err);
 
 		return GLUS_FALSE;
 	}

@@ -49,8 +49,7 @@ extern "C"
 // GLEW for binding OpenGL functions. GLFW for hardware abstraction.
 //
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 
 #include <GLFW/glfw3.h>
 

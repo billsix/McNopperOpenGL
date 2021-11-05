@@ -14,6 +14,7 @@ project(GLUS)
 
 
 include_directories(${EXTERNAL_INCLUDE_DIR})
+include_directories(../gl3w/include)
 
 # Files only valid for desktop OpenGL
 list(APPEND ONLY_GL_C_FILES		${GLUS_SOURCE_DIR}/src/glus_window_glfw.c
@@ -42,6 +43,6 @@ list(REMOVE_ITEM C_FILES ${NOT_USED_C_FILES})
 list(REMOVE_ITEM C_FILES ${ES_C_FILES} ${ES2_C_FILES} ${ES31_C_FILES} ${VG_C_FILES})
 
 
-add_library(GLUS ${C_FILES} ${H_FILES})
+add_library(GLUS ${C_FILES} ${H_FILES} ../gl3w/src/gl3w.c)
 target_include_directories (GLUS PUBLIC ${GLUS_SOURCE_DIR}/src)
-target_link_libraries(${PROJECT_NAME} m GLEW GL glfw )
+target_link_libraries(${PROJECT_NAME} m GL glfw )
