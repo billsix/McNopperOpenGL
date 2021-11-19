@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,7 +30,11 @@
  *
  * @return GLUS_TRUE, if creating succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateTga(GLUStgaimage* tgaimage, GLUSint width, GLUSint height, GLUSint depth, GLUSenum format);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateTga(GLUStgaimage *tgaimage,
+                                                    GLUSint width,
+                                                    GLUSint height,
+                                                    GLUSint depth,
+                                                    GLUSenum format);
 
 /**
  * Loads a TGA file.
@@ -39,7 +44,8 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateTga(GLUStgaimage* tgaimage, GLUS
  *
  * @return GLUS_TRUE, if loading succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadTga(const GLUSchar* filename, GLUStgaimage* tgaimage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadTga(const GLUSchar *filename,
+                                                  GLUStgaimage *tgaimage);
 
 /**
  * Saves a TGA file.
@@ -49,14 +55,16 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadTga(const GLUSchar* filename, GLUS
  *
  * @return GLUS_TRUE, if saving succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSaveTga(const GLUSchar* filename, const GLUStgaimage* tgaimage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSaveTga(const GLUSchar *filename,
+                                                  const GLUStgaimage *tgaimage);
 
 /**
- * Destroys the content of a TGA structure. Has to be called for freeing the resources.
+ * Destroys the content of a TGA structure. Has to be called for freeing the
+ * resources.
  *
  * @param tgaimage The TGA file structure.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyTga(GLUStgaimage* tgaimage);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyTga(GLUStgaimage *tgaimage);
 
 /**
  * Samples a RGBA color value from a TGA 2D image.
@@ -68,7 +76,8 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyTga(GLUStgaimage* tgaimage);
  *
  * @return GLUS_TRUE, if sampling succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSampleTga2D(GLUSubyte rgba[4], const GLUStgaimage* tgaimage, const GLUSfloat st[2]);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSampleTga2D(
+    GLUSubyte rgba[4], const GLUStgaimage *tgaimage, const GLUSfloat st[2]);
 
 /**
  * Converts a TGA image into another color format.
@@ -80,17 +89,21 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSampleTga2D(GLUSubyte rgba[4], const G
  *
  * @return GLUS_TRUE, if conversion succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageConvertTga(GLUStgaimage* targetImage, const GLUStgaimage* sourceImage, const GLUSenum targetFormat);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusImageConvertTga(GLUStgaimage *targetImage, const GLUStgaimage *sourceImage,
+                    const GLUSenum targetFormat);
 
 /**
  * Converts a TGA image into a premultiplied TGA image.
  * Source has to have GLUS_RGBA as format.
  *
- * @param targetImage  The TGA image structure, containing the premultiplied image.
+ * @param targetImage  The TGA image structure, containing the premultiplied
+ * image.
  * @param sourceImage  The TGA image structure, which will be premultiplied.
  *
  * @return GLUS_TRUE, if premultiplying succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageToPremultiplyTga(GLUStgaimage* targetImage, const GLUStgaimage* sourceImage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageToPremultiplyTga(
+    GLUStgaimage *targetImage, const GLUStgaimage *sourceImage);
 
 #endif /* GLUS_IMAGE_TGA_H_ */

@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,9 +18,12 @@
 
 #include "GL/glus.h"
 
-extern GLUSboolean _glusWavefrontParse(const GLUSchar* filename, GLUSshape* shape, GLUSwavefront* wavefront, GLUSscene* scene);
+extern GLUSboolean _glusWavefrontParse(const GLUSchar *filename,
+                                       GLUSshape *shape,
+                                       GLUSwavefront *wavefront,
+                                       GLUSscene *scene);
 
-GLUSboolean GLUSAPIENTRY glusShapeLoadWavefront(const GLUSchar* filename, GLUSshape* shape)
-{
-	return _glusWavefrontParse(filename, shape, 0, 0);
+GLUSboolean GLUSAPIENTRY glusShapeLoadWavefront(const GLUSchar *filename,
+                                                GLUSshape *shape) {
+  return _glusWavefrontParse(filename, shape, 0, 0);
 }

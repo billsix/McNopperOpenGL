@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,17 +18,20 @@
 
 #include "GL/glus.h"
 
-GLUSvoid GLUSAPIENTRY glusSphereCopyf(GLUSfloat resultCenter[4], GLUSfloat resultRadius, const GLUSfloat center[4], const GLUSfloat radius)
-{
-	resultCenter[0] = center[0];
-	resultCenter[1] = center[1];
-	resultCenter[2] = center[2];
-	resultCenter[3] = center[3];
+GLUSvoid GLUSAPIENTRY glusSphereCopyf(GLUSfloat resultCenter[4],
+                                      GLUSfloat resultRadius,
+                                      const GLUSfloat center[4],
+                                      const GLUSfloat radius) {
+  resultCenter[0] = center[0];
+  resultCenter[1] = center[1];
+  resultCenter[2] = center[2];
+  resultCenter[3] = center[3];
 
-	resultRadius = radius;
+  resultRadius = radius;
 }
 
-GLUSfloat GLUSAPIENTRY glusSphereDistancePoint4f(const GLUSfloat center[4], const GLUSfloat radius, const GLUSfloat point[4])
-{
-	return glusPoint4Distancef(point, center) - radius;
+GLUSfloat GLUSAPIENTRY glusSphereDistancePoint4f(const GLUSfloat center[4],
+                                                 const GLUSfloat radius,
+                                                 const GLUSfloat point[4]) {
+  return glusPoint4Distancef(point, center) - radius;
 }

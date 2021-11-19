@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,7 +33,10 @@
  *
  * @return GLUS_TRUE, if creation was successful.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Orthof(GLUSfloat result[16], const GLUSfloat left, const GLUSfloat right, const GLUSfloat bottom, const GLUSfloat top, const GLUSfloat nearVal, const GLUSfloat farVal);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Orthof(
+    GLUSfloat result[16], const GLUSfloat left, const GLUSfloat right,
+    const GLUSfloat bottom, const GLUSfloat top, const GLUSfloat nearVal,
+    const GLUSfloat farVal);
 
 /**
  * Creates a matrix with perspective projection.
@@ -47,7 +51,10 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Orthof(GLUSfloat result[16], const
  *
  * @return GLUS_TRUE, if creation was successful.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Frustumf(GLUSfloat result[16], const GLUSfloat left, const GLUSfloat right, const GLUSfloat bottom, const GLUSfloat top, const GLUSfloat nearVal, const GLUSfloat farVal);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Frustumf(
+    GLUSfloat result[16], const GLUSfloat left, const GLUSfloat right,
+    const GLUSfloat bottom, const GLUSfloat top, const GLUSfloat nearVal,
+    const GLUSfloat farVal);
 
 /**
  * Creates a matrix with perspective projection.
@@ -60,7 +67,9 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Frustumf(GLUSfloat result[16], con
  *
  * @return GLUS_TRUE, if creation was successful.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Perspectivef(GLUSfloat result[16], const GLUSfloat fovy, const GLUSfloat aspect, const GLUSfloat zNear, const GLUSfloat zFar);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Perspectivef(
+    GLUSfloat result[16], const GLUSfloat fovy, const GLUSfloat aspect,
+    const GLUSfloat zNear, const GLUSfloat zFar);
 
 /**
  * Creates a view / camera matrix.
@@ -76,6 +85,10 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusMatrix4x4Perspectivef(GLUSfloat result[16],
  * @param upY Eye / camera Y component from up vector.
  * @param upZ Eye / camera Z component from up vector.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4LookAtf(GLUSfloat result[16], const GLUSfloat eyeX, const GLUSfloat eyeY, const GLUSfloat eyeZ, const GLUSfloat centerX, const GLUSfloat centerY, const GLUSfloat centerZ, const GLUSfloat upX, const GLUSfloat upY, const GLUSfloat upZ);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4LookAtf(
+    GLUSfloat result[16], const GLUSfloat eyeX, const GLUSfloat eyeY,
+    const GLUSfloat eyeZ, const GLUSfloat centerX, const GLUSfloat centerY,
+    const GLUSfloat centerZ, const GLUSfloat upX, const GLUSfloat upY,
+    const GLUSfloat upZ);
 
 #endif /* GLUS_MATRIX_VIEWPROJECTION_H_ */

@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -39,15 +40,18 @@ GLUSAPI GLUSuint GLUSAPIENTRY glusLogGetLevel();
  * @param format String to log plus format information.
  * @param ... Parameter list for the format string.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusLogPrint(GLUSuint verbosity, const char* format, ...);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusLogPrint(GLUSuint verbosity,
+                                           const char *format, ...);
 
 /**
- * Executes glGetError() and prints out the error code plus the given information to the log console.
+ * Executes glGetError() and prints out the error code plus the given
+ * information to the log console.
  *
  * @param verbosity The used log level.
  * @param format String to log plus format information.
  * @param ... Parameter list for the format string.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusLogPrintError(GLUSuint verbosity, const char* format, ...);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusLogPrintError(GLUSuint verbosity,
+                                                const char *format, ...);
 
 #endif /* GLUS_LOG_H_ */

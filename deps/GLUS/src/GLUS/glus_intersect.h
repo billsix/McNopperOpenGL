@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,8 +22,10 @@
 /**
  * Intersecting ray against sphere.
  *
- * @param tNear			t of near intersection point if number intersections greater than zero.
- * @param tFar			t of far intersection point if number intersections greater than zero.
+ * @param tNear			t of near intersection point if number
+ * intersections greater than zero.
+ * @param tFar			t of far intersection point if number intersections
+ * greater than zero.
  * @param insideSphere	Set to GLUS_TRUE, if ray starts inside sphere.
  * @param rayStart		Point, where the ray starts.
  * @param rayDirection	Ray direction vector. Has to be normalized.
@@ -31,6 +34,9 @@
  *
  * @return Number of intersection points.
  */
-GLUSAPI GLUSint GLUSAPIENTRY glusIntersectRaySpheref(GLUSfloat* tNear, GLUSfloat* tFar, GLUSboolean* insideSphere, const GLUSfloat rayStart[4], const GLUSfloat rayDirection[3], const GLUSfloat sphereCenter[4], const GLUSfloat radius);
+GLUSAPI GLUSint GLUSAPIENTRY glusIntersectRaySpheref(
+    GLUSfloat *tNear, GLUSfloat *tFar, GLUSboolean *insideSphere,
+    const GLUSfloat rayStart[4], const GLUSfloat rayDirection[3],
+    const GLUSfloat sphereCenter[4], const GLUSfloat radius);
 
 #endif /* GLUS_INTERSECT_H_ */

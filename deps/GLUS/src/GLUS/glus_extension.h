@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +26,8 @@
  *
  * @return GLUS_TRUE, if the given extension is supported.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusExtensionIsSupported(const GLUSchar* extension);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusExtensionIsSupported(const GLUSchar *extension);
 
 /**
  * Gathers the function pointer of an extension.
@@ -34,6 +36,7 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusExtensionIsSupported(const GLUSchar* extens
  *
  * @return The function pointer.
  */
-GLUSAPI void* GLUSAPIENTRY glusExtensionGetFuncAddress(const GLUSchar* procname);
+GLUSAPI void *GLUSAPIENTRY
+glusExtensionGetFuncAddress(const GLUSchar *procname);
 
 #endif /* GLUS_EXTENSION_H_ */

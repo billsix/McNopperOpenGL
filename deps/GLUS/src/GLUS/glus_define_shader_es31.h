@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,13 +19,13 @@
 #ifndef GLUS_DEFINE_SHADER_ES31_H_
 #define GLUS_DEFINE_SHADER_ES31_H_
 
-#define GLUS_VERTEX_SHADER              0x00008B31
-#define GLUS_FRAGMENT_SHADER            0x00008B30
-#define GLUS_COMPUTE_SHADER             0x000091B9
+#define GLUS_VERTEX_SHADER 0x00008B31
+#define GLUS_FRAGMENT_SHADER 0x00008B30
+#define GLUS_COMPUTE_SHADER 0x000091B9
 
-#define GLUS_VERTEX_SHADER_BIT 			0x00000001
-#define GLUS_FRAGMENT_SHADER_BIT 		0x00000002
-#define GLUS_COMPUTE_SHADER_BIT 		0x00000020
-#define GLUS_ALL_SHADER_BITS 			0xFFFFFFFF
+#define GLUS_VERTEX_SHADER_BIT 0x00000001
+#define GLUS_FRAGMENT_SHADER_BIT 0x00000002
+#define GLUS_COMPUTE_SHADER_BIT 0x00000020
+#define GLUS_ALL_SHADER_BITS 0xFFFFFFFF
 
 #endif /* GLUS_DEFINE_SHADER_ES31_H_ */

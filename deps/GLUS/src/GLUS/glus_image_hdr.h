@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,7 +30,11 @@
  *
  * @return GLUS_TRUE, if creating succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateHdr(GLUShdrimage* hdrimage, GLUSint width, GLUSint height, GLUSint depth, GLUSenum format);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateHdr(GLUShdrimage *hdrimage,
+                                                    GLUSint width,
+                                                    GLUSint height,
+                                                    GLUSint depth,
+                                                    GLUSenum format);
 
 /**
  * Loads a HDR file.
@@ -39,7 +44,8 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusImageCreateHdr(GLUShdrimage* hdrimage, GLUS
  *
  * @return GLUS_TRUE, if loading succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadHdr(const GLUSchar* filename, GLUShdrimage* hdrimage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadHdr(const GLUSchar *filename,
+                                                  GLUShdrimage *hdrimage);
 
 /**
  * Saves a HDR file.
@@ -49,14 +55,16 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadHdr(const GLUSchar* filename, GLUS
  *
  * @return GLUS_TRUE, if saving succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSaveHdr(const GLUSchar* filename, const GLUShdrimage* hdrimage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSaveHdr(const GLUSchar *filename,
+                                                  const GLUShdrimage *hdrimage);
 
 /**
- * Destroys the content of a HDR structure. Has to be called for freeing the resources.
+ * Destroys the content of a HDR structure. Has to be called for freeing the
+ * resources.
  *
  * @param hdrimage The HDR file structure.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyHdr(GLUShdrimage* hdrimage);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyHdr(GLUShdrimage *hdrimage);
 
 /**
  * Samples a RGB color value from a HDR 2D image.
@@ -68,6 +76,7 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyHdr(GLUShdrimage* hdrimage);
  *
  * @return GLUS_TRUE, if sampling succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSampleHdr2D(GLUSfloat rgb[3], const GLUShdrimage* hdrimage, const GLUSfloat st[2]);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageSampleHdr2D(
+    GLUSfloat rgb[3], const GLUShdrimage *hdrimage, const GLUSfloat st[2]);
 
 #endif /* GLUS_IMAGE_HDR_H_ */

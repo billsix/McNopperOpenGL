@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,938 +20,916 @@
 
 #define GLUS_MAX_DIMENSION 16384
 
-extern GLUSvoid _glusImageGatherSamplePoints(GLUSint sampleIndex[4], GLUSfloat sampleWeight[2], const GLUSfloat st[2], GLUSint width, GLUSint height, GLUSint stride);
+extern GLUSvoid _glusImageGatherSamplePoints(GLUSint sampleIndex[4],
+                                             GLUSfloat sampleWeight[2],
+                                             const GLUSfloat st[2],
+                                             GLUSint width, GLUSint height,
+                                             GLUSint stride);
 
-extern GLUSboolean _glusFileCheckRead(FILE* f, size_t actualRead, size_t expectedRead);
-extern GLUSboolean _glusFileCheckWrite(FILE* f, size_t actualWrite, size_t expectedWrite);
+extern GLUSboolean _glusFileCheckRead(FILE *f, size_t actualRead,
+                                      size_t expectedRead);
+extern GLUSboolean _glusFileCheckWrite(FILE *f, size_t actualWrite,
+                                       size_t expectedWrite);
 
-static GLUSvoid glusImageSwapColorChannel(GLUSint width, GLUSint height, GLUSenum format, GLUSubyte* data)
-{
-	GLUSint i;
-	GLUSubyte temp;
-	GLUSint bytesPerPixel = 3;
+static GLUSvoid glusImageSwapColorChannel(GLUSint width, GLUSint height,
+                                          GLUSenum format, GLUSubyte *data) {
+  GLUSint i;
+  GLUSubyte temp;
+  GLUSint bytesPerPixel = 3;
 
-	if (!data)
-	{
-		return;
-	}
+  if (!data) {
+    return;
+  }
 
-	if (format == GLUS_RGBA)
-	{
-		bytesPerPixel = 4;
-	}
+  if (format == GLUS_RGBA) {
+    bytesPerPixel = 4;
+  }
 
-	// swap the R and B values to get RGB since the bitmap color format is in BGR
-	for (i = 0; i < width * height * bytesPerPixel; i += bytesPerPixel)
-	{
-		temp = data[i];
-		data[i] = data[i + 2];
-		data[i + 2] = temp;
-	}
+  // swap the R and B values to get RGB since the bitmap color format is in BGR
+  for (i = 0; i < width * height * bytesPerPixel; i += bytesPerPixel) {
+    temp = data[i];
+    data[i] = data[i + 2];
+    data[i + 2] = temp;
+  }
 }
 
-GLUSboolean GLUSAPIENTRY glusImageCreateTga(GLUStgaimage* tgaimage, GLUSint width, GLUSint height, GLUSint depth, GLUSenum format)
-{
-	GLUSint stride;
+GLUSboolean GLUSAPIENTRY glusImageCreateTga(GLUStgaimage *tgaimage,
+                                            GLUSint width, GLUSint height,
+                                            GLUSint depth, GLUSenum format) {
+  GLUSint stride;
 
-	if (!tgaimage || width < 1 || height < 1 || depth < 1)
-	{
-		return GLUS_FALSE;
-	}
+  if (!tgaimage || width < 1 || height < 1 || depth < 1) {
+    return GLUS_FALSE;
+  }
 
-	if (format == GLUS_ALPHA || format == GLUS_LUMINANCE || format == GLUS_RED)
-	{
-		stride = 1;
-	}
-	else if (format == GLUS_RGB)
-	{
-		stride = 3;
-	}
-	else if (format == GLUS_RGBA)
-	{
-		stride = 4;
-	}
-	else
-	{
-		return GLUS_FALSE;
-	}
+  if (format == GLUS_ALPHA || format == GLUS_LUMINANCE || format == GLUS_RED) {
+    stride = 1;
+  } else if (format == GLUS_RGB) {
+    stride = 3;
+  } else if (format == GLUS_RGBA) {
+    stride = 4;
+  } else {
+    return GLUS_FALSE;
+  }
 
-	tgaimage->data = (GLUSubyte*)glusMemoryMalloc(width * height * depth * stride * sizeof(GLUSubyte));
-	if (!tgaimage->data)
-	{
-		return GLUS_FALSE;
-	}
-	tgaimage->width = width;
-	tgaimage->height = height;
-	tgaimage->depth = depth;
-	tgaimage->format = format;
+  tgaimage->data = (GLUSubyte *)glusMemoryMalloc(width * height * depth *
+                                                 stride * sizeof(GLUSubyte));
+  if (!tgaimage->data) {
+    return GLUS_FALSE;
+  }
+  tgaimage->width = width;
+  tgaimage->height = height;
+  tgaimage->depth = depth;
+  tgaimage->format = format;
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusImageLoadTga(const GLUSchar* filename, GLUStgaimage* tgaimage)
-{
-	FILE* file;
+GLUSboolean GLUSAPIENTRY glusImageLoadTga(const GLUSchar *filename,
+                                          GLUStgaimage *tgaimage) {
+  FILE *file;
 
-	GLUSboolean hasColorMap = GLUS_FALSE;
-
-	GLUSubyte imageType;
-	GLUSubyte bitsPerPixel;
+  GLUSboolean hasColorMap = GLUS_FALSE;
 
-	GLUSushort firstEntryIndex;
-	GLUSushort colorMapLength;
-	GLUSubyte colorMapEntrySize;
-	GLUSubyte* colorMap = 0;
-
-	GLUSuint i, k;
+  GLUSubyte imageType;
+  GLUSubyte bitsPerPixel;
 
-	size_t elementsRead;
-
-	// check, if we have a valid pointer
-	if (!filename || !tgaimage)
-	{
-		return GLUS_FALSE;
-	}
+  GLUSushort firstEntryIndex;
+  GLUSushort colorMapLength;
+  GLUSubyte colorMapEntrySize;
+  GLUSubyte *colorMap = 0;
 
-	tgaimage->width = 0;
-	tgaimage->height = 0;
-	tgaimage->depth = 0;
-	tgaimage->data = 0;
-	tgaimage->format = 0;
+  GLUSuint i, k;
 
-	// open filename in "read binary" mode
-	file = glusFileOpen(filename, "rb");
+  size_t elementsRead;
 
-	if (!file)
-	{
-		return GLUS_FALSE;
-	}
+  // check, if we have a valid pointer
+  if (!filename || !tgaimage) {
+    return GLUS_FALSE;
+  }
 
-	// seek through the tga header, up to the type:
-	if (fseek(file, 2, SEEK_CUR))
-	{
-		glusFileClose(file);
+  tgaimage->width = 0;
+  tgaimage->height = 0;
+  tgaimage->depth = 0;
+  tgaimage->data = 0;
+  tgaimage->format = 0;
 
-		return GLUS_FALSE;
-	}
+  // open filename in "read binary" mode
+  file = glusFileOpen(filename, "rb");
 
-	// read the image type
-	elementsRead = fread(&imageType, 1, 1, file);
+  if (!file) {
+    return GLUS_FALSE;
+  }
 
-	if (!_glusFileCheckRead(file, elementsRead, 1))
-	{
-		return GLUS_FALSE;
-	}
+  // seek through the tga header, up to the type:
+  if (fseek(file, 2, SEEK_CUR)) {
+    glusFileClose(file);
 
-	// check the type
-	if (imageType != 1 && imageType != 2 && imageType != 3 && imageType != 9 && imageType != 10 && imageType != 11)
-	{
-		glusFileClose(file);
+    return GLUS_FALSE;
+  }
 
-		return GLUS_FALSE;
-	}
+  // read the image type
+  elementsRead = fread(&imageType, 1, 1, file);
 
-	if (imageType == 1 || imageType == 9)
-	{
-		hasColorMap = GLUS_TRUE;
-	}
+  if (!_glusFileCheckRead(file, elementsRead, 1)) {
+    return GLUS_FALSE;
+  }
 
-	if (!hasColorMap)
-	{
-		// seek through the tga header, up to the width/height:
-		if (fseek(file, 9, SEEK_CUR))
-		{
-			glusFileClose(file);
+  // check the type
+  if (imageType != 1 && imageType != 2 && imageType != 3 && imageType != 9 &&
+      imageType != 10 && imageType != 11) {
+    glusFileClose(file);
 
-			return GLUS_FALSE;
-		}
-	}
-	else
-	{
-		elementsRead = fread(&firstEntryIndex, 2, 1, file);
+    return GLUS_FALSE;
+  }
 
-		if (!_glusFileCheckRead(file, elementsRead, 1))
-		{
-			glusImageDestroyTga(tgaimage);
+  if (imageType == 1 || imageType == 9) {
+    hasColorMap = GLUS_TRUE;
+  }
 
-			return GLUS_FALSE;
-		}
-
-		elementsRead = fread(&colorMapLength, 2, 1, file);
-
-		if (!_glusFileCheckRead(file, elementsRead, 1))
-		{
-			glusImageDestroyTga(tgaimage);
+  if (!hasColorMap) {
+    // seek through the tga header, up to the width/height:
+    if (fseek(file, 9, SEEK_CUR)) {
+      glusFileClose(file);
 
-			return GLUS_FALSE;
-		}
+      return GLUS_FALSE;
+    }
+  } else {
+    elementsRead = fread(&firstEntryIndex, 2, 1, file);
 
-		elementsRead = fread(&colorMapEntrySize, 1, 1, file);
+    if (!_glusFileCheckRead(file, elementsRead, 1)) {
+      glusImageDestroyTga(tgaimage);
 
-		if (!_glusFileCheckRead(file, elementsRead, 1))
-		{
-			glusImageDestroyTga(tgaimage);
+      return GLUS_FALSE;
+    }
 
-			return GLUS_FALSE;
-		}
+    elementsRead = fread(&colorMapLength, 2, 1, file);
 
-		// seek through the tga header, up to the width/height:
-		if (fseek(file, 4, SEEK_CUR))
-		{
-			glusFileClose(file);
+    if (!_glusFileCheckRead(file, elementsRead, 1)) {
+      glusImageDestroyTga(tgaimage);
 
-			return GLUS_FALSE;
-		}
-	}
+      return GLUS_FALSE;
+    }
 
-	// read the width
-	elementsRead = fread(&tgaimage->width, 2, 1, file);
+    elementsRead = fread(&colorMapEntrySize, 1, 1, file);
 
-	if (!_glusFileCheckRead(file, elementsRead, 1))
-	{
-		glusImageDestroyTga(tgaimage);
+    if (!_glusFileCheckRead(file, elementsRead, 1)) {
+      glusImageDestroyTga(tgaimage);
 
-		return GLUS_FALSE;
-	}
+      return GLUS_FALSE;
+    }
 
-	if (tgaimage->width > GLUS_MAX_DIMENSION)
-	{
-		glusImageDestroyTga(tgaimage);
+    // seek through the tga header, up to the width/height:
+    if (fseek(file, 4, SEEK_CUR)) {
+      glusFileClose(file);
 
-		return GLUS_FALSE;
-	}
+      return GLUS_FALSE;
+    }
+  }
 
-	// read the height
-	elementsRead = fread(&tgaimage->height, 2, 1, file);
+  // read the width
+  elementsRead = fread(&tgaimage->width, 2, 1, file);
 
-	if (!_glusFileCheckRead(file, elementsRead, 1))
-	{
-		glusImageDestroyTga(tgaimage);
+  if (!_glusFileCheckRead(file, elementsRead, 1)) {
+    glusImageDestroyTga(tgaimage);
 
-		return GLUS_FALSE;
-	}
+    return GLUS_FALSE;
+  }
 
-	if (tgaimage->height > GLUS_MAX_DIMENSION)
-	{
-		glusImageDestroyTga(tgaimage);
+  if (tgaimage->width > GLUS_MAX_DIMENSION) {
+    glusImageDestroyTga(tgaimage);
 
-		return GLUS_FALSE;
-	}
+    return GLUS_FALSE;
+  }
 
-	tgaimage->depth = 1;
+  // read the height
+  elementsRead = fread(&tgaimage->height, 2, 1, file);
 
-	// read the bits per pixel
-	elementsRead = fread(&bitsPerPixel, 1, 1, file);
+  if (!_glusFileCheckRead(file, elementsRead, 1)) {
+    glusImageDestroyTga(tgaimage);
 
-	if (!_glusFileCheckRead(file, elementsRead, 1))
-	{
-		glusImageDestroyTga(tgaimage);
+    return GLUS_FALSE;
+  }
 
-		return GLUS_FALSE;
-	}
+  if (tgaimage->height > GLUS_MAX_DIMENSION) {
+    glusImageDestroyTga(tgaimage);
 
-	// check the pixel depth
-	if (bitsPerPixel != 8 && bitsPerPixel != 24 && bitsPerPixel != 32)
-	{
-		glusFileClose(file);
+    return GLUS_FALSE;
+  }
 
-		glusImageDestroyTga(tgaimage);
+  tgaimage->depth = 1;
 
-		return GLUS_FALSE;
-	}
-	else
-	{
-		tgaimage->format = GLUS_SINGLE_CHANNEL;
-		if (bitsPerPixel == 24)
-		{
-			tgaimage->format = GLUS_RGB;
-		}
-		else if (bitsPerPixel == 32)
-		{
-			tgaimage->format = GLUS_RGBA;
-		}
-	}
+  // read the bits per pixel
+  elementsRead = fread(&bitsPerPixel, 1, 1, file);
 
-	// move file pointer to beginning of targa data
-	if (fseek(file, 1, SEEK_CUR))
-	{
-		glusFileClose(file);
+  if (!_glusFileCheckRead(file, elementsRead, 1)) {
+    glusImageDestroyTga(tgaimage);
 
-		glusImageDestroyTga(tgaimage);
+    return GLUS_FALSE;
+  }
 
-		return GLUS_FALSE;
-	}
+  // check the pixel depth
+  if (bitsPerPixel != 8 && bitsPerPixel != 24 && bitsPerPixel != 32) {
+    glusFileClose(file);
 
-	if (hasColorMap)
-	{
-		// Create color map space.
+    glusImageDestroyTga(tgaimage);
 
-		GLUSint bytesPerPixel = colorMapEntrySize / 8;
+    return GLUS_FALSE;
+  } else {
+    tgaimage->format = GLUS_SINGLE_CHANNEL;
+    if (bitsPerPixel == 24) {
+      tgaimage->format = GLUS_RGB;
+    } else if (bitsPerPixel == 32) {
+      tgaimage->format = GLUS_RGBA;
+    }
+  }
 
-		colorMap = (GLUSubyte*)glusMemoryMalloc((size_t)colorMapLength * bytesPerPixel * sizeof(GLUSubyte));
+  // move file pointer to beginning of targa data
+  if (fseek(file, 1, SEEK_CUR)) {
+    glusFileClose(file);
 
-		if (!colorMap)
-		{
-			glusFileClose(file);
+    glusImageDestroyTga(tgaimage);
 
-			glusImageDestroyTga(tgaimage);
+    return GLUS_FALSE;
+  }
 
-			return GLUS_FALSE;
-		}
+  if (hasColorMap) {
+    // Create color map space.
 
-		// Read in the color map.
+    GLUSint bytesPerPixel = colorMapEntrySize / 8;
 
-		elementsRead = fread(colorMap, 1, (size_t)colorMapLength * bytesPerPixel * sizeof(GLUSubyte), file);
+    colorMap = (GLUSubyte *)glusMemoryMalloc((size_t)colorMapLength *
+                                             bytesPerPixel * sizeof(GLUSubyte));
 
-		if (!_glusFileCheckRead(file, elementsRead, (size_t)colorMapLength * bytesPerPixel * sizeof(GLUSubyte)))
-		{
-			glusImageDestroyTga(tgaimage);
+    if (!colorMap) {
+      glusFileClose(file);
 
-			glusMemoryFree(colorMap);
-			colorMap = 0;
+      glusImageDestroyTga(tgaimage);
 
-			return GLUS_FALSE;
-		}
+      return GLUS_FALSE;
+    }
 
-		// swap the color if necessary
-		if (colorMapEntrySize == 24 || colorMapEntrySize == 32)
-		{
-			glusImageSwapColorChannel(colorMapLength, 1, colorMapEntrySize == 24 ? GLUS_RGB : GLUS_RGBA, colorMap);
-		}
-	}
+    // Read in the color map.
 
-	// allocate enough memory for the targa  data
-	tgaimage->data = (GLUSubyte*)glusMemoryMalloc((size_t)tgaimage->width * tgaimage->height * bitsPerPixel / 8);
+    elementsRead =
+        fread(colorMap, 1,
+              (size_t)colorMapLength * bytesPerPixel * sizeof(GLUSubyte), file);
 
-	// verify memory allocation
-	if (!tgaimage->data)
-	{
-		glusFileClose(file);
+    if (!_glusFileCheckRead(file, elementsRead,
+                            (size_t)colorMapLength * bytesPerPixel *
+                                sizeof(GLUSubyte))) {
+      glusImageDestroyTga(tgaimage);
 
-		glusImageDestroyTga(tgaimage);
+      glusMemoryFree(colorMap);
+      colorMap = 0;
 
-		if (hasColorMap)
-		{
-			glusMemoryFree(colorMap);
-			colorMap = 0;
-		}
+      return GLUS_FALSE;
+    }
 
-		return GLUS_FALSE;
-	}
+    // swap the color if necessary
+    if (colorMapEntrySize == 24 || colorMapEntrySize == 32) {
+      glusImageSwapColorChannel(colorMapLength, 1,
+                                colorMapEntrySize == 24 ? GLUS_RGB : GLUS_RGBA,
+                                colorMap);
+    }
+  }
 
-	if (imageType == 1 || imageType == 2 || imageType == 3)
-	{
-		// read in the raw data
-		elementsRead = fread(tgaimage->data, 1, (size_t)tgaimage->width * tgaimage->height * bitsPerPixel / 8, file);
+  // allocate enough memory for the targa  data
+  tgaimage->data = (GLUSubyte *)glusMemoryMalloc(
+      (size_t)tgaimage->width * tgaimage->height * bitsPerPixel / 8);
 
-		if (!_glusFileCheckRead(file, elementsRead, (size_t)tgaimage->width * tgaimage->height * bitsPerPixel / 8))
-		{
-			glusImageDestroyTga(tgaimage);
+  // verify memory allocation
+  if (!tgaimage->data) {
+    glusFileClose(file);
 
-			if (hasColorMap)
-			{
-				glusMemoryFree(colorMap);
-				colorMap = 0;
-			}
+    glusImageDestroyTga(tgaimage);
 
-			return GLUS_FALSE;
-		}
-	}
-	else
-	{
-		// RLE encoded
-		GLUSint pixelsRead = 0;
+    if (hasColorMap) {
+      glusMemoryFree(colorMap);
+      colorMap = 0;
+    }
 
-		while (pixelsRead < tgaimage->width * tgaimage->height)
-		{
-			GLUSubyte amount;
+    return GLUS_FALSE;
+  }
 
-			elementsRead = fread(&amount, 1, 1, file);
+  if (imageType == 1 || imageType == 2 || imageType == 3) {
+    // read in the raw data
+    elementsRead = fread(
+        tgaimage->data, 1,
+        (size_t)tgaimage->width * tgaimage->height * bitsPerPixel / 8, file);
 
-			if (!_glusFileCheckRead(file, elementsRead, 1))
-			{
-				glusImageDestroyTga(tgaimage);
+    if (!_glusFileCheckRead(file, elementsRead,
+                            (size_t)tgaimage->width * tgaimage->height *
+                                bitsPerPixel / 8)) {
+      glusImageDestroyTga(tgaimage);
 
-				if (hasColorMap)
-				{
-					glusMemoryFree(colorMap);
-					colorMap = 0;
-				}
+      if (hasColorMap) {
+        glusMemoryFree(colorMap);
+        colorMap = 0;
+      }
 
-				return GLUS_FALSE;
-			}
+      return GLUS_FALSE;
+    }
+  } else {
+    // RLE encoded
+    GLUSint pixelsRead = 0;
 
-			if (amount & 0x80)
-			{
-				GLUSint i;
-				GLUSint k;
+    while (pixelsRead < tgaimage->width * tgaimage->height) {
+      GLUSubyte amount;
 
-				amount &= 0x7F;
+      elementsRead = fread(&amount, 1, 1, file);
 
-				amount++;
+      if (!_glusFileCheckRead(file, elementsRead, 1)) {
+        glusImageDestroyTga(tgaimage);
 
-				// read in the rle data
-				elementsRead = fread(&tgaimage->data[pixelsRead * bitsPerPixel / 8], 1, bitsPerPixel / 8, file);
+        if (hasColorMap) {
+          glusMemoryFree(colorMap);
+          colorMap = 0;
+        }
 
-				if (!_glusFileCheckRead(file, elementsRead, bitsPerPixel / 8))
-				{
-					glusImageDestroyTga(tgaimage);
+        return GLUS_FALSE;
+      }
 
-					if (hasColorMap)
-					{
-						glusMemoryFree(colorMap);
-						colorMap = 0;
-					}
+      if (amount & 0x80) {
+        GLUSint i;
+        GLUSint k;
 
-					return GLUS_FALSE;
-				}
+        amount &= 0x7F;
 
-				for (i = 1; i < amount; i++)
-				{
-					for (k = 0; k < bitsPerPixel / 8; k++)
-					{
-						tgaimage->data[(pixelsRead + i) * bitsPerPixel / 8 + k] = tgaimage->data[pixelsRead * bitsPerPixel / 8 + k];
-					}
-				}
-			}
-			else
-			{
-				amount &= 0x7F;
+        amount++;
 
-				amount++;
+        // read in the rle data
+        elementsRead = fread(&tgaimage->data[pixelsRead * bitsPerPixel / 8], 1,
+                             bitsPerPixel / 8, file);
 
-				// read in the raw data
-				elementsRead = fread(&tgaimage->data[pixelsRead * bitsPerPixel / 8], 1, (size_t)amount * bitsPerPixel / 8, file);
+        if (!_glusFileCheckRead(file, elementsRead, bitsPerPixel / 8)) {
+          glusImageDestroyTga(tgaimage);
 
-				if (!_glusFileCheckRead(file, elementsRead, (size_t)amount * bitsPerPixel / 8))
-				{
-					glusImageDestroyTga(tgaimage);
+          if (hasColorMap) {
+            glusMemoryFree(colorMap);
+            colorMap = 0;
+          }
 
-					if (hasColorMap)
-					{
-						glusMemoryFree(colorMap);
-						colorMap = 0;
-					}
+          return GLUS_FALSE;
+        }
 
-					return GLUS_FALSE;
-				}
-			}
+        for (i = 1; i < amount; i++) {
+          for (k = 0; k < bitsPerPixel / 8; k++) {
+            tgaimage->data[(pixelsRead + i) * bitsPerPixel / 8 + k] =
+                tgaimage->data[pixelsRead * bitsPerPixel / 8 + k];
+          }
+        }
+      } else {
+        amount &= 0x7F;
 
-			pixelsRead += amount;
-		}
-	}
+        amount++;
 
-	// swap the color if necessary
-	if (bitsPerPixel == 24 || bitsPerPixel == 32)
-	{
-		glusImageSwapColorChannel(tgaimage->width, tgaimage->height, tgaimage->format, tgaimage->data);
-	}
+        // read in the raw data
+        elementsRead = fread(&tgaimage->data[pixelsRead * bitsPerPixel / 8], 1,
+                             (size_t)amount * bitsPerPixel / 8, file);
 
-	// close the file
-	glusFileClose(file);
+        if (!_glusFileCheckRead(file, elementsRead,
+                                (size_t)amount * bitsPerPixel / 8)) {
+          glusImageDestroyTga(tgaimage);
 
-	if (hasColorMap)
-	{
-		GLUSubyte* data = tgaimage->data;
+          if (hasColorMap) {
+            glusMemoryFree(colorMap);
+            colorMap = 0;
+          }
 
-		GLUSint bytesPerPixel;
+          return GLUS_FALSE;
+        }
+      }
 
-		// Allocating new memory, as current memory is a look up table index and not a color.
+      pixelsRead += amount;
+    }
+  }
 
-		bytesPerPixel = colorMapEntrySize / 8;
+  // swap the color if necessary
+  if (bitsPerPixel == 24 || bitsPerPixel == 32) {
+    glusImageSwapColorChannel(tgaimage->width, tgaimage->height,
+                              tgaimage->format, tgaimage->data);
+  }
 
-		tgaimage->data = (GLUSubyte*)glusMemoryMalloc((size_t)tgaimage->width * tgaimage->height * bytesPerPixel);
+  // close the file
+  glusFileClose(file);
 
-		if (!tgaimage->data)
-		{
-			glusImageDestroyTga(tgaimage);
+  if (hasColorMap) {
+    GLUSubyte *data = tgaimage->data;
 
-			glusMemoryFree(data);
-			data = 0;
+    GLUSint bytesPerPixel;
 
-			glusMemoryFree(colorMap);
-			colorMap = 0;
+    // Allocating new memory, as current memory is a look up table index and not
+    // a color.
 
-			return GLUS_FALSE;
-		}
+    bytesPerPixel = colorMapEntrySize / 8;
 
-		tgaimage->format = GLUS_SINGLE_CHANNEL;
-		if (colorMapEntrySize == 24)
-		{
-			tgaimage->format = GLUS_RGB;
-		}
-		else if (colorMapEntrySize == 32)
-		{
-			tgaimage->format = GLUS_RGBA;
-		}
+    tgaimage->data = (GLUSubyte *)glusMemoryMalloc(
+        (size_t)tgaimage->width * tgaimage->height * bytesPerPixel);
 
-		// Copy color values from the color map into the image data.
+    if (!tgaimage->data) {
+      glusImageDestroyTga(tgaimage);
 
-		for (i = 0; i < (GLUSuint)tgaimage->width * (GLUSuint)tgaimage->height; i++)
-		{
-			for (k = 0; k < (GLUSuint)bytesPerPixel; k++)
-			{
-				tgaimage->data[i * bytesPerPixel + k] = colorMap[(firstEntryIndex + data[i]) * bytesPerPixel + k];
-			}
-		}
+      glusMemoryFree(data);
+      data = 0;
 
-		// Freeing data.
+      glusMemoryFree(colorMap);
+      colorMap = 0;
 
-		glusMemoryFree(data);
-		data = 0;
+      return GLUS_FALSE;
+    }
 
-		glusMemoryFree(colorMap);
-		colorMap = 0;
-	}
+    tgaimage->format = GLUS_SINGLE_CHANNEL;
+    if (colorMapEntrySize == 24) {
+      tgaimage->format = GLUS_RGB;
+    } else if (colorMapEntrySize == 32) {
+      tgaimage->format = GLUS_RGBA;
+    }
 
-	return GLUS_TRUE;
+    // Copy color values from the color map into the image data.
+
+    for (i = 0; i < (GLUSuint)tgaimage->width * (GLUSuint)tgaimage->height;
+         i++) {
+      for (k = 0; k < (GLUSuint)bytesPerPixel; k++) {
+        tgaimage->data[i * bytesPerPixel + k] =
+            colorMap[(firstEntryIndex + data[i]) * bytesPerPixel + k];
+      }
+    }
+
+    // Freeing data.
+
+    glusMemoryFree(data);
+    data = 0;
+
+    glusMemoryFree(colorMap);
+    colorMap = 0;
+  }
+
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusImageSaveTga(const GLUSchar* filename, const GLUStgaimage* tgaimage)
-{
-	FILE* file;
-	GLUSubyte buffer[12];
-	GLUSubyte bitsPerPixel;
-	size_t elementsWritten;
-	GLUSubyte* data;
+GLUSboolean GLUSAPIENTRY glusImageSaveTga(const GLUSchar *filename,
+                                          const GLUStgaimage *tgaimage) {
+  FILE *file;
+  GLUSubyte buffer[12];
+  GLUSubyte bitsPerPixel;
+  size_t elementsWritten;
+  GLUSubyte *data;
 
-	// check, if we have a valid pointer
-	if (!filename || !tgaimage)
-	{
-		return GLUS_FALSE;
-	}
+  // check, if we have a valid pointer
+  if (!filename || !tgaimage) {
+    return GLUS_FALSE;
+  }
 
-	// open filename in "write binary" mode
-	file = glusFileOpen(filename, "wb");
+  // open filename in "write binary" mode
+  file = glusFileOpen(filename, "wb");
 
-	if (!file)
-	{
-		return GLUS_FALSE;
-	}
+  if (!file) {
+    return GLUS_FALSE;
+  }
 
-	switch (tgaimage->format)
-	{
-		case GLUS_ALPHA:
-		case GLUS_RED:
-		case GLUS_LUMINANCE:
-			bitsPerPixel = 8;
-		break;
-		case GLUS_RGB:
-			bitsPerPixel = 24;
-		break;
-		case GLUS_RGBA:
-			bitsPerPixel = 32;
-		break;
-		default:
-			glusFileClose(file);
-			return GLUS_FALSE;
-	}
+  switch (tgaimage->format) {
+  case GLUS_ALPHA:
+  case GLUS_RED:
+  case GLUS_LUMINANCE:
+    bitsPerPixel = 8;
+    break;
+  case GLUS_RGB:
+    bitsPerPixel = 24;
+    break;
+  case GLUS_RGBA:
+    bitsPerPixel = 32;
+    break;
+  default:
+    glusFileClose(file);
+    return GLUS_FALSE;
+  }
 
-	if (bitsPerPixel == 8)
-	{
-		buffer[2] = 3;
-	}
-	else
-	{
-		buffer[2] = 2;
-	}
+  if (bitsPerPixel == 8) {
+    buffer[2] = 3;
+  } else {
+    buffer[2] = 2;
+  }
 
-	// TGA header
-	buffer[0] = 0;
-	buffer[1] = 0;
+  // TGA header
+  buffer[0] = 0;
+  buffer[1] = 0;
 
-	buffer[3] = 0;
-	buffer[4] = 0;
-	buffer[5] = 0;
-	buffer[6] = 0;
-	buffer[7] = 0;
-	buffer[8] = 0;
-	buffer[9] = 0;
-	buffer[10] = 0;
-	buffer[11] = 0;
+  buffer[3] = 0;
+  buffer[4] = 0;
+  buffer[5] = 0;
+  buffer[6] = 0;
+  buffer[7] = 0;
+  buffer[8] = 0;
+  buffer[9] = 0;
+  buffer[10] = 0;
+  buffer[11] = 0;
 
-	elementsWritten = fwrite(buffer, 1, 12, file);
+  elementsWritten = fwrite(buffer, 1, 12, file);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, 12))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten, 12)) {
+    return GLUS_FALSE;
+  }
 
-	elementsWritten = fwrite(&tgaimage->width, sizeof(tgaimage->width), 1, file);
+  elementsWritten = fwrite(&tgaimage->width, sizeof(tgaimage->width), 1, file);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, 1))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten, 1)) {
+    return GLUS_FALSE;
+  }
 
-	elementsWritten = fwrite(&tgaimage->height, sizeof(tgaimage->height), 1, file);
+  elementsWritten =
+      fwrite(&tgaimage->height, sizeof(tgaimage->height), 1, file);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, 1))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten, 1)) {
+    return GLUS_FALSE;
+  }
 
-	elementsWritten = fwrite(&bitsPerPixel, sizeof(bitsPerPixel), 1, file);
+  elementsWritten = fwrite(&bitsPerPixel, sizeof(bitsPerPixel), 1, file);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, 1))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten, 1)) {
+    return GLUS_FALSE;
+  }
 
-	buffer[0] = 0;
+  buffer[0] = 0;
 
-	elementsWritten = fwrite(buffer, 1, 1, file);
+  elementsWritten = fwrite(buffer, 1, 1, file);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, 1))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten, 1)) {
+    return GLUS_FALSE;
+  }
 
-	data = glusMemoryMalloc(tgaimage->width * tgaimage->height * bitsPerPixel / 8);
+  data =
+      glusMemoryMalloc(tgaimage->width * tgaimage->height * bitsPerPixel / 8);
 
-	if (!data)
-	{
-		glusFileClose(file);
+  if (!data) {
+    glusFileClose(file);
 
-		return GLUS_FALSE;
-	}
+    return GLUS_FALSE;
+  }
 
-	memcpy(data, tgaimage->data, tgaimage->width * tgaimage->height * bitsPerPixel / 8);
+  memcpy(data, tgaimage->data,
+         tgaimage->width * tgaimage->height * bitsPerPixel / 8);
 
-	if (bitsPerPixel >= 24)
-	{
-		glusImageSwapColorChannel(tgaimage->width, tgaimage->height, tgaimage->format, data);
-	}
+  if (bitsPerPixel >= 24) {
+    glusImageSwapColorChannel(tgaimage->width, tgaimage->height,
+                              tgaimage->format, data);
+  }
 
-	elementsWritten = fwrite(data, 1, tgaimage->width * tgaimage->height * bitsPerPixel / 8, file);
+  elementsWritten = fwrite(
+      data, 1, tgaimage->width * tgaimage->height * bitsPerPixel / 8, file);
 
-	glusMemoryFree(data);
+  glusMemoryFree(data);
 
-	if (!_glusFileCheckWrite(file, elementsWritten, tgaimage->width * tgaimage->height * bitsPerPixel / 8))
-	{
-		return GLUS_FALSE;
-	}
+  if (!_glusFileCheckWrite(file, elementsWritten,
+                           tgaimage->width * tgaimage->height * bitsPerPixel /
+                               8)) {
+    return GLUS_FALSE;
+  }
 
-	glusFileClose(file);
+  glusFileClose(file);
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSvoid GLUSAPIENTRY glusImageDestroyTga(GLUStgaimage* tgaimage)
-{
-	if (!tgaimage)
-	{
-		return;
-	}
+GLUSvoid GLUSAPIENTRY glusImageDestroyTga(GLUStgaimage *tgaimage) {
+  if (!tgaimage) {
+    return;
+  }
 
-	if (tgaimage->data)
-	{
-		glusMemoryFree(tgaimage->data);
+  if (tgaimage->data) {
+    glusMemoryFree(tgaimage->data);
 
-		tgaimage->data = 0;
-	}
+    tgaimage->data = 0;
+  }
 
-	tgaimage->width = 0;
+  tgaimage->width = 0;
 
-	tgaimage->height = 0;
+  tgaimage->height = 0;
 
-	tgaimage->depth = 0;
+  tgaimage->depth = 0;
 
-	tgaimage->format = 0;
+  tgaimage->format = 0;
 }
 
-GLUSboolean GLUSAPIENTRY glusImageSampleTga2D(GLUSubyte rgba[4], const GLUStgaimage* tgaimage, const GLUSfloat st[2])
-{
-	GLUSfloat tempRGBA[4];
+GLUSboolean GLUSAPIENTRY glusImageSampleTga2D(GLUSubyte rgba[4],
+                                              const GLUStgaimage *tgaimage,
+                                              const GLUSfloat st[2]) {
+  GLUSfloat tempRGBA[4];
 
-	GLUSint sampleIndex[4];
-	GLUSfloat sampleWeight[2];
+  GLUSint sampleIndex[4];
+  GLUSfloat sampleWeight[2];
 
-	GLUSint i, stride;
+  GLUSint i, stride;
 
-	if (!rgba || !tgaimage || !st)
-	{
-		return GLUS_FALSE;
-	}
+  if (!rgba || !tgaimage || !st) {
+    return GLUS_FALSE;
+  }
 
-	stride = 1;
-	if (tgaimage->format == GLUS_RGB)
-	{
-		stride = 3;
-	}
-	else if (tgaimage->format == GLUS_RGBA)
-	{
-		stride = 4;
-	}
+  stride = 1;
+  if (tgaimage->format == GLUS_RGB) {
+    stride = 3;
+  } else if (tgaimage->format == GLUS_RGBA) {
+    stride = 4;
+  }
 
-	_glusImageGatherSamplePoints(sampleIndex, sampleWeight, st, tgaimage->width, tgaimage->height, stride);
+  _glusImageGatherSamplePoints(sampleIndex, sampleWeight, st, tgaimage->width,
+                               tgaimage->height, stride);
 
-	for (i = 0; i < stride; i++)
-	{
-		tempRGBA[i] = (GLUSfloat)tgaimage->data[sampleIndex[0] + i] * sampleWeight[0] * sampleWeight[1];
-		tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[1] + i] * (1.0f - sampleWeight[0]) * sampleWeight[1];
-		tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[2] + i] * sampleWeight[0] * (1.0f - sampleWeight[1]);
-		tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[3] + i] * (1.0f - sampleWeight[0]) * (1.0f - sampleWeight[1]);
-	}
+  for (i = 0; i < stride; i++) {
+    tempRGBA[i] = (GLUSfloat)tgaimage->data[sampleIndex[0] + i] *
+                  sampleWeight[0] * sampleWeight[1];
+    tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[1] + i] *
+                   (1.0f - sampleWeight[0]) * sampleWeight[1];
+    tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[2] + i] *
+                   sampleWeight[0] * (1.0f - sampleWeight[1]);
+    tempRGBA[i] += (GLUSfloat)tgaimage->data[sampleIndex[3] + i] *
+                   (1.0f - sampleWeight[0]) * (1.0f - sampleWeight[1]);
+  }
 
-	// Resolve
+  // Resolve
 
-	for (i = 0; i < 4; i++)
-	{
-		if (i < stride)
-		{
-			rgba[i] = (GLUSubyte)tempRGBA[i];
-		}
-		else if (i < 3)
-		{
-			rgba[i] = rgba[0];
-		}
-		else
-		{
-			rgba[3] = 255;
-		}
-	}
+  for (i = 0; i < 4; i++) {
+    if (i < stride) {
+      rgba[i] = (GLUSubyte)tempRGBA[i];
+    } else if (i < 3) {
+      rgba[i] = rgba[0];
+    } else {
+      rgba[3] = 255;
+    }
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusImageConvertTga(GLUStgaimage* targetImage, const GLUStgaimage* sourceImage, const GLUSenum targetFormat)
-{
-	GLUSint targetNumberChannels = 1;
-	GLUSint sourceNumberChannels = 1;
-	GLUSint x, y, z, c;
+GLUSboolean GLUSAPIENTRY glusImageConvertTga(GLUStgaimage *targetImage,
+                                             const GLUStgaimage *sourceImage,
+                                             const GLUSenum targetFormat) {
+  GLUSint targetNumberChannels = 1;
+  GLUSint sourceNumberChannels = 1;
+  GLUSint x, y, z, c;
 
-	GLUSubyte channels[4] = {0, 0, 0, 255};
+  GLUSubyte channels[4] = {0, 0, 0, 255};
 
-	GLUSfloat toLuminace[3] = {0.299f, 0.587f, 0.114f};
+  GLUSfloat toLuminace[3] = {0.299f, 0.587f, 0.114f};
 
-	if (!targetImage || !sourceImage)
-	{
-		return GLUS_FALSE;
-	}
+  if (!targetImage || !sourceImage) {
+    return GLUS_FALSE;
+  }
 
-	if (sourceImage->format != GLUS_RED && sourceImage->format != GLUS_ALPHA && sourceImage->format != GLUS_LUMINANCE && sourceImage->format != GLUS_RGB && sourceImage->format != GLUS_RGBA)
-	{
-		return GLUS_FALSE;
-	}
+  if (sourceImage->format != GLUS_RED && sourceImage->format != GLUS_ALPHA &&
+      sourceImage->format != GLUS_LUMINANCE &&
+      sourceImage->format != GLUS_RGB && sourceImage->format != GLUS_RGBA) {
+    return GLUS_FALSE;
+  }
 
-	if (targetFormat != GLUS_RED && targetFormat != GLUS_ALPHA && targetFormat != GLUS_LUMINANCE && targetFormat != GLUS_RGB && targetFormat != GLUS_RGBA)
-	{
-		return GLUS_FALSE;
-	}
+  if (targetFormat != GLUS_RED && targetFormat != GLUS_ALPHA &&
+      targetFormat != GLUS_LUMINANCE && targetFormat != GLUS_RGB &&
+      targetFormat != GLUS_RGBA) {
+    return GLUS_FALSE;
+  }
 
-	if (sourceImage->format == GLUS_RGB)
-	{
-		sourceNumberChannels = 3;
-	}
-	else if (sourceImage->format == GLUS_RGBA)
-	{
-		sourceNumberChannels = 4;
-	}
+  if (sourceImage->format == GLUS_RGB) {
+    sourceNumberChannels = 3;
+  } else if (sourceImage->format == GLUS_RGBA) {
+    sourceNumberChannels = 4;
+  }
 
-	if (targetFormat == GLUS_RGB)
-	{
-		targetNumberChannels = 3;
-	}
-	else if (targetFormat == GLUS_RGBA)
-	{
-		targetNumberChannels = 4;
-	}
+  if (targetFormat == GLUS_RGB) {
+    targetNumberChannels = 3;
+  } else if (targetFormat == GLUS_RGBA) {
+    targetNumberChannels = 4;
+  }
 
-	targetImage->data = (GLUSubyte*)glusMemoryMalloc(targetNumberChannels * sourceImage->width * sourceImage->height * sourceImage->depth * sizeof(GLUSubyte));
+  targetImage->data = (GLUSubyte *)glusMemoryMalloc(
+      targetNumberChannels * sourceImage->width * sourceImage->height *
+      sourceImage->depth * sizeof(GLUSubyte));
 
-	if (!targetImage->data)
-	{
-		return GLUS_FALSE;
-	}
-	targetImage->width = sourceImage->width;
-	targetImage->height = sourceImage->height;
-	targetImage->depth = sourceImage->depth;
-	targetImage->format = targetFormat;
+  if (!targetImage->data) {
+    return GLUS_FALSE;
+  }
+  targetImage->width = sourceImage->width;
+  targetImage->height = sourceImage->height;
+  targetImage->depth = sourceImage->depth;
+  targetImage->format = targetFormat;
 
-	for (z = 0; z < targetImage->depth; z++)
-	{
-		for (y = 0; y < targetImage->height; y++)
-		{
-			for (x = 0; x < targetImage->width; x++)
-			{
-				if (sourceImage->format == GLUS_RED)
-				{
-					if (targetImage->format == GLUS_RED || targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
+  for (z = 0; z < targetImage->depth; z++) {
+    for (y = 0; y < targetImage->height; y++) {
+      for (x = 0; x < targetImage->width; x++) {
+        if (sourceImage->format == GLUS_RED) {
+          if (targetImage->format == GLUS_RED ||
+              targetImage->format == GLUS_RGB ||
+              targetImage->format == GLUS_RGBA) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0];
 
-						if (targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-						{
-							channels[1] = 0;
-							channels[2] = 0;
+            if (targetImage->format == GLUS_RGB ||
+                targetImage->format == GLUS_RGBA) {
+              channels[1] = 0;
+              channels[2] = 0;
 
-							if (targetImage->format == GLUS_RGBA)
-							{
-								channels[3] = 255;
-							}
-						}
-					}
-					else if (targetImage->format == GLUS_ALPHA)
-					{
-						channels[0] = 255;
-					}
-					else if (targetImage->format == GLUS_LUMINANCE)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0] * toLuminace[0];
-					}
-				}
-				else if (sourceImage->format == GLUS_ALPHA)
-				{
-					if (targetImage->format == GLUS_LUMINANCE || targetImage->format == GLUS_RED || targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-					{
-						channels[0] = 0;
+              if (targetImage->format == GLUS_RGBA) {
+                channels[3] = 255;
+              }
+            }
+          } else if (targetImage->format == GLUS_ALPHA) {
+            channels[0] = 255;
+          } else if (targetImage->format == GLUS_LUMINANCE) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0] *
+                toLuminace[0];
+          }
+        } else if (sourceImage->format == GLUS_ALPHA) {
+          if (targetImage->format == GLUS_LUMINANCE ||
+              targetImage->format == GLUS_RED ||
+              targetImage->format == GLUS_RGB ||
+              targetImage->format == GLUS_RGBA) {
+            channels[0] = 0;
 
-						if (targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-						{
-							channels[1] = 0;
-							channels[2] = 0;
+            if (targetImage->format == GLUS_RGB ||
+                targetImage->format == GLUS_RGBA) {
+              channels[1] = 0;
+              channels[2] = 0;
 
-							if (targetImage->format == GLUS_RGBA)
-							{
-								channels[3] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
-							}
-						}
-					}
-					else if (targetImage->format == GLUS_ALPHA)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
-					}
-				}
-				else if (sourceImage->format == GLUS_LUMINANCE)
-				{
-					if (targetImage->format == GLUS_RED)
-					{
-						channels[0] = glusMathClampf(sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0] / toLuminace[0], 0.0f, 1.0f);
-					}
-					else if (targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
-						channels[1] = channels[0];
-						channels[2] = channels[0];
+              if (targetImage->format == GLUS_RGBA) {
+                channels[3] =
+                    sourceImage
+                        ->data[sourceNumberChannels * z * sourceImage->height *
+                                   sourceImage->width +
+                               sourceNumberChannels * y * sourceImage->width +
+                               sourceNumberChannels * x + 0];
+              }
+            }
+          } else if (targetImage->format == GLUS_ALPHA) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0];
+          }
+        } else if (sourceImage->format == GLUS_LUMINANCE) {
+          if (targetImage->format == GLUS_RED) {
+            channels[0] = glusMathClampf(
+                sourceImage
+                        ->data[sourceNumberChannels * z * sourceImage->height *
+                                   sourceImage->width +
+                               sourceNumberChannels * y * sourceImage->width +
+                               sourceNumberChannels * x + 0] /
+                    toLuminace[0],
+                0.0f, 1.0f);
+          } else if (targetImage->format == GLUS_RGB ||
+                     targetImage->format == GLUS_RGBA) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0];
+            channels[1] = channels[0];
+            channels[2] = channels[0];
 
-						if (targetImage->format == GLUS_RGBA)
-						{
-							channels[3] = 255;
-						}
-					}
-					else if (targetImage->format == GLUS_ALPHA)
-					{
-						channels[0] = 255;
-					}
-					else if (targetImage->format == GLUS_LUMINANCE)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
-					}
-				}
-				if (sourceImage->format == GLUS_RGB || sourceImage->format == GLUS_RGBA)
-				{
-					if (targetImage->format == GLUS_RED)
-					{
-						channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 0];
-					}
-					else if (targetImage->format == GLUS_ALPHA)
-					{
-						if (sourceImage->format == GLUS_RGB)
-						{
-							channels[0] = 255;
-						}
-						else if (sourceImage->format == GLUS_RGBA)
-						{
-							channels[0] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 3];
-						}
-					}
-					else if (targetImage->format == GLUS_LUMINANCE)
-					{
-						channels[0] = 0.0f;
+            if (targetImage->format == GLUS_RGBA) {
+              channels[3] = 255;
+            }
+          } else if (targetImage->format == GLUS_ALPHA) {
+            channels[0] = 255;
+          } else if (targetImage->format == GLUS_LUMINANCE) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0];
+          }
+        }
+        if (sourceImage->format == GLUS_RGB ||
+            sourceImage->format == GLUS_RGBA) {
+          if (targetImage->format == GLUS_RED) {
+            channels[0] =
+                sourceImage
+                    ->data[sourceNumberChannels * z * sourceImage->height *
+                               sourceImage->width +
+                           sourceNumberChannels * y * sourceImage->width +
+                           sourceNumberChannels * x + 0];
+          } else if (targetImage->format == GLUS_ALPHA) {
+            if (sourceImage->format == GLUS_RGB) {
+              channels[0] = 255;
+            } else if (sourceImage->format == GLUS_RGBA) {
+              channels[0] =
+                  sourceImage
+                      ->data[sourceNumberChannels * z * sourceImage->height *
+                                 sourceImage->width +
+                             sourceNumberChannels * y * sourceImage->width +
+                             sourceNumberChannels * x + 3];
+            }
+          } else if (targetImage->format == GLUS_LUMINANCE) {
+            channels[0] = 0.0f;
 
-						for (c = 0; c < 3; c++)
-						{
-							channels[0] += sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + c] * toLuminace[c];
-						}
-					}
-					else if (targetImage->format == GLUS_RGB || targetImage->format == GLUS_RGBA)
-					{
-						for (c = 0; c < 3; c++)
-						{
-							channels[c] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + c];
-						}
+            for (c = 0; c < 3; c++) {
+              channels[0] +=
+                  sourceImage
+                      ->data[sourceNumberChannels * z * sourceImage->height *
+                                 sourceImage->width +
+                             sourceNumberChannels * y * sourceImage->width +
+                             sourceNumberChannels * x + c] *
+                  toLuminace[c];
+            }
+          } else if (targetImage->format == GLUS_RGB ||
+                     targetImage->format == GLUS_RGBA) {
+            for (c = 0; c < 3; c++) {
+              channels[c] =
+                  sourceImage
+                      ->data[sourceNumberChannels * z * sourceImage->height *
+                                 sourceImage->width +
+                             sourceNumberChannels * y * sourceImage->width +
+                             sourceNumberChannels * x + c];
+            }
 
-						if (targetImage->format == GLUS_RGBA)
-						{
-							if (sourceImage->format == GLUS_RGBA)
-							{
-								channels[3] = sourceImage->data[sourceNumberChannels * z * sourceImage->height * sourceImage->width + sourceNumberChannels * y * sourceImage->width + sourceNumberChannels * x + 3];
-							}
-							else
-							{
-								channels[3] = 255;
-							}
-						}
-					}
-				}
+            if (targetImage->format == GLUS_RGBA) {
+              if (sourceImage->format == GLUS_RGBA) {
+                channels[3] =
+                    sourceImage
+                        ->data[sourceNumberChannels * z * sourceImage->height *
+                                   sourceImage->width +
+                               sourceNumberChannels * y * sourceImage->width +
+                               sourceNumberChannels * x + 3];
+              } else {
+                channels[3] = 255;
+              }
+            }
+          }
+        }
 
-				for (c = 0; c < targetNumberChannels; c++)
-				{
-					targetImage->data[targetNumberChannels * z * targetImage->height * targetImage->width + targetNumberChannels * y * targetImage->width + targetNumberChannels * x + c] = channels[c];
-				}
-			}
-		}
-	}
+        for (c = 0; c < targetNumberChannels; c++) {
+          targetImage->data[targetNumberChannels * z * targetImage->height *
+                                targetImage->width +
+                            targetNumberChannels * y * targetImage->width +
+                            targetNumberChannels * x + c] = channels[c];
+        }
+      }
+    }
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusImageToPremultiplyTga(GLUStgaimage* targetImage, const GLUStgaimage* sourceImage)
-{
-	GLUSint x, y, z, c;
+GLUSboolean GLUSAPIENTRY glusImageToPremultiplyTga(
+    GLUStgaimage *targetImage, const GLUStgaimage *sourceImage) {
+  GLUSint x, y, z, c;
 
-	GLUSfloat alpha;
-	GLUSfloat channel;
+  GLUSfloat alpha;
+  GLUSfloat channel;
 
-	if (!targetImage || !sourceImage)
-	{
-		return GLUS_FALSE;
-	}
+  if (!targetImage || !sourceImage) {
+    return GLUS_FALSE;
+  }
 
-	if (sourceImage->format != GLUS_RGBA)
-	{
-		return GLUS_FALSE;
-	}
+  if (sourceImage->format != GLUS_RGBA) {
+    return GLUS_FALSE;
+  }
 
-	targetImage->data = (GLUSubyte*)glusMemoryMalloc(4 * sourceImage->width * sourceImage->height * sourceImage->depth * sizeof(GLUSubyte));
+  targetImage->data = (GLUSubyte *)glusMemoryMalloc(
+      4 * sourceImage->width * sourceImage->height * sourceImage->depth *
+      sizeof(GLUSubyte));
 
-	if (!targetImage->data)
-	{
-		return GLUS_FALSE;
-	}
-	targetImage->width = sourceImage->width;
-	targetImage->height = sourceImage->height;
-	targetImage->depth = sourceImage->depth;
-	targetImage->format = sourceImage->format;
+  if (!targetImage->data) {
+    return GLUS_FALSE;
+  }
+  targetImage->width = sourceImage->width;
+  targetImage->height = sourceImage->height;
+  targetImage->depth = sourceImage->depth;
+  targetImage->format = sourceImage->format;
 
-	for (z = 0; z < targetImage->depth; z++)
-	{
-		for (y = 0; y < targetImage->height; y++)
-		{
-			for (x = 0; x < targetImage->width; x++)
-			{
-				alpha = (GLUSfloat)sourceImage->data[4 * z * targetImage->height * targetImage->width + 4 * y * targetImage->width + 4 * x + 3] / 255.0f;
+  for (z = 0; z < targetImage->depth; z++) {
+    for (y = 0; y < targetImage->height; y++) {
+      for (x = 0; x < targetImage->width; x++) {
+        alpha = (GLUSfloat)sourceImage
+                    ->data[4 * z * targetImage->height * targetImage->width +
+                           4 * y * targetImage->width + 4 * x + 3] /
+                255.0f;
 
-				for (c = 0; c < 3; c++)
-				{
-					channel = (GLUSfloat)sourceImage->data[4 * z * targetImage->height * targetImage->width + 4 * y * targetImage->width + 4 * x + c] / 255.0f;
+        for (c = 0; c < 3; c++) {
+          channel =
+              (GLUSfloat)sourceImage
+                  ->data[4 * z * targetImage->height * targetImage->width +
+                         4 * y * targetImage->width + 4 * x + c] /
+              255.0f;
 
-					targetImage->data[4 * z * targetImage->height * targetImage->width + 4 * y * targetImage->width + 4 * x + c] = (GLUSubyte)glusMathClampf(channel * alpha * 255.0f, 0.0f, 255.0f);
-				}
-			}
-		}
-	}
+          targetImage->data[4 * z * targetImage->height * targetImage->width +
+                            4 * y * targetImage->width + 4 * x + c] =
+              (GLUSubyte)glusMathClampf(channel * alpha * 255.0f, 0.0f, 255.0f);
+        }
+      }
+    }
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }

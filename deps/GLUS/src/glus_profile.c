@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,33 +21,27 @@
 static GLUSfloat passedTime = 0.0f;
 static GLUSint passedFrames = 0;
 
-GLUSvoid GLUSAPIENTRY glusProfileResetFPSf()
-{
-	passedTime = 0.0f;
-	passedFrames = 0;
+GLUSvoid GLUSAPIENTRY glusProfileResetFPSf() {
+  passedTime = 0.0f;
+  passedFrames = 0;
 }
 
-GLUSboolean GLUSAPIENTRY glusProfileUpdateFPSf(GLUSfloat time, GLUSuint* frames)
-{
-	passedTime += time;
-	passedFrames++;
+GLUSboolean GLUSAPIENTRY glusProfileUpdateFPSf(GLUSfloat time,
+                                               GLUSuint *frames) {
+  passedTime += time;
+  passedFrames++;
 
-	if (passedTime >= 1.0f)
-	{
-		if (frames)
-		{
-			*frames = passedFrames;
-		}
-		else
-		{
-			glusLogPrint(GLUS_LOG_INFO, "FPS: %d", passedFrames);
-		}
+  if (passedTime >= 1.0f) {
+    if (frames) {
+      *frames = passedFrames;
+    } else {
+      glusLogPrint(GLUS_LOG_INFO, "FPS: %d", passedFrames);
+    }
 
-		glusProfileResetFPSf();
+    glusProfileResetFPSf();
 
-		return GLUS_TRUE;
-	}
+    return GLUS_TRUE;
+  }
 
-	return GLUS_FALSE;
+  return GLUS_FALSE;
 }
-

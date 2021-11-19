@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -27,10 +28,12 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusProfileResetFPSf();
  * Update FPS profiling and log FPS.
  *
  * @param time Passed time per frame.
- * @param frames Stores passed frames. If this is a null pointer, the output is logged.
+ * @param frames Stores passed frames. If this is a null pointer, the output is
+ * logged.
  *
  * @return GLUS_TRUE, if one second passed.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProfileUpdateFPSf(GLUSfloat time, GLUSuint* frames);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProfileUpdateFPSf(GLUSfloat time,
+                                                       GLUSuint *frames);
 
 #endif /* GLUS_PROFILE_H_ */

@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,17 +20,17 @@
 #define GLUS_FUNCTION_H_
 
 #ifdef _MSC_VER
-	#define GLUSINLINE static __forceinline
+#define GLUSINLINE static __forceinline
 #else
-	#define GLUSINLINE static inline
+#define GLUSINLINE static inline
 #endif
 
 #ifndef GLUSAPIENTRY
-	#ifdef GLAPIENTRY
-		#define GLUSAPIENTRY GLAPIENTRY
-	#else
-		#define GLUSAPIENTRY
-	#endif
+#ifdef GLAPIENTRY
+#define GLUSAPIENTRY GLAPIENTRY
+#else
+#define GLUSAPIENTRY
+#endif
 #endif
 #ifndef GLUSAPIENTRYP
 #define GLUSAPIENTRYP GLUSAPIENTRY *

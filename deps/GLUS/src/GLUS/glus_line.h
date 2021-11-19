@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,36 +22,35 @@
 /**
  * Structure for holding line data.
  */
-typedef struct _GLUSline
-{
-	/**
-	 * Vertices in homogeneous coordinates.
-	 */
-    GLUSfloat* vertices;
+typedef struct _GLUSline {
+  /**
+   * Vertices in homogeneous coordinates.
+   */
+  GLUSfloat *vertices;
 
-    /**
-     * Indices.
-     */
-    GLUSindex* indices;
+  /**
+   * Indices.
+   */
+  GLUSindex *indices;
 
-    /**
-     * Number of vertices.
-     */
-    GLUSuint numberVertices;
+  /**
+   * Number of vertices.
+   */
+  GLUSuint numberVertices;
 
-    /**
-     * Number of indices.
-     */
-    GLUSuint numberIndices;
+  /**
+   * Number of indices.
+   */
+  GLUSuint numberIndices;
 
-    /**
-     * Line render mode - could be either:
-     *
-     * GLUS_LINES
-     * GLUS_LINE_STRIP
-     * GLUS_LINE_LOOP
-     */
-    GLUSenum mode;
+  /**
+   * Line render mode - could be either:
+   *
+   * GLUS_LINES
+   * GLUS_LINE_STRIP
+   * GLUS_LINE_LOOP
+   */
+  GLUSenum mode;
 
 } GLUSline;
 
@@ -63,7 +63,9 @@ typedef struct _GLUSline
  *
  * @return GLUS_TRUE, if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateLinef(GLUSline* line, const GLUSfloat point0[4], const GLUSfloat point1[4]);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateLinef(GLUSline *line,
+                                                     const GLUSfloat point0[4],
+                                                     const GLUSfloat point1[4]);
 
 /**
  * Creates a square out of lines.
@@ -73,7 +75,8 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateLinef(GLUSline* line, const GLUSf
  *
  * @return GLUS_TRUE, if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateSquaref(GLUSline* line, const GLUSfloat halfExtend);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusLineCreateSquaref(GLUSline *line, const GLUSfloat halfExtend);
 
 /**
  * Creates a rectangular grid out of lines. The grid is centered.
@@ -86,10 +89,14 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateSquaref(GLUSline* line, const GLU
  *
  * @return GLUS_TRUE, if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateRectangularGridf(GLUSline* line, const GLUSfloat horizontalExtend, const GLUSfloat verticalExtend, const GLUSuint rows, const GLUSuint columns);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusLineCreateRectangularGridf(GLUSline *line, const GLUSfloat horizontalExtend,
+                               const GLUSfloat verticalExtend,
+                               const GLUSuint rows, const GLUSuint columns);
 
 /**
- * Creates a circle out of lines with the given radius and number sectors. More sectors makes the circle more round.
+ * Creates a circle out of lines with the given radius and number sectors. More
+ * sectors makes the circle more round.
  *
  * @param line The data is stored into this structure.
  * @param radius The radius of the circle.
@@ -97,7 +104,8 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateRectangularGridf(GLUSline* line, 
  *
  * @return GLUS_TRUE, if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateCirclef(GLUSline* line, const GLUSfloat radius, const GLUSuint numberSectors);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateCirclef(
+    GLUSline *line, const GLUSfloat radius, const GLUSuint numberSectors);
 
 /**
  * Copies the line.
@@ -107,13 +115,15 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCreateCirclef(GLUSline* line, const GLU
  *
  * @return GLUS_TRUE, if copy succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCopyf(GLUSline* line, const GLUSline* source);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusLineCopyf(GLUSline *line,
+                                               const GLUSline *source);
 
 /**
  * Destroys the line by freeing the allocated memory.
  *
- * @param line The structure which contains the dynamic allocated line data, which will be freed by this function.
+ * @param line The structure which contains the dynamic allocated line data,
+ * which will be freed by this function.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusLineDestroyf(GLUSline* line);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusLineDestroyf(GLUSline *line);
 
 #endif /* GLUS_LINE_H_ */

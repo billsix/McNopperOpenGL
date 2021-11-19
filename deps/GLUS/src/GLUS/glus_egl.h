@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,12 +26,16 @@
  * @param eglDisplay  				EGL display.
  * @param eglConfig  				EGL configuration.
  * @param eglContext 				EGL context.
- * @param configAttribList 			EGL configuration attribute list.
+ * @param configAttribList 			EGL configuration attribute
+ * list.
  * @param contextAttribList 		EGL context attribute list.
  *
  * @return EGL_TRUE, when creation of context succeeded.
  */
-GLUSAPI EGLBoolean GLUSAPIENTRY glusEGLCreateContext(EGLNativeDisplayType eglNativeDisplayType, EGLDisplay* eglDisplay, EGLConfig* eglConfig, EGLContext *eglContext, const EGLint configAttribList[], const EGLint contextAttribList[]);
+GLUSAPI EGLBoolean GLUSAPIENTRY glusEGLCreateContext(
+    EGLNativeDisplayType eglNativeDisplayType, EGLDisplay *eglDisplay,
+    EGLConfig *eglConfig, EGLContext *eglContext,
+    const EGLint configAttribList[], const EGLint contextAttribList[]);
 
 /**
  * Creates a window surface and sets it as current.
@@ -43,7 +48,10 @@ GLUSAPI EGLBoolean GLUSAPIENTRY glusEGLCreateContext(EGLNativeDisplayType eglNat
  *
  * @return EGL_TRUE, when creation of window and setting of context succeeded.
  */
-GLUSAPI EGLBoolean GLUSAPIENTRY glusEGLCreateWindowSurfaceMakeCurrent(EGLNativeWindowType eglNativeWindowType, EGLDisplay* eglDisplay, EGLConfig* eglConfig, EGLContext* eglContext, EGLSurface* eglSurface, const EGLint* surfaceAttribList);
+GLUSAPI EGLBoolean GLUSAPIENTRY glusEGLCreateWindowSurfaceMakeCurrent(
+    EGLNativeWindowType eglNativeWindowType, EGLDisplay *eglDisplay,
+    EGLConfig *eglConfig, EGLContext *eglContext, EGLSurface *eglSurface,
+    const EGLint *surfaceAttribList);
 
 /**
  * Returns the created default EGL display.
@@ -73,6 +81,8 @@ GLUSAPI EGLContext GLUSAPIENTRY glusEGLGetDefaultContext(GLUSvoid);
  * @param eglContext EGL context.
  * @param eglSurface EGL surface.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusEGLTerminate(EGLDisplay* eglDisplay, EGLContext* eglContext, EGLSurface* eglSurface);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusEGLTerminate(EGLDisplay *eglDisplay,
+                                               EGLContext *eglContext,
+                                               EGLSurface *eglSurface);
 
 #endif /* GLUS_EGL_H_ */

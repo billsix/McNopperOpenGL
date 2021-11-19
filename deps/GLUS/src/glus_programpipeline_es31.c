@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,70 +18,66 @@
 
 #include "GL/glus.h"
 
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramPipelineBuild(GLUSprogrampipeline* programPipeline, GLUSuint vertexProgram, GLUSuint fragmentProgram)
-{
-    if (!programPipeline)
-    {
-        return GLUS_FALSE;
-    }
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusProgramPipelineBuild(GLUSprogrampipeline *programPipeline,
+                         GLUSuint vertexProgram, GLUSuint fragmentProgram) {
+  if (!programPipeline) {
+    return GLUS_FALSE;
+  }
 
-	programPipeline->computeProgram = 0;
-    programPipeline->vertexProgram = vertexProgram;
-    programPipeline->fragmentProgram = fragmentProgram;
+  programPipeline->computeProgram = 0;
+  programPipeline->vertexProgram = vertexProgram;
+  programPipeline->fragmentProgram = fragmentProgram;
 
-	glGenProgramPipelines(1, &programPipeline->pipeline);
-	if (vertexProgram)
-	{
-		glUseProgramStages(programPipeline->pipeline, GLUS_VERTEX_SHADER_BIT, vertexProgram);
-	}
-	if (fragmentProgram)
-	{
-		glUseProgramStages(programPipeline->pipeline, GLUS_FRAGMENT_SHADER_BIT, fragmentProgram);
-	}
+  glGenProgramPipelines(1, &programPipeline->pipeline);
+  if (vertexProgram) {
+    glUseProgramStages(programPipeline->pipeline, GLUS_VERTEX_SHADER_BIT,
+                       vertexProgram);
+  }
+  if (fragmentProgram) {
+    glUseProgramStages(programPipeline->pipeline, GLUS_FRAGMENT_SHADER_BIT,
+                       fragmentProgram);
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusProgramPipelineBuildCompute(GLUSprogrampipeline* programPipeline, GLUSuint computeProgram)
-{
-    if (!programPipeline)
-    {
-        return GLUS_FALSE;
-    }
+GLUSboolean GLUSAPIENTRY glusProgramPipelineBuildCompute(
+    GLUSprogrampipeline *programPipeline, GLUSuint computeProgram) {
+  if (!programPipeline) {
+    return GLUS_FALSE;
+  }
 
-	programPipeline->computeProgram = computeProgram;
-    programPipeline->vertexProgram = 0;
-    programPipeline->fragmentProgram = 0;
+  programPipeline->computeProgram = computeProgram;
+  programPipeline->vertexProgram = 0;
+  programPipeline->fragmentProgram = 0;
 
-	glGenProgramPipelines(1, &programPipeline->pipeline);
-	if (computeProgram)
-	{
-		glUseProgramStages(programPipeline->pipeline, GLUS_COMPUTE_SHADER_BIT, computeProgram);
-	}
+  glGenProgramPipelines(1, &programPipeline->pipeline);
+  if (computeProgram) {
+    glUseProgramStages(programPipeline->pipeline, GLUS_COMPUTE_SHADER_BIT,
+                       computeProgram);
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSvoid GLUSAPIENTRY glusProgramPipelineDestroy(GLUSprogrampipeline* programPipeline)
-{
-    if (!programPipeline)
-    {
-        return;
-    }
+GLUSvoid GLUSAPIENTRY
+glusProgramPipelineDestroy(GLUSprogrampipeline *programPipeline) {
+  if (!programPipeline) {
+    return;
+  }
 
-    if (programPipeline->pipeline)
-    {
-        glUseProgramStages(programPipeline->pipeline, GLUS_COMPUTE_SHADER_BIT, 0);
-        glUseProgramStages(programPipeline->pipeline, GLUS_VERTEX_SHADER_BIT, 0);
-        glUseProgramStages(programPipeline->pipeline, GLUS_FRAGMENT_SHADER_BIT, 0);
+  if (programPipeline->pipeline) {
+    glUseProgramStages(programPipeline->pipeline, GLUS_COMPUTE_SHADER_BIT, 0);
+    glUseProgramStages(programPipeline->pipeline, GLUS_VERTEX_SHADER_BIT, 0);
+    glUseProgramStages(programPipeline->pipeline, GLUS_FRAGMENT_SHADER_BIT, 0);
 
-    	glDeleteProgramPipelines(1, &programPipeline->pipeline);
+    glDeleteProgramPipelines(1, &programPipeline->pipeline);
 
-        programPipeline->pipeline = 0;
-    }
+    programPipeline->pipeline = 0;
+  }
 
-    programPipeline->computeProgram = 0;
-    programPipeline->fragmentProgram = 0;
-    programPipeline->vertexProgram = 0;
-
+  programPipeline->computeProgram = 0;
+  programPipeline->fragmentProgram = 0;
+  programPipeline->vertexProgram = 0;
 }

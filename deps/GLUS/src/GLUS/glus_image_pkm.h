@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,13 +27,15 @@
  *
  * @return GLUS_TRUE, if loading succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadPkm(const GLUSchar* filename, GLUSpkmimage* pkmimage);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusImageLoadPkm(const GLUSchar *filename,
+                                                  GLUSpkmimage *pkmimage);
 
 /**
- * Destroys the content of a PKM structure. Has to be called for freeing the resources.
+ * Destroys the content of a PKM structure. Has to be called for freeing the
+ * resources.
  *
  * @param pkmimage The PKM file structure.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyPkm(GLUSpkmimage* pkmimage);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusImageDestroyPkm(GLUSpkmimage *pkmimage);
 
 #endif /* GLUS_IMAGE_PKM_H_ */

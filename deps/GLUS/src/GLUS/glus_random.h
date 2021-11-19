@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,7 +34,8 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusRandomSetSeed(const GLUSuint seed);
  *
  * @return The random value.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusRandomUniformf(const GLUSfloat start, const GLUSfloat end);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusRandomUniformf(const GLUSfloat start,
+                                                  const GLUSfloat end);
 
 /**
  * Returns a normal distributed random floating point value.
@@ -43,17 +45,22 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusRandomUniformf(const GLUSfloat start, const G
  *
  * @return The random value.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusRandomNormalf(const GLUSfloat mean, const GLUSfloat standardDeviation);
+GLUSAPI GLUSfloat GLUSAPIENTRY
+glusRandomNormalf(const GLUSfloat mean, const GLUSfloat standardDeviation);
 
 /**
  * Samples two floating point values from a Hammersley point set.
  *
  * @param result 	The resulting random values.
- * @param sample	The sample to take. Has to be in the range 0 <= sample < 2^m.
- * @param m			Order m, which allows 2^m samples. Has to be in the range 0 < m <= 32.
+ * @param sample	The sample to take. Has to be in the range 0 <= sample <
+ *2^m.
+ * @param m			Order m, which allows 2^m samples. Has to be in the
+ *range 0 < m <= 32.
  *
  * @return GLUS_TRUE, if sampling was successful.
  **/
-GLUSAPI GLUSboolean GLUSAPIENTRY glusRandomHammersleyf(GLUSfloat result[2], const GLUSuint sample, const GLUSubyte m);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusRandomHammersleyf(GLUSfloat result[2],
+                                                       const GLUSuint sample,
+                                                       const GLUSubyte m);
 
 #endif /* GLUS_RANDOM_H_ */

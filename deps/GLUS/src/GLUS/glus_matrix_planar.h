@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,22 +20,29 @@
 #define GLUS_MATRIX_PLANAR_H_
 
 /**
- * Creates the projection matrix to simulate a planar shadow coming from a point / spot light.
+ * Creates the projection matrix to simulate a planar shadow coming from a point
+ * / spot light.
  *
  * @param matrix The matrix, which is set to the projection matrix.
  * @param shadowPlane The shadow receiver plane.
  * @param lightPoint The origin of the light.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarShadowPointLightf(GLUSfloat matrix[16], const GLUSfloat shadowPlane[4], const GLUSfloat lightPoint[4]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarShadowPointLightf(
+    GLUSfloat matrix[16], const GLUSfloat shadowPlane[4],
+    const GLUSfloat lightPoint[4]);
 
 /**
- * Creates the projection matrix to simulate a planar shadow coming from a directional light.
+ * Creates the projection matrix to simulate a planar shadow coming from a
+ * directional light.
  *
  * @param matrix The matrix, which is set to the projection matrix.
  * @param shadowPlane The shadow receiver plane.
- * @param lightDirection The direction of the light, pointing towards the light source.
+ * @param lightDirection The direction of the light, pointing towards the light
+ * source.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarShadowDirectionalLightf(GLUSfloat matrix[16], const GLUSfloat shadowPlane[4], const GLUSfloat lightDirection[3]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarShadowDirectionalLightf(
+    GLUSfloat matrix[16], const GLUSfloat shadowPlane[4],
+    const GLUSfloat lightDirection[3]);
 
 /**
  * Creates the projection matrix to simulate a planar reflection.
@@ -42,6 +50,7 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarShadowDirectionalLightf(GLUSflo
  * @param matrix The matrix, which is set to the projection matrix.
  * @param reflectionPlane The reflecting plane.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarReflectionf(GLUSfloat matrix[16], const GLUSfloat reflectionPlane[4]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusMatrix4x4PlanarReflectionf(
+    GLUSfloat matrix[16], const GLUSfloat reflectionPlane[4]);
 
 #endif /* GLUS_MATRIX_PLANAR_H_ */

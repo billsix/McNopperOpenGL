@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,10 +27,14 @@
  * @param center	   Source center.
  * @param radius	   Source radius.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusSphereCopyf(GLUSfloat resultCenter[4], GLUSfloat resultRadius, const GLUSfloat center[4], const GLUSfloat radius);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusSphereCopyf(GLUSfloat resultCenter[4],
+                                              GLUSfloat resultRadius,
+                                              const GLUSfloat center[4],
+                                              const GLUSfloat radius);
 
 /**
- * Calculates the signed distance from a sphere to a point. If the value is negative, the point is inside the sphere.
+ * Calculates the signed distance from a sphere to a point. If the value is
+ * negative, the point is inside the sphere.
  *
  * @param center The center of the sphere.
  * @param radius The radius of the sphere.
@@ -37,6 +42,8 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusSphereCopyf(GLUSfloat resultCenter[4], GLUSflo
  *
  * @return The signed distance.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusSphereDistancePoint4f(const GLUSfloat center[4], const GLUSfloat radius, const GLUSfloat point[4]);
+GLUSAPI GLUSfloat GLUSAPIENTRY
+glusSphereDistancePoint4f(const GLUSfloat center[4], const GLUSfloat radius,
+                          const GLUSfloat point[4]);
 
 #endif /* GLUS_SPHERE_H_ */

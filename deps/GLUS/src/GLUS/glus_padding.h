@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,12 +24,16 @@
  *
  * @param target			Target array.
  * @param source			Source array.
- * @param channels			Number of channels. Values equal greater 1 are allowed.
- * @param padding			Number of padding elements. Values equal greater 0 are allowed.
+ * @param channels			Number of channels. Values equal greater 1 are
+ * allowed.
+ * @param padding			Number of padding elements. Values equal greater
+ * 0 are allowed.
  * @param numberElements	Number of elements in the array.
  *
  * @return GLUS_TRUE, if succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusPaddingConvertf(GLUSfloat* target, const GLUSfloat* source, const GLUSint channels, const GLUSint padding, const GLUSint numberElements);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusPaddingConvertf(
+    GLUSfloat *target, const GLUSfloat *source, const GLUSint channels,
+    const GLUSint padding, const GLUSint numberElements);
 
 #endif /* GLUS_PADDING_H_ */

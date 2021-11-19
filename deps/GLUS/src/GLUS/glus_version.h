@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +20,12 @@
 #define GLUS_VERSION_H_
 
 /**
- * Checks, if the given OpenGL version is supported. The function reads out and parses the version string.
+ * Checks, if the given OpenGL version is supported. The function reads out and
+ * parses the version string.
  *
  * @return GLUS_TRUE, if the given version is supported.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusVersionIsSupported(const GLUSint major, const GLUSint minor);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusVersionIsSupported(const GLUSint major,
+                                                        const GLUSint minor);
 
 #endif /* GLUS_VERSION_H_ */

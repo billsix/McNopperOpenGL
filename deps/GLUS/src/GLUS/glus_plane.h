@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,27 +25,35 @@
  * @param result Destination plane.
  * @param plane Source plane.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneCopyf(GLUSfloat result[4], const GLUSfloat plane[4]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneCopyf(GLUSfloat result[4],
+                                             const GLUSfloat plane[4]);
 
 /**
- * Creates a plane. The formula is Ax + By + Cz + D = 0, where A,B,C and D are stored in the resulting array.
- * @see Mathematics For 3D Game Programming & Computer Graphics, Second Edition, Page105
+ * Creates a plane. The formula is Ax + By + Cz + D = 0, where A,B,C and D are
+ * stored in the resulting array.
+ * @see Mathematics For 3D Game Programming & Computer Graphics, Second Edition,
+ * Page105
  *
  * @param result The calculated plane.
  * @param point Any point on the plane.
- * @param normal The normal vector of the plane. The vector will be normalized during calculation.
+ * @param normal The normal vector of the plane. The vector will be normalized
+ * during calculation.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneCreatef(GLUSfloat result[4], const GLUSfloat point[4], const GLUSfloat normal[3]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneCreatef(GLUSfloat result[4],
+                                               const GLUSfloat point[4],
+                                               const GLUSfloat normal[3]);
 
 /**
- * Calculates the signed distance from a plane to a point. If the value is positive, the point is on the side the normal is directing to.
+ * Calculates the signed distance from a plane to a point. If the value is
+ * positive, the point is on the side the normal is directing to.
  *
  * @param plane The used plane.
  * @param point The used point.
  *
  * @return The signed distance.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusPlaneDistancePoint4f(const GLUSfloat plane[4], const GLUSfloat point[4]);
+GLUSAPI GLUSfloat GLUSAPIENTRY
+glusPlaneDistancePoint4f(const GLUSfloat plane[4], const GLUSfloat point[4]);
 
 /**
  * Calculates a point on the given plane, located around the origin.
@@ -52,6 +61,7 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusPlaneDistancePoint4f(const GLUSfloat plane[4]
  * @param point The resulting point.
  * @param plane The used plane.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneGetPoint4f(GLUSfloat point[4], const GLUSfloat plane[4]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusPlaneGetPoint4f(GLUSfloat point[4],
+                                                  const GLUSfloat plane[4]);
 
 #endif /* GLUS_PLANE_H_ */

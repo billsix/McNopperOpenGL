@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,66 +18,55 @@
 
 #include "GL/glus.h"
 
-GLUSboolean _glusFileCheckRead(FILE* f, size_t actualRead, size_t expectedRead)
-{
-	if (!f)
-	{
-		return GLUS_FALSE;
-	}
+GLUSboolean _glusFileCheckRead(FILE *f, size_t actualRead,
+                               size_t expectedRead) {
+  if (!f) {
+    return GLUS_FALSE;
+  }
 
-	if (actualRead < expectedRead)
-	{
-		glusFileClose(f);
+  if (actualRead < expectedRead) {
+    glusFileClose(f);
 
-		return GLUS_FALSE;
-	}
+    return GLUS_FALSE;
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean _glusFileCheckWrite(FILE* f, size_t actualWrite, size_t expectedWrite)
-{
-	if (!f)
-	{
-		return GLUS_FALSE;
-	}
+GLUSboolean _glusFileCheckWrite(FILE *f, size_t actualWrite,
+                                size_t expectedWrite) {
+  if (!f) {
+    return GLUS_FALSE;
+  }
 
-	if (actualWrite < expectedWrite)
-	{
-		if (ferror(f))
-		{
-			glusFileClose(f);
+  if (actualWrite < expectedWrite) {
+    if (ferror(f)) {
+      glusFileClose(f);
 
-			return GLUS_FALSE;
-		}
-	}
+      return GLUS_FALSE;
+    }
+  }
 
-	return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-FILE* GLUSAPIENTRY glusFileOpen(const char* filename, const char* mode)
-{
-	char buffer[GLUS_MAX_FILENAME];
+FILE *GLUSAPIENTRY glusFileOpen(const char *filename, const char *mode) {
+  char buffer[GLUS_MAX_FILENAME];
 
-	if (!filename)
-	{
-		// Note: Automatic errno setting.
-		return fopen(filename, mode);
-	}
+  if (!filename) {
+    // Note: Automatic errno setting.
+    return fopen(filename, mode);
+  }
 
-	if (strlen(filename) + strlen(GLUS_BASE_DIRECTORY) >= GLUS_MAX_FILENAME)
-	{
-		// Note: Automatic errno setting.
-		return fopen(filename, mode);
-	}
+  if (strlen(filename) + strlen(GLUS_BASE_DIRECTORY) >= GLUS_MAX_FILENAME) {
+    // Note: Automatic errno setting.
+    return fopen(filename, mode);
+  }
 
-	strcpy(buffer, GLUS_BASE_DIRECTORY);
-	strcat(buffer, filename);
+  strcpy(buffer, GLUS_BASE_DIRECTORY);
+  strcat(buffer, filename);
 
-	return fopen(buffer, mode);
+  return fopen(buffer, mode);
 }
 
-int GLUSAPIENTRY glusFileClose(FILE* stream)
-{
-	return fclose(stream);
-}
+int GLUSAPIENTRY glusFileClose(FILE *stream) { return fclose(stream); }

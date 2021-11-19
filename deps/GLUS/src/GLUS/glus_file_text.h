@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +27,8 @@
  *
  * @return GLUS_TRUE, if loading succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadText(const GLUSchar* filename, GLUStextfile* textfile);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadText(const GLUSchar *filename,
+                                                  GLUStextfile *textfile);
 
 /**
  * Saves a text file.
@@ -36,13 +38,15 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadText(const GLUSchar* filename, GLUS
  *
  * @return GLUS_TRUE, if saving succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusFileSaveText(const GLUSchar* filename, const GLUStextfile* textfile);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusFileSaveText(const GLUSchar *filename,
+                                                  const GLUStextfile *textfile);
 
 /**
- * Destroys the content of a text structure. Has to be called for freeing the resources.
+ * Destroys the content of a text structure. Has to be called for freeing the
+ * resources.
  *
  * @param textfile The text file structure.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusFileDestroyText(GLUStextfile* textfile);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusFileDestroyText(GLUStextfile *textfile);
 
 #endif /* GLUS_FILE_TEXT_H_ */

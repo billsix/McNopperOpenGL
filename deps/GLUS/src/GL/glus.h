@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +26,7 @@
 #include "../GLES3/glus3.h"
 #endif
 
-#elif (GLUS_VG || GLUS_VG11)  /*GLUS_ES || GLUS_ES2 || GLUS_ES3 || GLUS_ES31*/
+#elif (GLUS_VG || GLUS_VG11) /*GLUS_ES || GLUS_ES2 || GLUS_ES3 || GLUS_ES31*/
 
 #include "../VG/glus.h"
 
@@ -35,8 +36,7 @@
 #define __glus_h_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 //
@@ -55,41 +55,41 @@ extern "C"
 
 typedef int EGLint;
 
-#define EGL_TRUE                          1
-#define EGL_FALSE                         0
-#define EGL_NONE                          0x3038
-#define EGL_DONT_CARE                     ((EGLint)-1)
+#define EGL_TRUE 1
+#define EGL_FALSE 0
+#define EGL_NONE 0x3038
+#define EGL_DONT_CARE ((EGLint)-1)
 
 //
 
-#define EGL_RENDERABLE_TYPE               0x3040
-#define EGL_OPENGL_BIT                    0x0008
+#define EGL_RENDERABLE_TYPE 0x3040
+#define EGL_OPENGL_BIT 0x0008
 
-#define EGL_RED_SIZE                      0x3024
-#define EGL_GREEN_SIZE                    0x3023
-#define EGL_BLUE_SIZE                     0x3022
-#define EGL_DEPTH_SIZE                    0x3025
-#define EGL_STENCIL_SIZE                  0x3026
-#define EGL_ALPHA_SIZE                    0x3021
-#define EGL_SAMPLES                       0x3031
-#define EGL_SAMPLE_BUFFERS                0x3032
+#define EGL_RED_SIZE 0x3024
+#define EGL_GREEN_SIZE 0x3023
+#define EGL_BLUE_SIZE 0x3022
+#define EGL_DEPTH_SIZE 0x3025
+#define EGL_STENCIL_SIZE 0x3026
+#define EGL_ALPHA_SIZE 0x3021
+#define EGL_SAMPLES 0x3031
+#define EGL_SAMPLE_BUFFERS 0x3032
 
 //
 
-#define EGL_BACK_BUFFER									0x3084
-#define EGL_SINGLE_BUFFER								0x3085
-#define EGL_RENDER_BUFFER								0x3086
+#define EGL_BACK_BUFFER 0x3084
+#define EGL_SINGLE_BUFFER 0x3085
+#define EGL_RENDER_BUFFER 0x3086
 
-#define EGL_CONTEXT_CLIENT_VERSION						0x3098
-#define EGL_CONTEXT_MAJOR_VERSION         				0x3098
-#define EGL_CONTEXT_MINOR_VERSION         				0x30FB
-#define EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE 			0x31B1
+#define EGL_CONTEXT_CLIENT_VERSION 0x3098
+#define EGL_CONTEXT_MAJOR_VERSION 0x3098
+#define EGL_CONTEXT_MINOR_VERSION 0x30FB
+#define EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE 0x31B1
 
-#define EGL_CONTEXT_OPENGL_PROFILE_MASK   				0x30FD
-#define EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT				0x00000001
-#define EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT	0x00000002
+#define EGL_CONTEXT_OPENGL_PROFILE_MASK 0x30FD
+#define EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT 0x00000001
+#define EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT 0x00000002
 
-#define EGL_CONTEXT_OPENGL_DEBUG          				0x31B0
+#define EGL_CONTEXT_OPENGL_DEBUG 0x31B0
 
 //
 // GLUS function call convention etc.
@@ -318,12 +318,12 @@ typedef int EGLint;
 // Textures and files
 //
 
-#include "../GLUS/glus_image_tga.h"
 #include "../GLUS/glus_image_hdr.h"
 #include "../GLUS/glus_image_pkm.h"
+#include "../GLUS/glus_image_tga.h"
 
-#include "../GLUS/glus_file_text.h"
 #include "../GLUS/glus_file_binary.h"
+#include "../GLUS/glus_file_text.h"
 
 //
 // Padding

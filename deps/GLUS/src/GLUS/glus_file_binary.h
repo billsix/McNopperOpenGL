@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +27,8 @@
  *
  * @return GLUS_TRUE, if loading succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadBinary(const GLUSchar* filename, GLUSbinaryfile* binaryfile);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadBinary(const GLUSchar *filename,
+                                                    GLUSbinaryfile *binaryfile);
 
 /**
  * Saves a binary file.
@@ -36,13 +38,15 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusFileLoadBinary(const GLUSchar* filename, GL
  *
  * @return GLUS_TRUE, if saving succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusFileSaveBinary(const GLUSchar* filename, const GLUSbinaryfile* binaryfile);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusFileSaveBinary(const GLUSchar *filename, const GLUSbinaryfile *binaryfile);
 
 /**
- * Destroys the content of a binary structure. Has to be called for freeing the resources.
+ * Destroys the content of a binary structure. Has to be called for freeing the
+ * resources.
  *
  * @param binaryfile The binary file structure.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusFileDestroyBinary(GLUSbinaryfile* binaryfile);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusFileDestroyBinary(GLUSbinaryfile *binaryfile);
 
 #endif /* GLUS_FILE_BINARY_H_ */

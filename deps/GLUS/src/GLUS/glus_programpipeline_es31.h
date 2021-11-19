@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,56 +22,63 @@
 /**
  * Structure for program pipeline handling.
  */
-typedef struct _GLUSprogrampipeline
-{
-	/**
-	 * The created pipeline.
-	 */
-    GLUSuint pipeline;
+typedef struct _GLUSprogrampipeline {
+  /**
+   * The created pipeline.
+   */
+  GLUSuint pipeline;
 
-    /**
-     * Compute shader program.
-     */
-    GLUSuint computeProgram;
+  /**
+   * Compute shader program.
+   */
+  GLUSuint computeProgram;
 
-    /**
-     * Vertex shader program.
-     */
-    GLUSuint vertexProgram;
+  /**
+   * Vertex shader program.
+   */
+  GLUSuint vertexProgram;
 
-    /**
-     * Fragment shader program.
-     */
-    GLUSuint fragmentProgram;
+  /**
+   * Fragment shader program.
+   */
+  GLUSuint fragmentProgram;
 
 } GLUSprogrampipeline;
 
 /**
  * Builds a program pipeline.
  *
- * @param programPipeline This structure holds the necessary information of the program pipeline and the different shader programs.
+ * @param programPipeline This structure holds the necessary information of the
+ * program pipeline and the different shader programs.
  * @param vertexProgram   Vertex shader program.
  * @param fragmentProgram Fragment shader program.
  *
  * @return GLUS_TRUE, if building of program pipeline succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramPipelineBuild(GLUSprogrampipeline* programPipeline, GLUSuint vertexProgram, GLUSuint fragmentProgram);
+GLUSAPI GLUSboolean GLUSAPIENTRY
+glusProgramPipelineBuild(GLUSprogrampipeline *programPipeline,
+                         GLUSuint vertexProgram, GLUSuint fragmentProgram);
 
 /**
  * Builds a compute shader program pipeline.
  *
- * @param programPipeline This structure holds the necessary information of the program pipeline and the different shader programs.
+ * @param programPipeline This structure holds the necessary information of the
+ * program pipeline and the different shader programs.
  * @param computeProgram  Compute shader program.
  *
  * @return GLUS_TRUE, if building of program pipeline succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramPipelineBuildCompute(GLUSprogrampipeline* programPipeline, GLUSuint computeProgram);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramPipelineBuildCompute(
+    GLUSprogrampipeline *programPipeline, GLUSuint computeProgram);
 
 /**
- * Destroys a program pipeline by freeing the pipeline. The programs are not freed.
+ * Destroys a program pipeline by freeing the pipeline. The programs are not
+ * freed.
  *
- * @param programPipeline This structure holds the necessary information of the program pipeline and the different shader programs.
+ * @param programPipeline This structure holds the necessary information of the
+ * program pipeline and the different shader programs.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusProgramPipelineDestroy(GLUSprogrampipeline* programPipeline);
+GLUSAPI GLUSvoid GLUSAPIENTRY
+glusProgramPipelineDestroy(GLUSprogrampipeline *programPipeline);
 
 #endif /* GLUS_PROGRAMPIPELINE_ES31_H_ */

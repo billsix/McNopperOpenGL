@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,97 +22,113 @@
 /**
  * Structure for shader program handling.
  */
-typedef struct _GLUSprogram
-{
-	/**
-	 * The created program.
-	 */
-    GLUSuint program;
+typedef struct _GLUSprogram {
+  /**
+   * The created program.
+   */
+  GLUSuint program;
 
-    /**
-     * Compute shader.
-     */
-    GLUSuint compute;
+  /**
+   * Compute shader.
+   */
+  GLUSuint compute;
 
-    /**
-     * Vertex shader.
-     */
-    GLUSuint vertex;
+  /**
+   * Vertex shader.
+   */
+  GLUSuint vertex;
 
-    /**
-     * Fragment shader.
-     */
-    GLUSuint fragment;
+  /**
+   * Fragment shader.
+   */
+  GLUSuint fragment;
 
 } GLUSprogram;
 
 /**
- * Creates a program by compiling the giving sources. Linking has to be done in a separate step.
+ * Creates a program by compiling the giving sources. Linking has to be done in
+ * a separate step.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  * @param vertexSource Vertex shader source code.
  * @param fragmentSource Fragment shader source code.
  *
  * @return GLUS_TRUE, if compiling and creation of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramCreateFromSource(GLUSprogram* shaderProgram, const GLUSchar** vertexSource, const GLUSchar** fragmentSource);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramCreateFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **vertexSource,
+    const GLUSchar **fragmentSource);
 
 /**
- * Creates a compute shader program by compiling the giving source. Linking has to be done in a separate step.
+ * Creates a compute shader program by compiling the giving source. Linking has
+ * to be done in a separate step.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  * @param computeSource Compute shader source code.
  *
  * @return GLUS_TRUE, if compiling and creation of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramCreateComputeFromSource(GLUSprogram* shaderProgram, const GLUSchar** computeSource);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramCreateComputeFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **computeSource);
 
 /**
  * Links a formerly created program.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  *
  * @return GLUS_TRUE, if linking of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramLink(GLUSprogram* shaderProgram);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramLink(GLUSprogram *shaderProgram);
 
 /**
  * Builds a program by compiling and linking the giving sources.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  * @param vertexSource Vertex shader source code.
  * @param fragmentSource Fragment shader source code.
  *
  * @return GLUS_TRUE, if compiling and linking of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildFromSource(GLUSprogram* shaderProgram, const GLUSchar** vertexSource, const GLUSchar** fragmentSource);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **vertexSource,
+    const GLUSchar **fragmentSource);
 
 /**
  * Builds a compute shader program by compiling and linking the giving source.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  * @param computeSource Compute shader source code.
  *
  * @return GLUS_TRUE, if compiling and linking of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildComputeFromSource(GLUSprogram* shaderProgram, const GLUSchar** computeSource);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildComputeFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **computeSource);
 
 /**
- * Builds a stand-alone, separable shader program by compiling and linking the giving source.
+ * Builds a stand-alone, separable shader program by compiling and linking the
+ * giving source.
  *
- * @param shaderProgram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderProgram This structure holds the necessary information of the
+ * program and the different shaders.
  * @param type			The type of the shader.
  * @param source 		Shader source code.
  *
  * @return GLUS_TRUE, if compiling and creation of program succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildSeparableFromSource(GLUSprogram* shaderProgram, const GLUSenum type, const GLUSchar** source);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusProgramBuildSeparableFromSource(
+    GLUSprogram *shaderProgram, const GLUSenum type, const GLUSchar **source);
 
 /**
  * Destroys a program by freeing all resources.
  *
- * @param shaderprogram This structure holds the necessary information of the program and the different shaders.
+ * @param shaderprogram This structure holds the necessary information of the
+ * program and the different shaders.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusProgramDestroy(GLUSprogram* shaderprogram);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusProgramDestroy(GLUSprogram *shaderprogram);
 
 #endif /* GLUS_SHADERPROGRAM_ES31_H_ */

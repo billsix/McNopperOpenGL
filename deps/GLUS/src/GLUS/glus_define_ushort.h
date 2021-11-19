@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +20,7 @@
 #define GLUS_DEFINE_USHORT_H_
 
 #define GLUS_MAX_VERTICES 65536
-#define GLUS_MAX_INDICES  (GLUS_MAX_VERTICES*GLUS_VERTICES_FACTOR)
+#define GLUS_MAX_INDICES (GLUS_MAX_VERTICES * GLUS_VERTICES_FACTOR)
 
 #define GLUSindex GLUSushort
 

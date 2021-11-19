@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +27,8 @@
  *
  * @return The maximum of the two values.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMaxf(const GLUSfloat value0, const GLUSfloat value1);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMaxf(const GLUSfloat value0,
+                                            const GLUSfloat value1);
 
 /**
  * Calculates the minimum of two values.
@@ -36,7 +38,8 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMaxf(const GLUSfloat value0, const GLUSfl
  *
  * @return The minimum of the two values.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMinf(const GLUSfloat value0, const GLUSfloat value1);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMinf(const GLUSfloat value0,
+                                            const GLUSfloat value1);
 
 /**
  * Converts radians to degrees.
@@ -57,7 +60,8 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusMathRadToDegf(const GLUSfloat radians);
 GLUSAPI GLUSfloat GLUSAPIENTRY glusMathDegToRadf(const GLUSfloat degrees);
 
 /**
- * Linear interpolation of two values. If t = 0, value0 is returned. If t = 1, value1 is returned.
+ * Linear interpolation of two values. If t = 0, value0 is returned. If t = 1,
+ * value1 is returned.
  *
  * @param value0 First value.
  * @param value1 Second value.
@@ -65,21 +69,29 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusMathDegToRadf(const GLUSfloat degrees);
  *
  * @return The interpolated value.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMixf(const GLUSfloat value0, const GLUSfloat value1, const GLUSfloat t);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusMathMixf(const GLUSfloat value0,
+                                            const GLUSfloat value1,
+                                            const GLUSfloat t);
 
 /**
- * Clamps a given value between a minimum and maximum value. If the value is between min and max, the value is returned.
+ * Clamps a given value between a minimum and maximum value. If the value is
+ * between min and max, the value is returned.
  *
  * @param value The value to be clamped.
- * @param min The minimum border. If the value is lower than min, min is returned.
- * @param max The maximum border. If the value is greater than max, max is returned.
+ * @param min The minimum border. If the value is lower than min, min is
+ * returned.
+ * @param max The maximum border. If the value is greater than max, max is
+ * returned.
  *
  * @return The clamped value.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusMathClampf(const GLUSfloat value, const GLUSfloat min, const GLUSfloat max);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusMathClampf(const GLUSfloat value,
+                                              const GLUSfloat min,
+                                              const GLUSfloat max);
 
 /**
- * Calculates the length of a vector or the distance of a point to the origin by providing the x, y and z coordinates.
+ * Calculates the length of a vector or the distance of a point to the origin by
+ * providing the x, y and z coordinates.
  *
  * @param x The x coordinate.
  * @param y The y coordinate.
@@ -87,6 +99,8 @@ GLUSAPI GLUSfloat GLUSAPIENTRY glusMathClampf(const GLUSfloat value, const GLUSf
  *
  * @return The calculated length.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusMathLengthf(const GLUSfloat x, const GLUSfloat y, const GLUSfloat z);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusMathLengthf(const GLUSfloat x,
+                                               const GLUSfloat y,
+                                               const GLUSfloat z);
 
 #endif /* GLUS_MATH_H_ */

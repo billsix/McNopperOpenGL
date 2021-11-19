@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,107 +22,104 @@
 /**
  * Structure used for Targa Image File loading.
  */
-typedef struct _GLUStgaimage
-{
-	/**
-	 * Width of the TGA image.
-	 */
-    GLUSushort width;
+typedef struct _GLUStgaimage {
+  /**
+   * Width of the TGA image.
+   */
+  GLUSushort width;
 
-	/**
-	 * Height of the TGA image.
-	 */
-    GLUSushort height;
+  /**
+   * Height of the TGA image.
+   */
+  GLUSushort height;
 
-	/**
-	 * Depth of the image.
-	 */
-    GLUSushort depth;
+  /**
+   * Depth of the image.
+   */
+  GLUSushort depth;
 
-    /**
-     * Pixel data.
-     */
-    GLUSubyte* data;
+  /**
+   * Pixel data.
+   */
+  GLUSubyte *data;
 
-    /**
-     * Format of the TGA image. Can be:
-     *
-	 * GLUS_RGB
-     * GLUS_RGBA
-     * GLUS_LUMINANCE
-     *
-     * Last entry can also be interpreted as GLUS_ALPHA.
-     */
-    GLUSenum format;
+  /**
+   * Format of the TGA image. Can be:
+   *
+   * GLUS_RGB
+   * GLUS_RGBA
+   * GLUS_LUMINANCE
+   *
+   * Last entry can also be interpreted as GLUS_ALPHA.
+   */
+  GLUSenum format;
 
 } GLUStgaimage;
 
 /**
  * Structure used for HDR Image File loading.
  */
-typedef struct _GLUShdrimage
-{
-	/**
-	 * Width of the HDR image.
-	 */
-	GLUSushort width;
+typedef struct _GLUShdrimage {
+  /**
+   * Width of the HDR image.
+   */
+  GLUSushort width;
 
-	/**
-	 * Height of the HDR image.
-	 */
-	GLUSushort height;
+  /**
+   * Height of the HDR image.
+   */
+  GLUSushort height;
 
-	/**
-	 * Depth of the image.
-	 */
-	GLUSushort depth;
+  /**
+   * Depth of the image.
+   */
+  GLUSushort depth;
 
-	/**
-	 * Pixel data.
-	 */
-	GLUSfloat* data;
+  /**
+   * Pixel data.
+   */
+  GLUSfloat *data;
 
-    /**
-     * Format of the HDR image.
-     */
-    GLUSenum format;
+  /**
+   * Format of the HDR image.
+   */
+  GLUSenum format;
 
 } GLUShdrimage;
 
 /**
  * Structure used for PKM Image File loading.
  */
-typedef struct _GLUSpkmimage
-{
-	/**
-	 * Width of the PKM image.
-	 */
-	GLUSushort width;
+typedef struct _GLUSpkmimage {
+  /**
+   * Width of the PKM image.
+   */
+  GLUSushort width;
 
-	/**
-	 * Height of the PKM image.
-	 */
-	GLUSushort height;
+  /**
+   * Height of the PKM image.
+   */
+  GLUSushort height;
 
-	/**
-	 * Depth of the image.
-	 */
-	GLUSushort depth;
+  /**
+   * Depth of the image.
+   */
+  GLUSushort depth;
 
-	/**
-	 * Pixel data.
-	 */
-	GLUSubyte* data;
+  /**
+   * Pixel data.
+   */
+  GLUSubyte *data;
 
-    /**
-     * The image size in bytes.
-     */
-    GLUSint imageSize;
+  /**
+   * The image size in bytes.
+   */
+  GLUSint imageSize;
 
-    /**
-     * Internal format of the PKM image.
-     */
-    GLUSenum internalformat;
+  /**
+   * Internal format of the PKM image.
+   */
+  GLUSenum internalformat;
 
 } GLUSpkmimage;
 

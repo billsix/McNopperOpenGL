@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +20,8 @@
 #define GLUS_SHAPE_TEXGEN_H_
 
 /**
- * Creates the texture coordinates of a shape. Already existing texture coordinates are deleted.
+ * Creates the texture coordinates of a shape. Already existing texture
+ * coordinates are deleted.
  *
  * @param shape 	The shape, where the texture coordinates are created.
  * @param sSizeX 	Size of the s texture coordinate, considering x axis.
@@ -31,10 +33,14 @@
  *
  * @return GLUS_TURE. if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeTexGenByAxesf(GLUSshape* shape, const GLUSfloat sSizeX, const GLUSfloat sSizeZ, const GLUSfloat tSizeY, const GLUSfloat tSizeZ, const GLUSfloat sOffset, const GLUSfloat tOffset);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeTexGenByAxesf(
+    GLUSshape *shape, const GLUSfloat sSizeX, const GLUSfloat sSizeZ,
+    const GLUSfloat tSizeY, const GLUSfloat tSizeZ, const GLUSfloat sOffset,
+    const GLUSfloat tOffset);
 
 /**
- * Creates the texture coordinates of a shape. Already existing texture coordinates are deleted.
+ * Creates the texture coordinates of a shape. Already existing texture
+ * coordinates are deleted.
  *
  * @param shape 	The shape, where the texture coordinates are created.
  * @param sPlane 	The plane for calculating the s coordinate.
@@ -46,6 +52,9 @@ GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeTexGenByAxesf(GLUSshape* shape, const 
  *
  * @return GLUS_TURE. if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeTexGenByPlanesf(GLUSshape* shape, const GLUSfloat sPlane[4], const GLUSfloat tPlane[4], const float sSize, const float tSize, const float sOffset, const float tOffset);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeTexGenByPlanesf(
+    GLUSshape *shape, const GLUSfloat sPlane[4], const GLUSfloat tPlane[4],
+    const float sSize, const float tSize, const float sOffset,
+    const float tOffset);
 
 #endif /* GLUS_SHAPE_TEXGEN_H_ */

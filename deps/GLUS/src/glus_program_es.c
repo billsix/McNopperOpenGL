@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,180 +18,168 @@
 
 #include "GL/glus.h"
 
-GLUSboolean GLUSAPIENTRY glusProgramCreateFromSource(GLUSprogram* shaderProgram, const GLUSchar** vertexSource, const GLUSchar** fragmentSource)
-{
-    GLUSint compiled;
+GLUSboolean GLUSAPIENTRY glusProgramCreateFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **vertexSource,
+    const GLUSchar **fragmentSource) {
+  GLUSint compiled;
 
-    GLUSint logLength, charsWritten;
+  GLUSint logLength, charsWritten;
 
-    char* log;
+  char *log;
 
-    if (!shaderProgram || !vertexSource || !fragmentSource)
-    {
-        return GLUS_FALSE;
+  if (!shaderProgram || !vertexSource || !fragmentSource) {
+    return GLUS_FALSE;
+  }
+
+  shaderProgram->program = 0;
+  shaderProgram->vertex = 0;
+  shaderProgram->fragment = 0;
+
+  shaderProgram->vertex = glCreateShader(GLUS_VERTEX_SHADER);
+
+  glShaderSource(shaderProgram->vertex, 1, (const char **)vertexSource, 0);
+
+  glCompileShader(shaderProgram->vertex);
+
+  glGetShaderiv(shaderProgram->vertex, GLUS_COMPILE_STATUS, &compiled);
+
+  if (!compiled) {
+    glGetShaderiv(shaderProgram->vertex, GLUS_INFO_LOG_LENGTH, &logLength);
+
+    log = (char *)glusMemoryMalloc((size_t)logLength);
+
+    if (!log) {
+      return GLUS_FALSE;
     }
 
-    shaderProgram->program = 0;
+    glGetShaderInfoLog(shaderProgram->vertex, logLength, &charsWritten, log);
+
+    glusLogPrint(GLUS_LOG_ERROR, "Vertex shader compile error:");
+    glusLogPrint(GLUS_LOG_ERROR, "%s", log);
+
+    glusMemoryFree(log);
+
     shaderProgram->vertex = 0;
+
+    return GLUS_FALSE;
+  }
+
+  shaderProgram->fragment = glCreateShader(GLUS_FRAGMENT_SHADER);
+
+  glShaderSource(shaderProgram->fragment, 1, (const char **)fragmentSource, 0);
+
+  glCompileShader(shaderProgram->fragment);
+
+  glGetShaderiv(shaderProgram->fragment, GLUS_COMPILE_STATUS, &compiled);
+
+  if (!compiled) {
+    glGetShaderiv(shaderProgram->fragment, GLUS_INFO_LOG_LENGTH, &logLength);
+
+    log = (char *)glusMemoryMalloc((size_t)logLength);
+
+    if (!log) {
+      glusProgramDestroy(shaderProgram);
+
+      return GLUS_FALSE;
+    }
+
+    glGetShaderInfoLog(shaderProgram->fragment, logLength, &charsWritten, log);
+
+    glusLogPrint(GLUS_LOG_ERROR, "Fragment shader compile error:");
+    glusLogPrint(GLUS_LOG_ERROR, "%s", log);
+
+    glusMemoryFree(log);
+
     shaderProgram->fragment = 0;
 
-    shaderProgram->vertex = glCreateShader(GLUS_VERTEX_SHADER);
+    glusProgramDestroy(shaderProgram);
 
-    glShaderSource(shaderProgram->vertex, 1, (const char**) vertexSource, 0);
+    return GLUS_FALSE;
+  }
 
-    glCompileShader(shaderProgram->vertex);
+  shaderProgram->program = glCreateProgram();
 
-    glGetShaderiv(shaderProgram->vertex, GLUS_COMPILE_STATUS, &compiled);
+  glAttachShader(shaderProgram->program, shaderProgram->vertex);
 
-    if (!compiled)
-    {
-        glGetShaderiv(shaderProgram->vertex, GLUS_INFO_LOG_LENGTH, &logLength);
+  glAttachShader(shaderProgram->program, shaderProgram->fragment);
 
-        log = (char*) glusMemoryMalloc((size_t)logLength);
-
-        if (!log)
-        {
-            return GLUS_FALSE;
-        }
-
-        glGetShaderInfoLog(shaderProgram->vertex, logLength, &charsWritten, log);
-
-        glusLogPrint(GLUS_LOG_ERROR, "Vertex shader compile error:");
-        glusLogPrint(GLUS_LOG_ERROR, "%s", log);
-
-        glusMemoryFree(log);
-
-        shaderProgram->vertex = 0;
-
-        return GLUS_FALSE;
-    }
-
-    shaderProgram->fragment = glCreateShader(GLUS_FRAGMENT_SHADER);
-
-    glShaderSource(shaderProgram->fragment, 1, (const char**) fragmentSource, 0);
-
-    glCompileShader(shaderProgram->fragment);
-
-    glGetShaderiv(shaderProgram->fragment, GLUS_COMPILE_STATUS, &compiled);
-
-    if (!compiled)
-    {
-        glGetShaderiv(shaderProgram->fragment, GLUS_INFO_LOG_LENGTH, &logLength);
-
-        log = (char*) glusMemoryMalloc((size_t)logLength);
-
-        if (!log)
-        {
-            glusProgramDestroy(shaderProgram);
-
-            return GLUS_FALSE;
-        }
-
-        glGetShaderInfoLog(shaderProgram->fragment, logLength, &charsWritten, log);
-
-        glusLogPrint(GLUS_LOG_ERROR, "Fragment shader compile error:");
-        glusLogPrint(GLUS_LOG_ERROR, "%s", log);
-
-        glusMemoryFree(log);
-
-        shaderProgram->fragment = 0;
-
-        glusProgramDestroy(shaderProgram);
-
-        return GLUS_FALSE;
-    }
-
-    shaderProgram->program = glCreateProgram();
-
-    glAttachShader(shaderProgram->program, shaderProgram->vertex);
-
-    glAttachShader(shaderProgram->program, shaderProgram->fragment);
-
-    return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusProgramLink(GLUSprogram* shaderProgram)
-{
-    GLUSint linked;
+GLUSboolean GLUSAPIENTRY glusProgramLink(GLUSprogram *shaderProgram) {
+  GLUSint linked;
 
-    GLUSint logLength, charsWritten;
+  GLUSint logLength, charsWritten;
 
-    char* log;
+  char *log;
 
-    if (!shaderProgram)
-    {
-        return GLUS_FALSE;
+  if (!shaderProgram) {
+    return GLUS_FALSE;
+  }
+
+  glLinkProgram(shaderProgram->program);
+
+  glGetProgramiv(shaderProgram->program, GLUS_LINK_STATUS, &linked);
+
+  if (!linked) {
+    glGetProgramiv(shaderProgram->program, GLUS_INFO_LOG_LENGTH, &logLength);
+
+    log = (char *)glusMemoryMalloc((size_t)logLength);
+
+    if (!log) {
+      glusProgramDestroy(shaderProgram);
+
+      return GLUS_FALSE;
     }
 
-    glLinkProgram(shaderProgram->program);
+    glGetProgramInfoLog(shaderProgram->program, logLength, &charsWritten, log);
 
-    glGetProgramiv(shaderProgram->program, GLUS_LINK_STATUS, &linked);
+    glusLogPrint(GLUS_LOG_ERROR, "Shader program link error:");
+    glusLogPrint(GLUS_LOG_ERROR, "%s", log);
 
-    if (!linked)
-    {
-        glGetProgramiv(shaderProgram->program, GLUS_INFO_LOG_LENGTH, &logLength);
+    glusMemoryFree(log);
 
-        log = (char*) glusMemoryMalloc((size_t)logLength);
+    shaderProgram->program = 0;
 
-        if (!log)
-        {
-            glusProgramDestroy(shaderProgram);
+    glusProgramDestroy(shaderProgram);
 
-            return GLUS_FALSE;
-        }
+    return GLUS_FALSE;
+  }
 
-        glGetProgramInfoLog(shaderProgram->program, logLength, &charsWritten, log);
-
-        glusLogPrint(GLUS_LOG_ERROR, "Shader program link error:");
-        glusLogPrint(GLUS_LOG_ERROR, "%s", log);
-
-        glusMemoryFree(log);
-
-        shaderProgram->program = 0;
-
-        glusProgramDestroy(shaderProgram);
-
-        return GLUS_FALSE;
-    }
-
-    return GLUS_TRUE;
+  return GLUS_TRUE;
 }
 
-GLUSboolean GLUSAPIENTRY glusProgramBuildFromSource(GLUSprogram* shaderProgram, const GLUSchar** vertexSource, const GLUSchar** fragmentSource)
-{
-    if (!glusProgramCreateFromSource(shaderProgram, vertexSource, fragmentSource))
-    {
-        return GLUS_FALSE;
-    }
+GLUSboolean GLUSAPIENTRY glusProgramBuildFromSource(
+    GLUSprogram *shaderProgram, const GLUSchar **vertexSource,
+    const GLUSchar **fragmentSource) {
+  if (!glusProgramCreateFromSource(shaderProgram, vertexSource,
+                                   fragmentSource)) {
+    return GLUS_FALSE;
+  }
 
-    return glusProgramLink(shaderProgram);
+  return glusProgramLink(shaderProgram);
 }
 
-GLUSvoid GLUSAPIENTRY glusProgramDestroy(GLUSprogram* shaderprogram)
-{
-    if (!shaderprogram)
-    {
-        return;
-    }
+GLUSvoid GLUSAPIENTRY glusProgramDestroy(GLUSprogram *shaderprogram) {
+  if (!shaderprogram) {
+    return;
+  }
 
-    if (shaderprogram->program)
-    {
-        glDeleteProgram(shaderprogram->program);
+  if (shaderprogram->program) {
+    glDeleteProgram(shaderprogram->program);
 
-        shaderprogram->program = 0;
-    }
+    shaderprogram->program = 0;
+  }
 
-    if (shaderprogram->fragment)
-    {
-        glDeleteShader(shaderprogram->fragment);
+  if (shaderprogram->fragment) {
+    glDeleteShader(shaderprogram->fragment);
 
-        shaderprogram->fragment = 0;
-    }
+    shaderprogram->fragment = 0;
+  }
 
-    if (shaderprogram->vertex)
-    {
-        glDeleteShader(shaderprogram->vertex);
+  if (shaderprogram->vertex) {
+    glDeleteShader(shaderprogram->vertex);
 
-        shaderprogram->vertex = 0;
-    }
+    shaderprogram->vertex = 0;
+  }
 }

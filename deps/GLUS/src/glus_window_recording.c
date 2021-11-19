@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,62 +27,49 @@ static GLUSfloat g_recordingTime = 0.0f;
 
 static GLUStgaimage g_tgaimage = {0, 0, 0, 0, 0};
 
-GLUSint _glusWindowGetCurrentRecordingFrame(GLUSvoid)
-{
-	return g_currentFrame;
+GLUSint _glusWindowGetCurrentRecordingFrame(GLUSvoid) { return g_currentFrame; }
+
+GLUSint _glusWindowGetCurrentAndIncreaseRecordingFrame(GLUSvoid) {
+  return g_currentFrame++;
 }
 
-GLUSint _glusWindowGetCurrentAndIncreaseRecordingFrame(GLUSvoid)
-{
-	return g_currentFrame++;
+GLUSint _glusWindowGetRecordingFrames(GLUSvoid) { return g_numberFrames; }
+
+GLUSfloat _glusWindowGetRecordingTime(GLUSvoid) { return g_recordingTime; }
+
+const GLUStgaimage *_glusWindowGetRecordingImageTga(GLUSvoid) {
+  return &g_tgaimage;
 }
 
-GLUSint _glusWindowGetRecordingFrames(GLUSvoid)
-{
-	return g_numberFrames;
+GLUSboolean GLUSAPIENTRY glusWindowStartRecording(GLUSint numberFrames,
+                                                  GLUSint framesPerSecond) {
+  glusWindowStopRecording();
+
+  if (numberFrames < 1 || numberFrames > GLUS_MAX_FRAMES ||
+      framesPerSecond < 1 || framesPerSecond > GLUS_MAX_FRAMES_PER_SECOND) {
+    return GLUS_FALSE;
+  }
+
+  if (!glusImageCreateTga(&g_tgaimage, glusWindowGetWidth(),
+                          glusWindowGetHeight(), 1, GLUS_RGBA)) {
+    return GLUS_FALSE;
+  }
+
+  g_numberFrames = numberFrames;
+
+  g_recordingTime = 1.0f / (GLUSfloat)framesPerSecond;
+
+  return GLUS_TRUE;
 }
 
-GLUSfloat _glusWindowGetRecordingTime(GLUSvoid)
-{
-	return g_recordingTime;
+GLUSboolean GLUSAPIENTRY glusWindowIsRecording(GLUSvoid) {
+  return g_tgaimage.data != 0;
 }
 
-const GLUStgaimage* _glusWindowGetRecordingImageTga(GLUSvoid)
-{
-	return &g_tgaimage;
-}
+GLUSvoid GLUSAPIENTRY glusWindowStopRecording(GLUSvoid) {
+  g_currentFrame = 0;
+  g_numberFrames = 0;
+  g_recordingTime = 0.0f;
 
-GLUSboolean GLUSAPIENTRY glusWindowStartRecording(GLUSint numberFrames, GLUSint framesPerSecond)
-{
-	glusWindowStopRecording();
-
-	if (numberFrames < 1 || numberFrames > GLUS_MAX_FRAMES || framesPerSecond < 1 || framesPerSecond > GLUS_MAX_FRAMES_PER_SECOND)
-	{
-		return GLUS_FALSE;
-	}
-
-	if (!glusImageCreateTga(&g_tgaimage, glusWindowGetWidth(), glusWindowGetHeight(), 1, GLUS_RGBA))
-	{
-		return GLUS_FALSE;
-	}
-
-	g_numberFrames = numberFrames;
-
-	g_recordingTime = 1.0f / (GLUSfloat)framesPerSecond;
-
-	return GLUS_TRUE;
-}
-
-GLUSboolean GLUSAPIENTRY glusWindowIsRecording(GLUSvoid)
-{
-	return g_tgaimage.data != 0;
-}
-
-GLUSvoid GLUSAPIENTRY glusWindowStopRecording(GLUSvoid)
-{
-	g_currentFrame = 0;
-	g_numberFrames = 0;
-	g_recordingTime = 0.0f;
-
-	glusImageDestroyTga(&g_tgaimage);
+  glusImageDestroyTga(&g_tgaimage);
 }

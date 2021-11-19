@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,10 +27,13 @@
  * @param center	   	   Source center.
  * @param halfExtend	   Source half extend.
  */
-GLUSAPI GLUSvoid GLUSAPIENTRY glusAxisAlignedBoxCopyf(GLUSfloat resultCenter[4], GLUSfloat resultHalfExtend[3], const GLUSfloat center[4], const GLUSfloat halfExtend[3]);
+GLUSAPI GLUSvoid GLUSAPIENTRY glusAxisAlignedBoxCopyf(
+    GLUSfloat resultCenter[4], GLUSfloat resultHalfExtend[3],
+    const GLUSfloat center[4], const GLUSfloat halfExtend[3]);
 
 /**
- * Calculates the signed distance from an axis aligned box to a point. If the value is negative, the point is inside the box.
+ * Calculates the signed distance from an axis aligned box to a point. If the
+ * value is negative, the point is inside the box.
  *
  * @param center	 The center of the box.
  * @param halfExtend The length from the center point to the planes of the box.
@@ -37,6 +41,8 @@ GLUSAPI GLUSvoid GLUSAPIENTRY glusAxisAlignedBoxCopyf(GLUSfloat resultCenter[4],
  *
  * @return The signed distance.
  */
-GLUSAPI GLUSfloat GLUSAPIENTRY glusAxisAlignedBoxDistancePoint4f(const GLUSfloat center[4], const GLUSfloat halfExtend[3], const GLUSfloat point[4]);
+GLUSAPI GLUSfloat GLUSAPIENTRY glusAxisAlignedBoxDistancePoint4f(
+    const GLUSfloat center[4], const GLUSfloat halfExtend[3],
+    const GLUSfloat point[4]);
 
 #endif /* GLUS_AXIS_ALIGNED_BOX_H_ */

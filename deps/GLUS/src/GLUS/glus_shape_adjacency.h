@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,15 @@
 #define GLUS_SHAPE_ADJACENCY_H_
 
 /**
- * Creates a shape with adjacent index data for a triangle. Can be used in the geometry shader.
+ * Creates a shape with adjacent index data for a triangle. Can be used in the
+ * geometry shader.
  *
  * @param adjacencyShape 	The shape with additional adjacent index data.
  * @param sourceShape 		The source shape.
  *
  * @return GLUS_TRUE, if creation succeeded.
  */
-GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeCreateAdjacencyIndicesf(GLUSshape* adjacencyShape, const GLUSshape* sourceShape);
+GLUSAPI GLUSboolean GLUSAPIENTRY glusShapeCreateAdjacencyIndicesf(
+    GLUSshape *adjacencyShape, const GLUSshape *sourceShape);
 
 #endif /* GLUS_SHAPE_ADJACENCY_H_ */

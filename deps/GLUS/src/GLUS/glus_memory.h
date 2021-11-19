@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,15 +24,17 @@
  *
  * @param size Size of the memory block in bytes.
  *
- * @return Returns on success the pointer to allocated memory. Otherwise null is returned.
+ * @return Returns on success the pointer to allocated memory. Otherwise null is
+ * returned.
  */
-GLUSAPI void* GLUSAPIENTRY glusMemoryMalloc(size_t size);
+GLUSAPI void *GLUSAPIENTRY glusMemoryMalloc(size_t size);
 
 /**
  * Deallocate memory block.
  *
- * @param pointer Pointer to a memory block previously allocated with glusMalloc.
+ * @param pointer Pointer to a memory block previously allocated with
+ * glusMalloc.
  */
-GLUSAPI void GLUSAPIENTRY glusMemoryFree(void* pointer);
+GLUSAPI void GLUSAPIENTRY glusMemoryFree(void *pointer);
 
 #endif /* GLUS_MEMORY_H_ */

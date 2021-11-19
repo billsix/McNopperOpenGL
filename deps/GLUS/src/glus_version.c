@@ -1,5 +1,6 @@
 /*
- * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since 2010 Norbert Nopper
+ * GLUS - Modern OpenGL, OpenGL ES and OpenVG Utilities. Copyright (C) since
+ * 2010 Norbert Nopper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,44 +18,38 @@
 
 #include "GL/glus.h"
 
-GLUSboolean GLUSAPIENTRY glusVersionIsSupported(const GLUSint major, const GLUSint minor)
-{
-    GLUSint driverMajor;
-    GLUSint driverMinor;
+GLUSboolean GLUSAPIENTRY glusVersionIsSupported(const GLUSint major,
+                                                const GLUSint minor) {
+  GLUSint driverMajor;
+  GLUSint driverMinor;
 
-    const GLUSchar* version = (const GLUSchar*) glGetString(GLUS_VERSION);
+  const GLUSchar *version = (const GLUSchar *)glGetString(GLUS_VERSION);
 
-    if (!version)
-    {
-        return GLUS_FALSE;
-    }
+  if (!version) {
+    return GLUS_FALSE;
+  }
 
-    if (major < 1 || minor < 0)
-    {
-    	return GLUS_FALSE;
-    }
+  if (major < 1 || minor < 0) {
+    return GLUS_FALSE;
+  }
 
-    driverMajor = atoi(version);
+  driverMajor = atoi(version);
 
-    version = strchr(version, '.');
+  version = strchr(version, '.');
 
-    if (!version)
-    {
-        return GLUS_FALSE;
-    }
+  if (!version) {
+    return GLUS_FALSE;
+  }
 
-    version++;
+  version++;
 
-    driverMinor = atoi(version);
+  driverMinor = atoi(version);
 
-    if (driverMajor < major)
-    {
-        return GLUS_FALSE;
-    }
-    else if (driverMajor == major)
-    {
-        return driverMinor >= minor;
-    }
+  if (driverMajor < major) {
+    return GLUS_FALSE;
+  } else if (driverMajor == major) {
+    return driverMinor >= minor;
+  }
 
-    return GLUS_TRUE;
+  return GLUS_TRUE;
 }
