@@ -177,44 +177,32 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_cubemap);
   glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_pos_x.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_pos_x.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_neg_x.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_neg_x.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_pos_y.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_pos_y.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_neg_y.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_neg_y.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_pos_z.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_pos_z.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "water_neg_z.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "water_neg_z.tga", &image);
   glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image.format, image.width,
                image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
   glusImageDestroyTga(&image);

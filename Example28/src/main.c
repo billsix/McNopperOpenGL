@@ -325,9 +325,7 @@ GLUSboolean init(GLUSvoid) {
   // Texture set up for the ground plane.
   //
 
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "wood_texture.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "wood_texture.tga", &image);
 
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);

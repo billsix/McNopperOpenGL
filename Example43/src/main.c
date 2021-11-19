@@ -166,7 +166,7 @@ GLUSboolean init(GLUSvoid) {
   // Use a helper function to load the wavefront object file.
   //
 
-  glusWavefrontLoadScene(RESOURCE_PATH "/resthree_objects.obj", &g_scene);
+  glusWavefrontLoadScene(RESOURCE_PATH PATH_SEPERATOR "three_objects.obj", &g_scene);
 
   objectWalker = g_scene.objectList;
   while (objectWalker) {

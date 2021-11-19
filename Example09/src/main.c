@@ -164,8 +164,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusImageLoadTga(
-      RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "particle.tga", &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "particle.tga", &image);
 
   glGenTextures(1, &g_texture);
 

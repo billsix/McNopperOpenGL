@@ -150,7 +150,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH  PATH_SEPERATOR "Example33" PATH_SEPERATOR
                                                 "shader" PATH_SEPERATOR
                                                 "brdf.vert.glsl",
                    &vertexSource);
@@ -345,7 +345,11 @@ GLUSboolean init(GLUSvoid) {
 
         printf("Loading '%s' ...", buffer);
 
-        if (!glusImageLoadHdr(buffer,
+        char path_name[300] = RESOURCE_PATH;
+        strncpy(&path_name[strlen(RESOURCE_PATH)], buffer, 27);
+        path_name[strlen(RESOURCE_PATH) + 27 + 1] = 0;
+
+        if (!glusImageLoadHdr(path_name,
                               &image[i * NUMBER_ROUGHNESS * 6 + k * 6 + m])) {
           printf(" error!\n");
           continue;
@@ -411,7 +415,8 @@ GLUSboolean init(GLUSvoid) {
   //
 
   printf("Loading 'doge2/EnvironmentBRDF_1024.data' ...");
-  if (!glusFileLoadBinary("doge2/EnvironmentBRDF_1024.data", &rawimage)) {
+  if (!glusFileLoadBinary(RESOURCE_PATH "doge2/EnvironmentBRDF_1024.data",
+                          &rawimage)) {
     printf(" error!\n");
   } else {
     printf(" done.\n");
@@ -476,9 +481,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                      "venusm.obj",
-                         &wavefront);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "venusm.obj", &wavefront);
 
   g_numberVerticesModel = wavefront.numberVertices;
 

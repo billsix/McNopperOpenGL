@@ -213,8 +213,7 @@ GLUSboolean init(GLUSvoid) {
 
   // Color texture set up.
 
-  glusImageLoadTga(
-      RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR "tiger.tga", &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "tiger.tga", &image);
 
   glGenTextures(1, &g_textureFurColor);
   glBindTexture(GL_TEXTURE_2D, g_textureFurColor);
@@ -263,9 +262,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                      "bunny.obj",
-                         &bunnyShape);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "bunny.obj", &bunnyShape);
 
   // This model does not have any texture coordinates, so generate them.
   glusShapeTexGenByAxesf(&bunnyShape, 2.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f);

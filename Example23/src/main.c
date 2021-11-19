@@ -162,8 +162,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Load the image.
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "four_shapes_color.tga",
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_color.tga",
                    &image);
 
   glActiveTexture(GL_TEXTURE0);
@@ -187,8 +186,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Load the image.
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "res" PATH_SEPERATOR
-                                                "four_shapes_normal.tga",
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_normal.tga",
                    &image);
 
   glActiveTexture(GL_TEXTURE1);
