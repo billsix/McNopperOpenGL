@@ -17,6 +17,8 @@
 
 #include "GL/glus.h"
 
+#include "string.h"
+
 #define GLUS_MAX_OBJECTS 1
 #define GLUS_MAX_ATTRIBUTES (GLUS_MAX_VERTICES/GLUS_VERTICES_DIVISOR)
 #define GLUS_MAX_TRIANGLE_ATTRIBUTES GLUS_MAX_VERTICES
@@ -267,6 +269,21 @@ static GLUSboolean glusWavefrontLoadMaterial(const GLUSchar* filename, GLUSmater
 		return GLUS_FALSE;
 	}
 
+    // get path of wavefront file
+    int len = strlen(filename);
+    char* dir = malloc(len + 1);
+    {
+        strcpy(dir, filename);
+        while (len > 0) {
+           len--;
+           if (dir[len] == '\\' || dir[len] == '/') {
+              dir[len] = '\0';
+              break;
+           }
+        }
+    }
+    
+    
 	while (!feof(f))
 	{
 		buffer[0] = 0;
@@ -399,37 +416,106 @@ static GLUSboolean glusWavefrontLoadMaterial(const GLUSchar* filename, GLUSmater
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.emissiveTextureFilename, name);
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+			strcpy(currentMaterialList->material.emissiveTextureFilename, fullpath);
+            free(fullpath);
 		}
 		else if (strncmp(checkBuffer, "map_ka", 6) == 0)
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.ambientTextureFilename, name);
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+
+            
+			strcpy(currentMaterialList->material.ambientTextureFilename, fullpath);
+            free(fullpath);
 		}
 		else if (strncmp(checkBuffer, "map_kd", 6) == 0)
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.diffuseTextureFilename, name);
-		}
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+
+			strcpy(currentMaterialList->material.diffuseTextureFilename, fullpath);
+            free(fullpath);
+        }
 		else if (strncmp(checkBuffer, "map_ks", 6) == 0)
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.specularTextureFilename, name);
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+			strcpy(currentMaterialList->material.specularTextureFilename, fullpath);
+            free(fullpath);
 		}
 		else if (strncmp(checkBuffer, "map_d", 5) == 0 || strncmp(checkBuffer, "map_Tr", 6) == 0)
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.transparencyTextureFilename, name);
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+			strcpy(currentMaterialList->material.transparencyTextureFilename, fullpath);
+            free(fullpath);
 		}
 		else if (strncmp(checkBuffer, "map_bump", 8) == 0 || strncmp(checkBuffer, "bump", 4) == 0)
 		{
 			sscanf(checkBuffer, "%s %s", identifier, name);
 
-			strcpy(currentMaterialList->material.bumpTextureFilename, name);
+            int dirlen = strlen(dir);
+            int namelen = strlen(name);
+            char* fullpath = malloc(dirlen +namelen + 2);
+            {
+                strncpy(fullpath, dir, dirlen);
+                fullpath[dirlen] = '/';
+                strncpy(&fullpath[dirlen+1], name, namelen);
+                fullpath[dirlen+namelen+1] = 0;
+            }
+            
+			strcpy(currentMaterialList->material.bumpTextureFilename, fullpath);
+            free(fullpath);
 		}
 		else if (strncmp(checkBuffer, "illum", 5) == 0)
 		{
@@ -455,6 +541,8 @@ static GLUSboolean glusWavefrontLoadMaterial(const GLUSchar* filename, GLUSmater
 			}
 		}
 	}
+    
+    free(dir);
 
 	glusFileClose(f);
 
@@ -722,6 +810,21 @@ GLUSboolean _glusWavefrontParse(const GLUSchar* filename, GLUSshape* shape, GLUS
 	GLUSgroupList* currentGroupList = 0;
 	GLUSobjectList* currentObjectList = 0;
 
+    
+    // get path of wavefront file
+    int len = strlen(filename);
+    char* dir = malloc(len + 1);
+    {
+        strcpy(dir, filename);
+        while (len > 0) {
+           len--;
+           if (dir[len] == '\\' || dir[len] == '/') {
+              dir[len] = '\0';
+              break;
+           }
+        }
+    }
+    
 	// Objects
 
 	GLUSuint numberObjects = 0;
@@ -789,15 +892,26 @@ GLUSboolean _glusWavefrontParse(const GLUSchar* filename, GLUSshape* shape, GLUS
 					wavefront->materials = 0;
 				}
 
-				if (!glusWavefrontLoadMaterial(name, &wavefront->materials))
-				{
-					glusWavefrontFreeTempMemory(&vertices, &normals, &texCoords, &triangleVertices, &triangleNormals, &triangleTexCoords);
-
-					glusFileClose(f);
-
-					return GLUS_FALSE;
-				}
-
+                {
+                
+                    int dirlen = strlen(dir);
+                    int namelen = strlen(name);
+                    char* fullpath = malloc(dirlen +namelen + 2);
+                    {
+                        strncpy(fullpath, dir, dirlen);
+                        fullpath[dirlen] = '/';
+                        strncpy(&fullpath[dirlen+1], name, namelen);
+                        fullpath[dirlen+namelen+1] = 0;
+                    }
+                    if (!glusWavefrontLoadMaterial(fullpath, &wavefront->materials))
+                    {
+                        glusWavefrontFreeTempMemory(&vertices, &normals, &texCoords, &triangleVertices, &triangleNormals, &triangleTexCoords);
+                        glusFileClose(f);
+                        free(fullpath);
+                        return GLUS_FALSE;
+                    }
+                    free(fullpath);
+                }
 				numberMaterials++;
 			}
 			else if (strncmp(buffer, "usemtl", 6) == 0)
@@ -1330,6 +1444,7 @@ GLUSboolean _glusWavefrontParse(const GLUSchar* filename, GLUSshape* shape, GLUS
 		memcpy(&currentObjectList->object, wavefront, sizeof(GLUSwavefront));
 	}
 
+    free(dir);
 	return result;
 }
 
