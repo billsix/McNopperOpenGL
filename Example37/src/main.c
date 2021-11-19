@@ -38,46 +38,32 @@
 
 typedef struct _Material {
   GLfloat emissiveColor[4];
-
   GLfloat diffuseColor[4];
-
   GLfloat specularColor[4];
-
   GLfloat shininess;
-
 } Material;
 
 typedef struct _Sphere {
   GLfloat center[4];
-
   GLfloat radius;
-
 } Sphere;
 
 typedef struct _Box {
   GLfloat center[4];
-
   GLfloat halfExtend[3];
-
   GLfloat orientation[3];
-
 } Box;
 
 typedef struct _Primitive {
   void *data;
-
   GLfloat (*distanceFunction)(const GLfloat point[4],
                               const struct _Primitive *primitive);
-
   Material material;
-
 } Primitive;
 
 typedef struct _PointLight {
   GLfloat position[4];
-
   GLfloat color[4];
-
 } PointLight;
 
 /**
@@ -128,51 +114,55 @@ static GLfloat distanceFunctionOrientedBox(const GLfloat point[4],
                                         box->orientation, point);
 }
 
-Sphere g_allSpheres[NUM_SPHERES] = {{{2.0f, 1.0f, -14.0f, 1.0f}, 2.0f},
-                                    {{-2.0f, 0.25f, -6.0f, 1.0f}, 1.25f},
-                                    {{3.0f, 0.0f, -8.0f, 1.0f}, 1.0f}};
+Sphere g_allSpheres[NUM_SPHERES] = {
+    {.center = {2.0f, 1.0f, -14.0f, 1.0f}, .radius = 2.0f},
+    {.center = {-2.0f, 0.25f, -6.0f, 1.0f}, .radius = 1.25f},
+    {.center = {3.0f, 0.0f, -8.0f, 1.0f}, .radius = 1.0f}};
 
-Box g_allBoxes[NUM_BOXES] = {
-    {{0.0f, -2.0f, -10.0f, 1.0f}, {10.0f, 1.0f, 20.0f}, {0.0f, 0.0f, 0.0f}},
-    {{-1.0f, -0.8f, -10.0f, 1.0f}, {0.5f, 0.2f, 1.0f}, {0.0f, 20.0f, 0.0f}}};
+Box g_allBoxes[NUM_BOXES] = {{.center = {0.0f, -2.0f, -10.0f, 1.0f},
+                              .halfExtend = {10.0f, 1.0f, 20.0f},
+                              .orientation = {0.0f, 0.0f, 0.0f}},
+                             {.center = {-1.0f, -0.8f, -10.0f, 1.0f},
+                              .halfExtend = {0.5f, 0.2f, 1.0f},
+                              .orientation = {0.0f, 20.0f, 0.0f}}};
 
 Primitive g_allPrimitives[NUM_SPHERES + NUM_BOXES] = {
     // Blue sphere
-    {&g_allSpheres[0],
-     distanceFunctionSphere,
-     {{0.0f, 0.0f, 0.0f, 1.0f},
-      {0.0f, 0.0f, 0.8f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      20.0f}},
+    {.data = &g_allSpheres[0],
+     .distanceFunction = distanceFunctionSphere,
+     .material = {.emissiveColor = {0.0f, 0.0f, 0.0f, 1.0f},
+                  .diffuseColor = {0.0f, 0.0f, 0.8f, 1.0f},
+                  .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .shininess = 20.0f}},
     // Green sphere
-    {&g_allSpheres[1],
-     distanceFunctionSphere,
-     {{0.0f, 0.0f, 0.0f, 1.0f},
-      {0.0f, 0.8f, 0.0f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      20.0f}},
+    {.data = &g_allSpheres[1],
+     .distanceFunction = distanceFunctionSphere,
+     .material = {.emissiveColor = {0.0f, 0.0f, 0.0f, 1.0f},
+                  .diffuseColor = {0.0f, 0.8f, 0.0f, 1.0f},
+                  .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .shininess = 20.0f}},
     // Red sphere
-    {&g_allSpheres[2],
-     distanceFunctionSphere,
-     {{0.0f, 0.0f, 0.0f, 1.0f},
-      {0.8f, 0.0f, 0.0f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      20.0f}},
+    {.data = &g_allSpheres[2],
+     .distanceFunction = distanceFunctionSphere,
+     .material = {.emissiveColor = {0.0f, 0.0f, 0.0f, 1.0f},
+                  .diffuseColor = {0.8f, 0.0f, 0.0f, 1.0f},
+                  .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .shininess = 20.0f}},
 
     // Grey ground box
-    {&g_allBoxes[0],
-     distanceFunctionOrientedBox,
-     {{0.0f, 0.0f, 0.0f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      20.0f}},
+    {.data = &g_allBoxes[0],
+     .distanceFunction = distanceFunctionOrientedBox,
+     .material = {.emissiveColor = {0.0f, 0.0f, 0.0f, 1.0f},
+                  .diffuseColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .shininess = 20.0f}},
     // Turquoise box
-    {&g_allBoxes[1],
-     distanceFunctionOrientedBox,
-     {{0.0f, 0.0f, 0.0f, 1.0f},
-      {0.0f, 0.8f, 0.8f, 1.0f},
-      {0.8f, 0.8f, 0.8f, 1.0f},
-      20.0f}}};
+    {.data = &g_allBoxes[1],
+     .distanceFunction = distanceFunctionOrientedBox,
+     .material = {.emissiveColor = {0.0f, 0.0f, 0.0f, 1.0f},
+                  .diffuseColor = {0.0f, 0.8f, 0.8f, 1.0f},
+                  .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                  .shininess = 20.0f}}};
 
 PointLight g_allLights[NUM_LIGHTS] = {
     {{0.0f, 5.0f, -5.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}}};

@@ -159,13 +159,15 @@ static GLuint g_blurVAO;
 
 //
 
-static struct LightProperties g_light = {{1.0f, 1.0f, 1.0f},
-                                         {0.3f, 0.3f, 0.3f, 1.0f},
-                                         {1.0f, 1.0f, 1.0f, 1.0f},
-                                         {1.0f, 1.0f, 1.0f, 1.0f}};
+static struct LightProperties g_light = {
+    .direction = {1.0f, 1.0f, 1.0f},
+    .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+    .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+    .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
-static struct CameraProperties g_camera = {
-    {0.0f, 15.0f, 15.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {.eye = {0.0f, 15.0f, 15.0f},
+                                           .center = {0.0f, 0.0f, 0.0f},
+                                           .up = {0.0f, 1.0f, 0.0f}};
 
 static GLfloat g_kernel[3 * KERNEL_SIZE];
 

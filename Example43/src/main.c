@@ -23,16 +23,16 @@ struct LightProperties {
   GLfloat specularColor[4];
 };
 
-/**
- * Properties of the material, basically all the color factors without the
- * emissive color component.
- */
-struct MaterialProperties {
-  GLfloat ambientColor[4];
-  GLfloat diffuseColor[4];
-  GLfloat specularColor[4];
-  GLfloat specularExponent;
-};
+/* /\** */
+/*  * Properties of the material, basically all the color factors without the */
+/*  * emissive color component. */
+/*  *\/ */
+/* struct MaterialProperties { */
+/*   GLfloat ambientColor[4]; */
+/*   GLfloat diffuseColor[4]; */
+/*   GLfloat specularColor[4]; */
+/*   GLfloat specularExponent; */
+/* }; */
 
 /**
  * Locations for the light properties.
@@ -97,10 +97,10 @@ static GLUSscene g_scene;
 
 GLUSboolean init(GLUSvoid) {
   // This is a white light.
-  struct LightProperties light = {{1.0f, 1.0f, 1.0f},
-                                  {0.3f, 0.3f, 0.3f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f}};
+  struct LightProperties light = {.direction = {1.0f, 1.0f, 1.0f},
+                                  .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                  .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                  .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;
@@ -135,25 +135,27 @@ GLUSboolean init(GLUSvoid) {
   g_normalMatrixLocation =
       glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_light.directionLocation =
-      glGetUniformLocation(g_program.program, "u_light.direction");
-  g_light.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.ambientColor");
-  g_light.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-  g_light.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.specularColor");
+  g_light = (struct LightLocations){
+      .directionLocation =
+          glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
-  g_material.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.ambientColor");
-  g_material.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.diffuseColor");
-  g_material.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularColor");
-  g_material.specularExponentLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularExponent");
-  g_material.diffuseTextureLocation =
-      glGetUniformLocation(g_program.program, "u_material.diffuseTexture");
+  g_material = (struct MaterialLocations){
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(
+          g_program.program, "u_material.specularExponent"),
+      .diffuseTextureLocation =
+          glGetUniformLocation(g_program.program, "u_material.diffuseTexture")};
 
   g_useTextureLocation =
       glGetUniformLocation(g_program.program, "u_useTexture");
@@ -166,7 +168,8 @@ GLUSboolean init(GLUSvoid) {
   // Use a helper function to load the wavefront object file.
   //
 
-  glusWavefrontLoadScene(RESOURCE_PATH PATH_SEPERATOR "three_objects.obj", &g_scene);
+  glusWavefrontLoadScene(RESOURCE_PATH PATH_SEPERATOR "three_objects.obj",
+                         &g_scene);
 
   objectWalker = g_scene.objectList;
   while (objectWalker) {

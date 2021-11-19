@@ -150,7 +150,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH  PATH_SEPERATOR "Example33" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
                                                 "shader" PATH_SEPERATOR
                                                 "brdf.vert.glsl",
                    &vertexSource);

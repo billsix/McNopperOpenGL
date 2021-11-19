@@ -117,16 +117,17 @@ static GLuint g_numberIndicesPlane;
 
 GLUSboolean init(GLUSvoid) {
   // This is a white light.
-  struct LightProperties light = {{1.0f, 1.0f, 1.0f},
-                                  {0.3f, 0.3f, 0.3f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f}};
+  struct LightProperties light = {.direction = {1.0f, 1.0f, 1.0f},
+                                  .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                  .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                  .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   // Blue color material with white specular color.
-  struct MaterialProperties material = {{0.0f, 0.1f, 0.1f, 1.0f},
-                                        {0.0f, 0.8f, 0.8f, 1.0f},
-                                        {0.6f, 0.6f, 0.6f, 1.0f},
-                                        60.0f};
+  struct MaterialProperties material = {
+      .ambientColor = {0.0f, 0.1f, 0.1f, 1.0f},
+      .diffuseColor = {0.0f, 0.8f, 0.8f, 1.0f},
+      .specularColor = {0.6f, 0.6f, 0.6f, 1.0f},
+      .specularExponent = 60.0f};
 
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;
@@ -161,23 +162,25 @@ GLUSboolean init(GLUSvoid) {
   g_normalMatrixLocation =
       glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_light.directionLocation =
-      glGetUniformLocation(g_program.program, "u_light.direction");
-  g_light.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.ambientColor");
-  g_light.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-  g_light.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.specularColor");
+  g_light = (struct LightLocations){
+      .directionLocation =
+          glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
-  g_material.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.ambientColor");
-  g_material.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.diffuseColor");
-  g_material.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularColor");
-  g_material.specularExponentLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularExponent");
+  g_material = (struct MaterialLocations){
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(
+          g_program.program, "u_material.specularExponent")};
 
   g_planeLocation = glGetUniformLocation(g_program.program, "u_plane");
 

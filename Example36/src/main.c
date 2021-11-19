@@ -116,17 +116,18 @@ static GLuint g_linkedListBuffer;
 
 GLUSboolean init(GLUSvoid) {
   // This is a white light.
-  struct LightProperties light = {{1.0f, 1.0f, 1.0f},
-                                  {0.3f, 0.3f, 0.3f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f}};
+  struct LightProperties light = {.direction = {1.0f, 1.0f, 1.0f},
+                                  .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                  .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                  .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   // Green color material with white specular color, half transparent.
-  struct MaterialProperties material = {{0.0f, 1.0f, 0.0f, 1.0f},
-                                        {0.0f, 1.0f, 0.0f, 1.0f},
-                                        {1.0f, 1.0f, 1.0f, 1.0f},
-                                        20.0f,
-                                        0.5f};
+  struct MaterialProperties material = {
+      .ambientColor = {0.0f, 1.0f, 0.0f, 1.0f},
+      .diffuseColor = {0.0f, 1.0f, 0.0f, 1.0f},
+      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+      .specularExponent = 20.0f,
+      .alpha = 0.5f};
 
   // Buffer for cleaning the head index testure.
   static GLuint clearBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
@@ -169,25 +170,27 @@ GLUSboolean init(GLUSvoid) {
   g_normalMatrixLocation =
       glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_light.directionLocation =
-      glGetUniformLocation(g_program.program, "u_light.direction");
-  g_light.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.ambientColor");
-  g_light.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-  g_light.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.specularColor");
+  g_light = (struct LightLocations){
+      .directionLocation =
+          glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
-  g_material.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.ambientColor");
-  g_material.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.diffuseColor");
-  g_material.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularColor");
-  g_material.specularExponentLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularExponent");
-  g_material.alphaLocation =
-      glGetUniformLocation(g_program.program, "u_material.alpha");
+  g_material = (struct MaterialLocations){
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(
+          g_program.program, "u_material.specularExponent"),
+      .alphaLocation =
+          glGetUniformLocation(g_program.program, "u_material.alpha")};
 
   g_maxNodesLocation = glGetUniformLocation(g_program.program, "u_maxNodes");
 

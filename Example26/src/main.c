@@ -112,10 +112,10 @@ static GLuint g_numberVertices;
 
 GLUSboolean init(GLUSvoid) {
   // This is a white light.
-  struct LightProperties light = {{1.0f, 1.0f, 1.0f},
-                                  {0.3f, 0.3f, 0.3f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f},
-                                  {1.0f, 1.0f, 1.0f, 1.0f}};
+  struct LightProperties light = {.direction = {1.0f, 1.0f, 1.0f},
+                                  .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                  .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                  .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   GLUStextfile vertexSource;
   GLUStextfile geometrySource;
@@ -173,14 +173,15 @@ GLUSboolean init(GLUSvoid) {
   g_normalMatrixLocation =
       glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_light.directionLocation =
-      glGetUniformLocation(g_program.program, "u_light.direction");
-  g_light.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.ambientColor");
-  g_light.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-  g_light.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.specularColor");
+  g_light = (struct LightLocations){
+      .directionLocation =
+          glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation =
+          glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
   g_textureLocation =
       glGetUniformLocation(g_program.program, "u_textureFurColor");

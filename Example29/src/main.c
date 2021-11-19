@@ -37,33 +37,22 @@
 
 typedef struct _Material {
   GLfloat emissiveColor[4];
-
   GLfloat diffuseColor[4];
-
   GLfloat specularColor[4];
-
   GLfloat shininess;
-
   GLfloat alpha;
-
   GLfloat reflectivity;
-
 } Material;
 
 typedef struct _Sphere {
   GLfloat center[4];
-
   GLfloat radius;
-
   Material material;
-
 } Sphere;
 
 typedef struct _PointLight {
   GLfloat position[4];
-
   GLfloat color[4];
-
 } PointLight;
 
 /**

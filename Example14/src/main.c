@@ -254,29 +254,31 @@ GLUSboolean init(GLUSvoid) {
 
   glusVector3Normalizef(lightDirection);
 
-  g_topView.cameraPosition[0] = 0.0f;
-  g_topView.cameraPosition[1] = 30000.0f * METERS_TO_VIRTUAL_WORLD_SCALE;
-  g_topView.cameraPosition[2] = 0.0f;
-  g_topView.cameraPosition[3] = 1.0;
-  g_topView.cameraDirection[0] = 0.0f;
-  g_topView.cameraDirection[1] = -1.0f;
-  g_topView.cameraDirection[2] = 0.0f;
-  g_topView.cameraUp[0] = 0.0f;
-  g_topView.cameraUp[1] = 0.0f;
-  g_topView.cameraUp[2] = -1.0f;
-  g_topView.fov = 40.0f;
+  g_topView =
+      (ViewData){.cameraPosition[0] = 0.0f,
+                 .cameraPosition[1] = 30000.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
+                 .cameraPosition[2] = 0.0f,
+                 .cameraPosition[3] = 1.0,
+                 .cameraDirection[0] = 0.0f,
+                 .cameraDirection[1] = -1.0f,
+                 .cameraDirection[2] = 0.0f,
+                 .cameraUp[0] = 0.0f,
+                 .cameraUp[1] = 0.0f,
+                 .cameraUp[2] = -1.0f,
+                 .fov = 40.0f};
 
-  g_personView.cameraPosition[0] = 0.0f;
-  g_personView.cameraPosition[1] = 4700.0f * METERS_TO_VIRTUAL_WORLD_SCALE;
-  g_personView.cameraPosition[2] = 0.0f;
-  g_personView.cameraPosition[3] = 1.0;
-  g_personView.cameraDirection[0] = 0.0f;
-  g_personView.cameraDirection[1] = 0.0f;
-  g_personView.cameraDirection[2] = -1.0f;
-  g_personView.cameraUp[0] = 0.0f;
-  g_personView.cameraUp[1] = 1.0f;
-  g_personView.cameraUp[2] = 0.0f;
-  g_personView.fov = 60.0f;
+  g_personView =
+      (ViewData){.cameraPosition[0] = 0.0f,
+                 .cameraPosition[1] = 4700.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
+                 .cameraPosition[2] = 0.0f,
+                 .cameraPosition[3] = 1.0,
+                 .cameraDirection[0] = 0.0f,
+                 .cameraDirection[1] = 0.0f,
+                 .cameraDirection[2] = -1.0f,
+                 .cameraUp[0] = 0.0f,
+                 .cameraUp[1] = 1.0f,
+                 .cameraUp[2] = 0.0f,
+                 .fov = 60.0f};
 
   g_activeView = &g_personView;
 

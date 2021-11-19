@@ -48,13 +48,15 @@ static GLuint g_colorDepthFBO;
 
 //
 
-static struct LightProperties g_light = {{1.0f, 1.0f, 1.0f},
-                                         {0.2f, 0.2f, 0.2f, 1.0f},
-                                         {0.8f, 0.8f, 0.8f, 1.0f},
-                                         {0.8f, 0.8f, 0.8f, 1.0f}};
+static struct LightProperties g_light = {
+    .direction = {1.0f, 1.0f, 1.0f},
+    .ambientColor = {0.2f, 0.2f, 0.2f, 1.0f},
+    .diffuseColor = {0.8f, 0.8f, 0.8f, 1.0f},
+    .specularColor = {0.8f, 0.8f, 0.8f, 1.0f}};
 
-static struct CameraProperties g_camera = {
-    {0.0f, 0.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {.eye = {0.0f, 0.0f, 10.0f},
+                                           .center = {0.0f, 0.0f, 0.0f},
+                                           .up = {0.0f, 1.0f, 0.0f}};
 
 //
 

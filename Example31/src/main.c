@@ -272,14 +272,15 @@ GLUSboolean init(GLUSvoid) {
   g_normalMatrixLocation =
       glGetUniformLocation(g_programDeferredShading.program, "u_normalMatrix");
 
-  g_material.diffuseColorLocation = glGetUniformLocation(
-      g_programDeferredShading.program, "u_material.diffuseColor");
-  g_material.specularColorLocation = glGetUniformLocation(
-      g_programDeferredShading.program, "u_material.specularColor");
-  g_material.specularExponentLocation = glGetUniformLocation(
-      g_programDeferredShading.program, "u_material.specularExponent");
-  g_material.diffuseTextureLocation = glGetUniformLocation(
-      g_programDeferredShading.program, "u_material.diffuseTexture");
+  g_material = (struct MaterialLocations){
+      .diffuseColorLocation = glGetUniformLocation(
+          g_programDeferredShading.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(
+          g_programDeferredShading.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(
+          g_programDeferredShading.program, "u_material.specularExponent"),
+      .diffuseTextureLocation = glGetUniformLocation(
+          g_programDeferredShading.program, "u_material.diffuseTexture")};
 
   g_useTextureLocation =
       glGetUniformLocation(g_programDeferredShading.program, "u_useTexture");

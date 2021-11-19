@@ -59,10 +59,11 @@ static struct LightProperties *g_light;
 GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
                           struct LightProperties *light) {
   // Color material with white specular color.
-  struct MaterialProperties material = {{0.8f, 0.8f, 0.8f, 1.0f},
-                                        {0.8f, 0.8f, 0.8f, 1.0f},
-                                        {1.0f, 1.0f, 1.0f, 1.0f},
-                                        20.0f};
+  struct MaterialProperties material = {
+      .ambientColor = {0.8f, 0.8f, 0.8f, 1.0f},
+      .diffuseColor = {0.8f, 0.8f, 0.8f, 1.0f},
+      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+      .specularExponent = 20.0f};
 
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;

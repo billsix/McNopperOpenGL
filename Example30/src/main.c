@@ -94,30 +94,19 @@ static GLfloat
 
 typedef struct _Material {
   GLfloat emissiveColor[4];
-
   GLfloat diffuseColor[4];
-
   GLfloat specularColor[4];
-
   GLfloat shininess;
-
   GLfloat alpha;
-
   GLfloat reflectivity;
-
   GLfloat padding;
-
 } Material;
 
 typedef struct _Sphere {
   GLfloat center[4];
-
   GLfloat radius;
-
   GLfloat padding[3];
-
   Material material;
-
 } Sphere;
 
 static GLuint g_sphereSSBO;
