@@ -299,7 +299,7 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D, g_panoramaTexture);
 
   printf("Loading HDR texture ... ");
-  if (!glusImageLoadHdr("doge2.hdr", &image)) {
+  if (!glusImageLoadHdr(RESOURCE_PATH PATH_SEPERATOR "doge2.hdr", &image)) {
     printf("failed!\n");
 
     return GLUS_FALSE;
