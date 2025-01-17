@@ -509,7 +509,7 @@ GLUSboolean update(GLUSfloat time) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_dsFBO);
   glDrawBuffers(4, drawBuffers);
 
-  reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
   glUseProgram(g_programDeferredShading.program);
 
@@ -579,7 +579,7 @@ GLUSboolean update(GLUSfloat time) {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
-  reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
   glUseProgram(g_programPointLight.program);
 

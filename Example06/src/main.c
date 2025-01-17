@@ -187,7 +187,7 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height, GLUSint fb_width, GLUSint fb_height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   GLfloat viewMatrix[16];
   GLfloat viewProjectionMatrix[16];
 

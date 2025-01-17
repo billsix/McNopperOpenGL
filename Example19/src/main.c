@@ -351,7 +351,7 @@ GLUSboolean update(GLUSfloat time) {
   //
   glBindFramebuffer(GL_FRAMEBUFFER, g_fboMirrorTexture);
 
-  reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
   glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -377,7 +377,7 @@ GLUSboolean update(GLUSfloat time) {
   // Scene rendering
   //
 
-  reshape(width, height);
+  reshape(width, height, width, height);
 
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
