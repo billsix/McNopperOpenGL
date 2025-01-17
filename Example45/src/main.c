@@ -271,7 +271,7 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   // Do nothing, as all initialization is done in the init() function.
 }
 
