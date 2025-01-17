@@ -56,8 +56,7 @@ typedef struct _Box {
 
 typedef struct _Primitive {
   void *data;
-  GLfloat (*distanceFunction)(const GLfloat point[4],
-                              const struct _Primitive *primitive);
+  GLfloat (*distanceFunction)(const GLfloat point[4], const struct _Primitive *primitive);
   Material material;
 } Primitive;
 
@@ -99,32 +98,25 @@ static GLfloat g_positionBuffer[WIDTH * HEIGHT * 4];
 // Distance functions for sphere and oriented box.
 // see http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
 
-static GLfloat distanceFunctionSphere(const GLfloat point[4],
-                                      const Primitive *primitive) {
+static GLfloat distanceFunctionSphere(const GLfloat point[4], const Primitive *primitive) {
   Sphere *sphere = (Sphere *)primitive->data;
 
   return glusSphereDistancePoint4f(sphere->center, sphere->radius, point);
 }
 
-static GLfloat distanceFunctionOrientedBox(const GLfloat point[4],
-                                           const Primitive *primitive) {
+static GLfloat distanceFunctionOrientedBox(const GLfloat point[4], const Primitive *primitive) {
   Box *box = (Box *)primitive->data;
 
-  return glusOrientedBoxDistancePoint4f(box->center, box->halfExtend,
-                                        box->orientation, point);
+  return glusOrientedBoxDistancePoint4f(box->center, box->halfExtend, box->orientation, point);
 }
 
-Sphere g_allSpheres[NUM_SPHERES] = {
-    {.center = {2.0f, 1.0f, -14.0f, 1.0f}, .radius = 2.0f},
-    {.center = {-2.0f, 0.25f, -6.0f, 1.0f}, .radius = 1.25f},
-    {.center = {3.0f, 0.0f, -8.0f, 1.0f}, .radius = 1.0f}};
+Sphere g_allSpheres[NUM_SPHERES] = {{.center = {2.0f, 1.0f, -14.0f, 1.0f}, .radius = 2.0f},
+                                    {.center = {-2.0f, 0.25f, -6.0f, 1.0f}, .radius = 1.25f},
+                                    {.center = {3.0f, 0.0f, -8.0f, 1.0f}, .radius = 1.0f}};
 
-Box g_allBoxes[NUM_BOXES] = {{.center = {0.0f, -2.0f, -10.0f, 1.0f},
-                              .halfExtend = {10.0f, 1.0f, 20.0f},
-                              .orientation = {0.0f, 0.0f, 0.0f}},
-                             {.center = {-1.0f, -0.8f, -10.0f, 1.0f},
-                              .halfExtend = {0.5f, 0.2f, 1.0f},
-                              .orientation = {0.0f, 20.0f, 0.0f}}};
+Box g_allBoxes[NUM_BOXES] = {
+    {.center = {0.0f, -2.0f, -10.0f, 1.0f}, .halfExtend = {10.0f, 1.0f, 20.0f}, .orientation = {0.0f, 0.0f, 0.0f}},
+    {.center = {-1.0f, -0.8f, -10.0f, 1.0f}, .halfExtend = {0.5f, 0.2f, 1.0f}, .orientation = {0.0f, 20.0f, 0.0f}}};
 
 Primitive g_allPrimitives[NUM_SPHERES + NUM_BOXES] = {
     // Blue sphere
@@ -164,11 +156,10 @@ Primitive g_allPrimitives[NUM_SPHERES + NUM_BOXES] = {
                   .specularColor = {0.8f, 0.8f, 0.8f, 1.0f},
                   .shininess = 20.0f}}};
 
-PointLight g_allLights[NUM_LIGHTS] = {
-    {{0.0f, 5.0f, -5.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}}};
+PointLight g_allLights[NUM_LIGHTS] = {{{0.0f, 5.0f, -5.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}}};
 
-static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
-                    const GLfloat rayDirection[3], const GLint depth) {
+static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4], const GLfloat rayDirection[3],
+                    const GLint depth) {
   GLint i, k, m, o;
 
   Primitive *primitiveNear = 0;
@@ -203,8 +194,7 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
     for (k = 0; k < NUM_SPHERES + NUM_BOXES; k++) {
       Primitive *currentPrimitive = &g_allPrimitives[k];
 
-      currentDistance =
-          currentPrimitive->distanceFunction(marchPosition, currentPrimitive);
+      currentDistance = currentPrimitive->distanceFunction(marchPosition, currentPrimitive);
 
       if (currentDistance < distance) {
         distance = currentDistance;
@@ -229,10 +219,8 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
         samplePoints[k * 4 + k / 2] += GAMMA * (k % 2 == 0 ? 1.0f : -1.0f);
       }
       for (k = 0; k < 3; k++) {
-        hitDirection[k] = closestPrimitive->distanceFunction(
-                              &samplePoints[k * 2 * 4 + 0], closestPrimitive) -
-                          closestPrimitive->distanceFunction(
-                              &samplePoints[k * 2 * 4 + 4], closestPrimitive);
+        hitDirection[k] = closestPrimitive->distanceFunction(&samplePoints[k * 2 * 4 + 0], closestPrimitive) -
+                          closestPrimitive->distanceFunction(&samplePoints[k * 2 * 4 + 4], closestPrimitive);
       }
 
       glusVector3Normalizef(hitDirection);
@@ -273,8 +261,7 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
     GLfloat lightDirection[3];
     GLfloat incidentLightDirection[3];
 
-    glusPoint4SubtractPoint4f(lightDirection, pointLight->position,
-                              hitPosition);
+    glusPoint4SubtractPoint4f(lightDirection, pointLight->position, hitPosition);
     glusVector3Normalizef(lightDirection);
     glusVector3MultiplyScalarf(incidentLightDirection, lightDirection, -1.0f);
 
@@ -294,14 +281,12 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
         Primitive *closestPrimitive = 0;
 
         glusVector3MultiplyScalarf(marchDirection, lightDirection, -t);
-        glusPoint4AddVector3f(marchPosition, pointLight->position,
-                              marchDirection);
+        glusPoint4AddVector3f(marchPosition, pointLight->position, marchDirection);
 
         for (o = 0; o < NUM_SPHERES + NUM_BOXES; o++) {
           Primitive *currentPrimitive = &g_allPrimitives[o];
 
-          currentDistance = currentPrimitive->distanceFunction(
-              marchPosition, currentPrimitive);
+          currentDistance = currentPrimitive->distanceFunction(marchPosition, currentPrimitive);
 
           if (currentDistance < distance && currentDistance >= 0.0f) {
             distance = currentDistance;
@@ -332,8 +317,7 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
 
     // If no obstacle, illuminate hit point surface.
     if (!obstacle) {
-      GLfloat diffuseIntensity =
-          glusMathMaxf(0.0f, glusVector3Dotf(hitDirection, lightDirection));
+      GLfloat diffuseIntensity = glusMathMaxf(0.0f, glusVector3Dotf(hitDirection, lightDirection));
 
       if (diffuseIntensity > 0.0f) {
         GLfloat specularReflection[3];
@@ -341,41 +325,26 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
         GLfloat eDotR;
 
         pixelColor[0] =
-            pixelColor[0] + diffuseIntensity *
-                                primitiveNear->material.diffuseColor[0] *
-                                pointLight->color[0];
+            pixelColor[0] + diffuseIntensity * primitiveNear->material.diffuseColor[0] * pointLight->color[0];
         pixelColor[1] =
-            pixelColor[1] + diffuseIntensity *
-                                primitiveNear->material.diffuseColor[1] *
-                                pointLight->color[1];
+            pixelColor[1] + diffuseIntensity * primitiveNear->material.diffuseColor[1] * pointLight->color[1];
         pixelColor[2] =
-            pixelColor[2] + diffuseIntensity *
-                                primitiveNear->material.diffuseColor[2] *
-                                pointLight->color[2];
+            pixelColor[2] + diffuseIntensity * primitiveNear->material.diffuseColor[2] * pointLight->color[2];
 
-        glusVector3Reflectf(specularReflection, incidentLightDirection,
-                            hitDirection);
+        glusVector3Reflectf(specularReflection, incidentLightDirection, hitDirection);
         glusVector3Normalizef(specularReflection);
 
-        eDotR = glusMathMaxf(0.0f,
-                             glusVector3Dotf(eyeDirection, specularReflection));
+        eDotR = glusMathMaxf(0.0f, glusVector3Dotf(eyeDirection, specularReflection));
 
         if (eDotR > 0.0f) {
-          GLfloat specularIntensity =
-              powf(eDotR, primitiveNear->material.shininess);
+          GLfloat specularIntensity = powf(eDotR, primitiveNear->material.shininess);
 
           pixelColor[0] =
-              pixelColor[0] + specularIntensity *
-                                  primitiveNear->material.specularColor[0] *
-                                  pointLight->color[0];
+              pixelColor[0] + specularIntensity * primitiveNear->material.specularColor[0] * pointLight->color[0];
           pixelColor[1] =
-              pixelColor[1] + specularIntensity *
-                                  primitiveNear->material.specularColor[1] *
-                                  pointLight->color[1];
+              pixelColor[1] + specularIntensity * primitiveNear->material.specularColor[1] * pointLight->color[1];
           pixelColor[2] =
-              pixelColor[2] + specularIntensity *
-                                  primitiveNear->material.specularColor[2] *
-                                  pointLight->color[2];
+              pixelColor[2] + specularIntensity * primitiveNear->material.specularColor[2] * pointLight->color[2];
         }
       }
     }
@@ -387,8 +356,7 @@ static GLvoid march(GLfloat pixelColor[4], const GLfloat rayPosition[4],
   pixelColor[2] = pixelColor[2] + primitiveNear->material.emissiveColor[2];
 }
 
-static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
-                                     const GLint height) {
+static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width, const GLint height) {
   GLint x, y, index;
 
   GLfloat pixelColor[4];
@@ -401,9 +369,8 @@ static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
   }
 
   // Rendering only once, so direction buffer can be overwritten.
-  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer, 0,
-                      width, height, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-                      1.0f, 0.0f);
+  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer, 0, width, height, 0.0f, 0.0f, 0.0f, 0.0f,
+                      0.0f, -1.0f, 0.0f, 1.0f, 0.0f);
 
   // Ray marching over all pixels
 
@@ -411,17 +378,13 @@ static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
     for (x = 0; x < WIDTH; x++) {
       index = (x + y * WIDTH);
 
-      march(pixelColor, &g_positionBuffer[index * 4],
-            &g_directionBuffer[index * 3], 0);
+      march(pixelColor, &g_positionBuffer[index * 4], &g_directionBuffer[index * 3], 0);
 
       // Resolve to pixel buffer, which is used for the texture.
 
-      pixels[index * BYTES_PER_PIXEL + 0] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[0]) * 255.0f);
-      pixels[index * BYTES_PER_PIXEL + 1] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[1]) * 255.0f);
-      pixels[index * BYTES_PER_PIXEL + 2] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[2]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 0] = (GLubyte)(glusMathMinf(1.0f, pixelColor[0]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 1] = (GLubyte)(glusMathMinf(1.0f, pixelColor[1]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 2] = (GLubyte)(glusMathMinf(1.0f, pixelColor[2]) * 255.0f);
     }
   }
 
@@ -449,17 +412,14 @@ GLUSboolean init(GLUSvoid) {
 
   // Load full screen rendering shaders
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example37" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0,
-                             0, 0, (const GLchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -471,8 +431,7 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -505,9 +464,7 @@ GLUSboolean init(GLUSvoid) {
  * @param w	width of the window
  * @param h	height of the window
  */
-GLUSvoid reshape(GLUSint width, GLUSint height) {
-  glViewport(0, 0, width, height);
-}
+GLUSvoid reshape(GLUSint width, GLUSint height) { glViewport(0, 0, width, height); }
 
 /**
  * Function to render and display content. Swapping of the buffers is
@@ -554,11 +511,9 @@ GLUSvoid terminate(GLUSvoid) {
  * Main entry point.
  */
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -579,9 +534,8 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // To keep the program simple, no resize of the window.
-  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE,
-                        GLUS_TRUE, eglConfigAttributes, eglContextAttributes,
-                        0)) {
+  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

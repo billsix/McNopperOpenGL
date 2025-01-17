@@ -74,8 +74,7 @@ static GLUSprogram g_computeProgram;
 
 static GLuint g_directionSSBO;
 
-static GLfloat
-    g_directionBuffer[WIDTH * HEIGHT * (3 + DIRECTION_BUFFER_PADDING)];
+static GLfloat g_directionBuffer[WIDTH * HEIGHT * (3 + DIRECTION_BUFFER_PADDING)];
 
 //
 
@@ -87,8 +86,7 @@ static GLfloat g_positionBuffer[WIDTH * HEIGHT * 4];
 
 static GLuint g_stackSSBO;
 
-static GLfloat
-    g_stackBuffer[WIDTH * HEIGHT * STACK_NODE_FLOATS * NUM_STACK_NODES];
+static GLfloat g_stackBuffer[WIDTH * HEIGHT * STACK_NODE_FLOATS * NUM_STACK_NODES];
 
 //
 
@@ -190,8 +188,7 @@ typedef struct _PointLight {
 
 static GLuint g_pointLightSSBO;
 
-PointLight g_lightBuffer[NUM_LIGHTS] = {
-    {{0.0f, 5.0f, -5.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}}};
+PointLight g_lightBuffer[NUM_LIGHTS] = {{{0.0f, 5.0f, -5.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}}};
 
 GLUSboolean init(GLUSvoid) {
   GLint i;
@@ -200,28 +197,22 @@ GLUSboolean init(GLUSvoid) {
   GLUStextfile fragmentSource;
   GLUStextfile computeSource;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0,
-                             0, 0, (const GLchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "raytrace.comp.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example30" PATH_SEPERATOR "shader" PATH_SEPERATOR "raytrace.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
@@ -237,8 +228,7 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
   // Create an empty image.
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, WIDTH, HEIGHT, 0, GL_RGBA,
-               GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, WIDTH, HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
   // Setting the texture parameters.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -278,8 +268,7 @@ GLUSboolean init(GLUSvoid) {
   printf("Preparing buffers ... ");
 
   // Generate the ray directions depending on FOV, width and height.
-  if (!glusRaytracePerspectivef(g_directionBuffer, DIRECTION_BUFFER_PADDING,
-                                30.0f, WIDTH, HEIGHT)) {
+  if (!glusRaytracePerspectivef(g_directionBuffer, DIRECTION_BUFFER_PADDING, 30.0f, WIDTH, HEIGHT)) {
     printf("failed!\n");
 
     printf("Error: Could not create direction buffer.\n");
@@ -288,9 +277,8 @@ GLUSboolean init(GLUSvoid) {
   }
 
   // Compute shader will use these textures just for input.
-  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer,
-                      DIRECTION_BUFFER_PADDING, WIDTH, HEIGHT, 0.0f, 0.0f, 0.0f,
-                      0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f);
+  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer, DIRECTION_BUFFER_PADDING, WIDTH, HEIGHT,
+                      0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f);
 
   for (i = 0; i < WIDTH * HEIGHT * STACK_NODE_FLOATS * NUM_STACK_NODES; i++) {
     g_stackBuffer[i] = 0.0f;
@@ -305,9 +293,7 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_directionSSBO);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_directionSSBO);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               WIDTH * HEIGHT * (3 + DIRECTION_BUFFER_PADDING) *
-                   sizeof(GLfloat),
+  glBufferData(GL_SHADER_STORAGE_BUFFER, WIDTH * HEIGHT * (3 + DIRECTION_BUFFER_PADDING) * sizeof(GLfloat),
                g_directionBuffer, GL_STATIC_DRAW);
   // see binding = 1 in the shader
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, g_directionSSBO);
@@ -317,8 +303,7 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_positionSSBO);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_positionSSBO);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, WIDTH * HEIGHT * 4 * sizeof(GLfloat),
-               g_positionBuffer, GL_STATIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, WIDTH * HEIGHT * 4 * sizeof(GLfloat), g_positionBuffer, GL_STATIC_DRAW);
   // see binding = 2 in the shader
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, g_positionSSBO);
 
@@ -327,9 +312,7 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_stackSSBO);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_stackSSBO);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               WIDTH * HEIGHT * STACK_NODE_FLOATS * NUM_STACK_NODES *
-                   sizeof(GLfloat),
+  glBufferData(GL_SHADER_STORAGE_BUFFER, WIDTH * HEIGHT * STACK_NODE_FLOATS * NUM_STACK_NODES * sizeof(GLfloat),
                g_stackBuffer, GL_STATIC_DRAW);
   // see binding = 3 in the shader
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, g_stackSSBO);
@@ -339,8 +322,7 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_sphereSSBO);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_sphereSSBO);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_SPHERES * sizeof(Sphere),
-               g_sphereBuffer, GL_STATIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_SPHERES * sizeof(Sphere), g_sphereBuffer, GL_STATIC_DRAW);
   // see binding = 4 in the shader
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, g_sphereSSBO);
 
@@ -349,8 +331,7 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_pointLightSSBO);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_pointLightSSBO);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(PointLight),
-               g_lightBuffer, GL_STATIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(PointLight), g_lightBuffer, GL_STATIC_DRAW);
   // see binding = 5 in the shader
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, g_pointLightSSBO);
 
@@ -359,9 +340,7 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
-  glViewport(0, 0, width, height);
-}
+GLUSvoid reshape(GLUSint width, GLUSint height) { glViewport(0, 0, width, height); }
 
 GLUSboolean update(GLUSfloat time) {
   // Switch to the compute shader.
@@ -441,11 +420,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -466,9 +443,8 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // Again, makes programming for this example easier.
-  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE,
-                        GLUS_TRUE, eglConfigAttributes, eglContextAttributes,
-                        0)) {
+  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

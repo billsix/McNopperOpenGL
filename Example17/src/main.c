@@ -110,11 +110,10 @@ GLUSboolean init(GLUSvoid) {
                                   .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   // Blue color material with white specular color.
-  struct MaterialProperties material = {
-      .ambientColor = {0.0f, 0.0f, 1.0f, 1.0f},
-      .diffuseColor = {0.0f, 0.0f, 1.0f, 1.0f},
-      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
-      .specularExponent = 20.0f};
+  struct MaterialProperties material = {.ambientColor = {0.0f, 0.0f, 1.0f, 1.0f},
+                                        .diffuseColor = {0.0f, 0.0f, 1.0f, 1.0f},
+                                        .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                        .specularExponent = 20.0f};
 
   // The point and the normal define the plane, which is calculated later in the
   // code: This point is just below the top of the cap.
@@ -128,51 +127,37 @@ GLUSboolean init(GLUSvoid) {
 
   GLUSshape wavefrontObj;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_clip.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example17" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_clip.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
   g_light = (struct LightLocations){
-      .directionLocation =
-          glGetUniformLocation(g_program.program, "u_light.direction"),
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.specularColor")};
+      .directionLocation = glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
   g_material = (struct MaterialLocations){
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.specularColor"),
-      .specularExponentLocation = glGetUniformLocation(
-          g_program.program, "u_material.specularExponent")};
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent")};
 
   g_planeLocation = glGetUniformLocation(g_program.program, "u_plane");
 
@@ -182,22 +167,19 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "teapot.obj",
-                         &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "teapot.obj", &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefrontObj.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefrontObj.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -220,8 +202,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
 
@@ -270,8 +251,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
@@ -334,10 +314,8 @@ GLUSvoid terminate(GLUSvoid) {
 
 int main(int argc, char *argv[]) {
   EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS,  1,
-      EGL_SAMPLES,      8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,     8, EGL_BLUE_SIZE, 8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS, 1, EGL_SAMPLES,   8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
       EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
@@ -358,8 +336,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

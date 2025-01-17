@@ -57,14 +57,12 @@ static GLuint g_numberVertices;
 
 static struct LightProperties *g_light;
 
-GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
-                          struct LightProperties *light) {
+GLUSboolean initWavefront(GLUSfloat viewMatrix[16], struct LightProperties *light) {
   // Color material with white specular color.
-  struct MaterialProperties material = {
-      .ambientColor = {0.0f, 1.0f, 1.0f, 1.0f},
-      .diffuseColor = {0.0f, 1.0f, 1.0f, 1.0f},
-      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
-      .specularExponent = 20.0f};
+  struct MaterialProperties material = {.ambientColor = {0.0f, 1.0f, 1.0f, 1.0f},
+                                        .diffuseColor = {0.0f, 1.0f, 1.0f, 1.0f},
+                                        .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                        .specularExponent = 20.0f};
 
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;
@@ -77,47 +75,32 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "phong.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "phong.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "phong.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_lightLocations.directionLocation =
-      glGetUniformLocation(g_program.program, "u_light.direction");
-  g_lightLocations.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.ambientColor");
-  g_lightLocations.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-  g_lightLocations.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_light.specularColor");
+  g_lightLocations.directionLocation = glGetUniformLocation(g_program.program, "u_light.direction");
+  g_lightLocations.ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor");
+  g_lightLocations.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor");
+  g_lightLocations.specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor");
 
-  g_material.ambientColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.ambientColor");
-  g_material.diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.diffuseColor");
-  g_material.specularColorLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularColor");
-  g_material.specularExponentLocation =
-      glGetUniformLocation(g_program.program, "u_material.specularExponent");
+  g_material.ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor");
+  g_material.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor");
+  g_material.specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor");
+  g_material.specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
   g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
@@ -125,22 +108,19 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "teapot.obj",
-                         &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "teapot.obj", &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefrontObj.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefrontObj.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -169,8 +149,7 @@ GLUSboolean initWavefront(GLUSfloat viewMatrix[16],
   // Direction is set later
   glUniform4fv(g_lightLocations.ambientColorLocation, 1, g_light->ambientColor);
   glUniform4fv(g_lightLocations.diffuseColorLocation, 1, g_light->diffuseColor);
-  glUniform4fv(g_lightLocations.specularColorLocation, 1,
-               g_light->specularColor);
+  glUniform4fv(g_lightLocations.specularColorLocation, 1, g_light->specularColor);
 
   // ... and material values.
   glUniform4fv(g_material.ambientColorLocation, 1, material.ambientColor);
@@ -194,8 +173,7 @@ GLUSvoid reshapeWavefront(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   glUseProgram(g_program.program);
 
@@ -217,8 +195,7 @@ GLUSboolean updateWavefront(GLUSfloat time, GLUSfloat modelMatrix[16]) {
   glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
 
   // Transform light to camera space, as it is currently in world space.
-  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix,
-                                g_light->direction);
+  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix, g_light->direction);
 
   glUseProgram(g_program.program);
 

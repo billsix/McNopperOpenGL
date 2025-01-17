@@ -97,43 +97,34 @@ GLUSboolean init(GLUSvoid) {
 
   GLUSshape plane;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0,
-                             0, 0, (const GLchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.comp.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example21" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
   //
 
   // Retrieve the uniform locations in the program.
-  g_modelViewProjectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
+  g_modelViewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
   g_textureLocation = glGetUniformLocation(g_program.program, "u_texture");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
   g_texCoordLocation = glGetAttribLocation(g_program.program, "a_texCoord");
 
-  g_computeTextureLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_texture");
+  g_computeTextureLocation = glGetUniformLocation(g_computeProgram.program, "u_texture");
 
   //
 
@@ -142,8 +133,7 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
   // Create an empty image.
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g_imageWidth, g_imageHeight, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g_imageWidth, g_imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
   // Setting the texture parameters.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -156,29 +146,25 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to create a rectangular plane.
-  glusShapeCreateRectangularPlanef(&plane, (GLfloat)g_imageWidth / 2.0f,
-                                   (GLfloat)g_imageHeight / 2.0f);
+  glusShapeCreateRectangularPlanef(&plane, (GLfloat)g_imageWidth / 2.0f, (GLfloat)g_imageHeight / 2.0f);
 
   // Store the number indices, as we will render with glDrawElements.
   g_numberIndicesPlane = plane.numberIndices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   // Generate a VBO for the indices.
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -235,24 +221,20 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
   glViewport(0, 0, width, height);
 
   // Create the view matrix.
-  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   // Create a orthogonal projection matrix.
-  glusMatrix4x4Orthof(modelViewProjectionMatrix, -(GLfloat)width / 2.0f,
-                      (GLfloat)width / 2.0f, -(GLfloat)height / 2.0f,
+  glusMatrix4x4Orthof(modelViewProjectionMatrix, -(GLfloat)width / 2.0f, (GLfloat)width / 2.0f, -(GLfloat)height / 2.0f,
                       (GLfloat)height / 2.0f, 1.0f, 100.0f);
 
   // MVP = P * V * M (Note: Here we do not have model matrix).
-  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, modelViewProjectionMatrix,
-                         viewMatrix);
+  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, modelViewProjectionMatrix, viewMatrix);
 
   // Use render program.
   glUseProgram(g_program.program);
 
   // Pass the model view projection matrix to the current active program.
-  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE,
-                     modelViewProjectionMatrix);
+  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE, modelViewProjectionMatrix);
 }
 
 GLUSboolean update(GLUSfloat time) {
@@ -321,11 +303,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -345,8 +325,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

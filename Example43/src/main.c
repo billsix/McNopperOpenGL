@@ -111,54 +111,39 @@ GLUSboolean init(GLUSvoid) {
   GLUSgroupList *groupWalker;
   GLUSmaterialList *materialWalker;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example43" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example43" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_textured.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example43" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example43" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_textured.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
   g_light = (struct LightLocations){
-      .directionLocation =
-          glGetUniformLocation(g_program.program, "u_light.direction"),
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.specularColor")};
+      .directionLocation = glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
   g_material = (struct MaterialLocations){
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.specularColor"),
-      .specularExponentLocation = glGetUniformLocation(
-          g_program.program, "u_material.specularExponent"),
-      .diffuseTextureLocation =
-          glGetUniformLocation(g_program.program, "u_material.diffuseTexture")};
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent"),
+      .diffuseTextureLocation = glGetUniformLocation(g_program.program, "u_material.diffuseTexture")};
 
-  g_useTextureLocation =
-      glGetUniformLocation(g_program.program, "u_useTexture");
+  g_useTextureLocation = glGetUniformLocation(g_program.program, "u_useTexture");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
   g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
@@ -168,27 +153,23 @@ GLUSboolean init(GLUSvoid) {
   // Use a helper function to load the wavefront object file.
   //
 
-  glusWavefrontLoadScene(RESOURCE_PATH PATH_SEPERATOR "three_objects.obj",
-                         &g_scene);
+  glusWavefrontLoadScene(RESOURCE_PATH PATH_SEPERATOR "three_objects.obj", &g_scene);
 
   objectWalker = g_scene.objectList;
   while (objectWalker) {
     glGenBuffers(1, &objectWalker->object.verticesVBO);
     glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.verticesVBO);
-    glBufferData(GL_ARRAY_BUFFER,
-                 objectWalker->object.numberVertices * 4 * sizeof(GLfloat),
+    glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 4 * sizeof(GLfloat),
                  (GLfloat *)objectWalker->object.vertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &objectWalker->object.normalsVBO);
     glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.normalsVBO);
-    glBufferData(GL_ARRAY_BUFFER,
-                 objectWalker->object.numberVertices * 3 * sizeof(GLfloat),
+    glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 3 * sizeof(GLfloat),
                  (GLfloat *)objectWalker->object.normals, GL_STATIC_DRAW);
 
     glGenBuffers(1, &objectWalker->object.texCoordsVBO);
     glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.texCoordsVBO);
-    glBufferData(GL_ARRAY_BUFFER,
-                 objectWalker->object.numberVertices * 2 * sizeof(GLfloat),
+    glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 2 * sizeof(GLfloat),
                  (GLfloat *)objectWalker->object.texCoords, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -203,8 +184,7 @@ GLUSboolean init(GLUSvoid) {
     while (groupWalker) {
       glGenBuffers(1, &groupWalker->group.indicesVBO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                   groupWalker->group.numberIndices * sizeof(GLuint),
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.numberIndices * sizeof(GLuint),
                    (GLuint *)groupWalker->group.indices, GL_STATIC_DRAW);
 
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -241,21 +221,18 @@ GLUSboolean init(GLUSvoid) {
     while (materialWalker) {
       if (materialWalker->material.diffuseTextureFilename[0] != '\0') {
         // Load the image.
-        glusImageLoadTga(materialWalker->material.diffuseTextureFilename,
-                         &image);
+        glusImageLoadTga(materialWalker->material.diffuseTextureFilename, &image);
 
         // Generate and bind a texture.
         glGenTextures(1, &materialWalker->material.diffuseTextureName);
-        glBindTexture(GL_TEXTURE_2D,
-                      materialWalker->material.diffuseTextureName);
+        glBindTexture(GL_TEXTURE_2D, materialWalker->material.diffuseTextureName);
 
         // Transfer the image data from the CPU to the GPU.
-        glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height,
-                     0, image.format, GL_UNSIGNED_BYTE, image.data);
+        glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+                     image.data);
 
         // Setting the texture parameters.
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                        GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -273,8 +250,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.75f, 10.0f, 0.0f, 0.75f, 0.0f,
-                       0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.75f, 10.0f, 0.0f, 0.75f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   //
 
@@ -307,8 +283,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
@@ -346,21 +321,16 @@ GLUSboolean update(GLUSfloat time) {
     groupWalker = objectWalker->object.groups;
     while (groupWalker) {
       // Set up material values.
-      glUniform4fv(g_material.ambientColorLocation, 1,
-                   groupWalker->group.material->ambient);
-      glUniform4fv(g_material.diffuseColorLocation, 1,
-                   groupWalker->group.material->diffuse);
-      glUniform4fv(g_material.specularColorLocation, 1,
-                   groupWalker->group.material->specular);
-      glUniform1f(g_material.specularExponentLocation,
-                  groupWalker->group.material->shininess);
+      glUniform4fv(g_material.ambientColorLocation, 1, groupWalker->group.material->ambient);
+      glUniform4fv(g_material.diffuseColorLocation, 1, groupWalker->group.material->diffuse);
+      glUniform4fv(g_material.specularColorLocation, 1, groupWalker->group.material->specular);
+      glUniform1f(g_material.specularExponentLocation, groupWalker->group.material->shininess);
 
       // Enable only texturing, if the material has a texture
       if (groupWalker->group.material->diffuseTextureName) {
         glUniform1i(g_useTextureLocation, 1);
         glUniform1i(g_material.diffuseTextureLocation, 0);
-        glBindTexture(GL_TEXTURE_2D,
-                      groupWalker->group.material->diffuseTextureName);
+        glBindTexture(GL_TEXTURE_2D, groupWalker->group.material->diffuseTextureName);
       } else {
         glUniform1i(g_useTextureLocation, 0);
         glUniform1i(g_material.diffuseTextureLocation, 0);
@@ -369,8 +339,7 @@ GLUSboolean update(GLUSfloat time) {
 
       glBindVertexArray(groupWalker->group.vao);
 
-      glDrawElements(GL_TRIANGLES, groupWalker->group.numberIndices,
-                     GL_UNSIGNED_INT, 0);
+      glDrawElements(GL_TRIANGLES, groupWalker->group.numberIndices, GL_UNSIGNED_INT, 0);
 
       groupWalker = groupWalker->next;
     }
@@ -453,10 +422,8 @@ GLUSvoid terminate(GLUSvoid) {
 
 int main(int argc, char *argv[]) {
   EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS,  1,
-      EGL_SAMPLES,      8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,     8, EGL_BLUE_SIZE, 8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS, 1, EGL_SAMPLES,   8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
       EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
@@ -477,8 +444,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

@@ -36,29 +36,24 @@ static GLuint g_verticesVBO;
 static GLuint g_vao;
 
 GLUSboolean init(GLUSvoid) {
-  GLfloat vertices[] = {-10.0f, -5.0f, 0.0f, 1.0f,  10.0f, 5.0f,
-                        0.0f,   1.0f,  0.0f, 10.0f, 0.0f,  1.0f};
+  GLfloat vertices[] = {-10.0f, -5.0f, 0.0f, 1.0f, 10.0f, 5.0f, 0.0f, 1.0f, 0.0f, 10.0f, 0.0f, 1.0f};
 
   GLUStextfile vertexSource;
   GLUStextfile geometrySource;
   GLUStextfile fragmentSource;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "conservative.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "conservative.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example44" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "conservative.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, (const GLUSchar **)&geometrySource.text,
-                             (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0,
+                             (const GLUSchar **)&geometrySource.text, (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&geometrySource);
@@ -66,13 +61,10 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
 
-  g_halfPixelSizeLocation =
-      glGetUniformLocation(g_program.program, "u_halfPixelSize");
+  g_halfPixelSizeLocation = glGetUniformLocation(g_program.program, "u_halfPixelSize");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
 
@@ -81,15 +73,13 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(1, &g_verticesVBO);
 
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, 3 * 4 * sizeof(GLfloat), vertices,
-               GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, 3 * 4 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 
   //
 
   glUseProgram(g_program.program);
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
 
@@ -114,11 +104,9 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
-  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE,
-                     g_projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
 
   //
 
@@ -162,11 +150,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -186,8 +172,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

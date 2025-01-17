@@ -150,62 +150,42 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "brdf.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR "brdf.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "brdf.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR "brdf.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_modelProgram,
-                             (const GLchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_modelProgram, (const GLchar **)&vertexSource.text, 0, 0, 0,
                              (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
-  g_viewProjectionMatrixModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_viewProjectionMatrix");
-  g_modelMatrixModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_modelMatrix");
-  g_normalMatrixModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_normalMatrix");
+  g_viewProjectionMatrixModelLocation = glGetUniformLocation(g_modelProgram.program, "u_viewProjectionMatrix");
+  g_modelMatrixModelLocation = glGetUniformLocation(g_modelProgram.program, "u_modelMatrix");
+  g_normalMatrixModelLocation = glGetUniformLocation(g_modelProgram.program, "u_normalMatrix");
   g_eyeModelLocation = glGetUniformLocation(g_modelProgram.program, "u_eye");
-  g_textureSpecularModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_textureSpecular");
-  g_textureDiffuseModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_textureDiffuse");
-  g_textureLUTModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_textureLUT");
-  g_colorMaterialModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_colorMaterial");
-  g_roughnessMaterialModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_roughnessMaterial");
-  g_roughnessScaleModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_roughnessScale");
-  g_R0MaterialModelLocation =
-      glGetUniformLocation(g_modelProgram.program, "u_R0Material");
+  g_textureSpecularModelLocation = glGetUniformLocation(g_modelProgram.program, "u_textureSpecular");
+  g_textureDiffuseModelLocation = glGetUniformLocation(g_modelProgram.program, "u_textureDiffuse");
+  g_textureLUTModelLocation = glGetUniformLocation(g_modelProgram.program, "u_textureLUT");
+  g_colorMaterialModelLocation = glGetUniformLocation(g_modelProgram.program, "u_colorMaterial");
+  g_roughnessMaterialModelLocation = glGetUniformLocation(g_modelProgram.program, "u_roughnessMaterial");
+  g_roughnessScaleModelLocation = glGetUniformLocation(g_modelProgram.program, "u_roughnessScale");
+  g_R0MaterialModelLocation = glGetUniformLocation(g_modelProgram.program, "u_R0Material");
 
-  g_vertexModelLocation =
-      glGetAttribLocation(g_modelProgram.program, "a_vertex");
-  g_normalModelLocation =
-      glGetAttribLocation(g_modelProgram.program, "a_normal");
+  g_vertexModelLocation = glGetAttribLocation(g_modelProgram.program, "a_vertex");
+  g_normalModelLocation = glGetAttribLocation(g_modelProgram.program, "a_normal");
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_fullscreenProgram,
-                             (const GLchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_fullscreenProgram, (const GLchar **)&vertexSource.text, 0, 0, 0,
                              (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -213,30 +193,23 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_framebufferTextureFullscreenLocation =
-      glGetUniformLocation(g_fullscreenProgram.program, "u_framebufferTexture");
+  g_framebufferTextureFullscreenLocation = glGetUniformLocation(g_fullscreenProgram.program, "u_framebufferTexture");
 
-  g_msaaSamplesFullscreenLocation =
-      glGetUniformLocation(g_fullscreenProgram.program, "u_msaaSamples");
-  g_exposureFullscreenLocation =
-      glGetUniformLocation(g_fullscreenProgram.program, "u_exposure");
-  g_gammaFullscreenLocation =
-      glGetUniformLocation(g_fullscreenProgram.program, "u_gamma");
+  g_msaaSamplesFullscreenLocation = glGetUniformLocation(g_fullscreenProgram.program, "u_msaaSamples");
+  g_exposureFullscreenLocation = glGetUniformLocation(g_fullscreenProgram.program, "u_exposure");
+  g_gammaFullscreenLocation = glGetUniformLocation(g_fullscreenProgram.program, "u_gamma");
 
   //
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "background.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example33" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "background.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_backgroundProgram,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_backgroundProgram, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -244,13 +217,11 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_viewProjectionMatrixBackgroundLocation = glGetUniformLocation(
-      g_backgroundProgram.program, "u_viewProjectionMatrix");
-  g_textureBackgroundLocation =
-      glGetUniformLocation(g_backgroundProgram.program, "u_texture");
+  g_viewProjectionMatrixBackgroundLocation =
+      glGetUniformLocation(g_backgroundProgram.program, "u_viewProjectionMatrix");
+  g_textureBackgroundLocation = glGetUniformLocation(g_backgroundProgram.program, "u_texture");
 
-  g_vertexBackgroundLocation =
-      glGetAttribLocation(g_backgroundProgram.program, "a_vertex");
+  g_vertexBackgroundLocation = glGetAttribLocation(g_backgroundProgram.program, "a_vertex");
 
   //
   // Setting up the full screen frame buffer.
@@ -261,8 +232,7 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, g_fullscreenTexture);
 
   // Create MSAA texture.
-  glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, MSAA_SAMPLES, GL_RGB32F,
-                          SCREEN_WIDTH, SCREEN_HEIGHT, GL_TRUE);
+  glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, MSAA_SAMPLES, GL_RGB32F, SCREEN_WIDTH, SCREEN_HEIGHT, GL_TRUE);
 
   glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 
@@ -270,9 +240,7 @@ GLUSboolean init(GLUSvoid) {
 
   glGenRenderbuffers(1, &g_fullscreenDepthRenderbuffer);
   glBindRenderbuffer(GL_RENDERBUFFER, g_fullscreenDepthRenderbuffer);
-  glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_SAMPLES,
-                                   GL_DEPTH_COMPONENT, SCREEN_WIDTH,
-                                   SCREEN_HEIGHT);
+  glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_SAMPLES, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -282,16 +250,13 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_fullscreenFBO);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                         GL_TEXTURE_2D_MULTISAMPLE, g_fullscreenTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, g_fullscreenTexture, 0);
 
   // ... and the depth buffer.
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, g_fullscreenDepthRenderbuffer);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, g_fullscreenDepthRenderbuffer);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -329,18 +294,18 @@ GLUSboolean init(GLUSvoid) {
         }
 
         switch (m) {
-        case 0:
-        case 1:
-          buffer[16] = 'X';
-          break;
-        case 2:
-        case 3:
-          buffer[16] = 'Y';
-          break;
-        case 4:
-        case 5:
-          buffer[16] = 'Z';
-          break;
+          case 0:
+          case 1:
+            buffer[16] = 'X';
+            break;
+          case 2:
+          case 3:
+            buffer[16] = 'Y';
+            break;
+          case 4:
+          case 5:
+            buffer[16] = 'Z';
+            break;
         }
 
         printf("Loading '%s' ...", buffer);
@@ -349,8 +314,7 @@ GLUSboolean init(GLUSvoid) {
         strncpy(&path_name[strlen(RESOURCE_PATH)], buffer, 27);
         path_name[strlen(RESOURCE_PATH) + 27 + 1] = 0;
 
-        if (!glusImageLoadHdr(path_name,
-                              &image[i * NUMBER_ROUGHNESS * 6 + k * 6 + m])) {
+        if (!glusImageLoadHdr(path_name, &image[i * NUMBER_ROUGHNESS * 6 + k * 6 + m])) {
           printf(" error!\n");
           continue;
         }
@@ -364,15 +328,14 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, g_texture[0]);
 
-  glTexImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, GL_RGB32F, image[0].width,
-               image[0].height, 6 * NUMBER_ROUGHNESS, 0, GL_RGB, GL_FLOAT, 0);
+  glTexImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, GL_RGB32F, image[0].width, image[0].height, 6 * NUMBER_ROUGHNESS, 0,
+               GL_RGB, GL_FLOAT, 0);
 
   glusLogPrintError(GLUS_LOG_INFO, "glTexImage3D()");
 
   for (i = 0; i < NUMBER_ROUGHNESS; i++) {
     for (k = 0; k < 6; k++) {
-      glTexSubImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, 6 * i + k,
-                      image[i * 6 + k].width, image[i * 6 + k].height, 1,
+      glTexSubImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, 6 * i + k, image[i * 6 + k].width, image[i * 6 + k].height, 1,
                       image[i * 6 + k].format, GL_FLOAT, image[i * 6 + k].data);
 
       glusLogPrintError(GLUS_LOG_INFO, "glTexSubImage3D() %d %d", i, k);
@@ -381,10 +344,8 @@ GLUSboolean init(GLUSvoid) {
 
   glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_S,
-                  GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_T,
-                  GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
   glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, 0);
 
@@ -395,12 +356,9 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_CUBE_MAP, g_texture[1]);
 
   for (i = 0; i < 6; i++) {
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0,
-                 image[i + 6 * NUMBER_ROUGHNESS].format,
-                 image[i + 6 * NUMBER_ROUGHNESS].width,
-                 image[i + 6 * NUMBER_ROUGHNESS].height, 0,
-                 image[i + 6 * NUMBER_ROUGHNESS].format, GL_FLOAT,
-                 image[i + 6 * NUMBER_ROUGHNESS].data);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, image[i + 6 * NUMBER_ROUGHNESS].format,
+                 image[i + 6 * NUMBER_ROUGHNESS].width, image[i + 6 * NUMBER_ROUGHNESS].height, 0,
+                 image[i + 6 * NUMBER_ROUGHNESS].format, GL_FLOAT, image[i + 6 * NUMBER_ROUGHNESS].data);
 
     glusLogPrintError(GLUS_LOG_INFO, "glTexImage2D() %d", i);
   }
@@ -415,8 +373,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   printf("Loading 'doge2/EnvironmentBRDF_1024.data' ...");
-  if (!glusFileLoadBinary(RESOURCE_PATH "doge2/EnvironmentBRDF_1024.data",
-                          &rawimage)) {
+  if (!glusFileLoadBinary(RESOURCE_PATH "doge2/EnvironmentBRDF_1024.data", &rawimage)) {
     printf(" error!\n");
   } else {
     printf(" done.\n");
@@ -426,8 +383,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, g_texture[2]);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, 1024, 1024, 0, GL_RG, GL_FLOAT,
-               (GLfloat *)rawimage.binary);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, 1024, 1024, 0, GL_RG, GL_FLOAT, (GLfloat *)rawimage.binary);
 
   glusLogPrintError(GLUS_LOG_INFO, "glTexImage2D()");
 
@@ -461,16 +417,14 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesBackgroundVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesBackgroundVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               backgroundSphere.numberVertices * 4 * sizeof(GLfloat),
+  glBufferData(GL_ARRAY_BUFFER, backgroundSphere.numberVertices * 4 * sizeof(GLfloat),
                (GLfloat *)backgroundSphere.vertices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesBackgroundVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               backgroundSphere.numberIndices * sizeof(GLuint),
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, backgroundSphere.numberIndices * sizeof(GLuint),
                (GLuint *)backgroundSphere.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -487,13 +441,13 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesModelVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesModelVBO);
-  glBufferData(GL_ARRAY_BUFFER, wavefront.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefront.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefront.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefront.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsModelVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsModelVBO);
-  glBufferData(GL_ARRAY_BUFFER, wavefront.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefront.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefront.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefront.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -540,8 +494,7 @@ GLUSboolean init(GLUSvoid) {
   glBindVertexArray(g_backgroundVAO);
 
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesBackgroundVBO);
-  glVertexAttribPointer(g_vertexBackgroundLocation, 4, GL_FLOAT, GL_FALSE, 0,
-                        0);
+  glVertexAttribPointer(g_vertexBackgroundLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(g_vertexBackgroundLocation);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
@@ -563,11 +516,9 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 60.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 60.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
 
-  glusMatrix4x4LookAtf(viewMatrix, g_eye[0], g_eye[1], g_eye[2], 0.0f, 2.0f,
-                       0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, g_eye[0], g_eye[1], g_eye[2], 0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glusMatrix4x4Multiplyf(g_viewProjectionMatrix, projectionMatrix, viewMatrix);
 }
@@ -604,8 +555,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_backgroundProgram.program);
 
-  glUniformMatrix4fv(g_viewProjectionMatrixBackgroundLocation, 1, GL_FALSE,
-                     g_viewProjectionMatrix);
+  glUniformMatrix4fv(g_viewProjectionMatrixBackgroundLocation, 1, GL_FALSE, g_viewProjectionMatrix);
 
   glBindVertexArray(g_backgroundVAO);
 
@@ -629,8 +579,7 @@ GLUSboolean update(GLUSfloat time) {
   glUniform1f(g_R0MaterialModelLocation, g_R0);
   glUniform3fv(g_colorMaterialModelLocation, 1, g_colorMaterial);
 
-  glUniformMatrix4fv(g_viewProjectionMatrixModelLocation, 1, GL_FALSE,
-                     g_viewProjectionMatrix);
+  glUniformMatrix4fv(g_viewProjectionMatrixModelLocation, 1, GL_FALSE, g_viewProjectionMatrix);
   glUniformMatrix4fv(g_modelMatrixModelLocation, 1, GL_FALSE, modelMatrix);
   glUniformMatrix3fv(g_normalMatrixModelLocation, 1, GL_FALSE, normalMatrix);
 
@@ -810,11 +759,9 @@ GLUSvoid key(const GLUSboolean pressed, const GLUSint key) {
 
 int main(int argc, char *argv[]) {
   // No MSAA here, as we render to an off screen MSAA buffer.
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -837,8 +784,7 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // No resize, as it makes code simpler.
-  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
                         eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;

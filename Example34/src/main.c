@@ -135,17 +135,14 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "renderdepthmap.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "renderdepthmap.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_programDepthPass,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_programDepthPass, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -153,56 +150,40 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR
-                   "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
-                   "subsurfacescattering.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
+                                                "subsurfacescattering.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR
-                   "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
-                   "subsurfacescattering.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example34" PATH_SEPERATOR "shader" PATH_SEPERATOR
+                                                "subsurfacescattering.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_projectionMatrixDepthPassLocation =
-      glGetUniformLocation(g_programDepthPass.program, "u_projectionMatrix");
-  g_modelViewMatrixDepthPassLocation =
-      glGetUniformLocation(g_programDepthPass.program, "u_modelViewMatrix");
-  g_vertexDepthPassLocation =
-      glGetAttribLocation(g_programDepthPass.program, "a_vertex");
+  g_projectionMatrixDepthPassLocation = glGetUniformLocation(g_programDepthPass.program, "u_projectionMatrix");
+  g_modelViewMatrixDepthPassLocation = glGetUniformLocation(g_programDepthPass.program, "u_modelViewMatrix");
+  g_vertexDepthPassLocation = glGetAttribLocation(g_programDepthPass.program, "a_vertex");
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
-  g_depthPassMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_depthPassMatrix");
-  g_diffuseColorLocation =
-      glGetUniformLocation(g_program.program, "u_diffuseColor");
-  g_scatterColorLocation =
-      glGetUniformLocation(g_program.program, "u_scatterColor");
-  g_lightDirectionLocation =
-      glGetUniformLocation(g_program.program, "u_lightDirection");
-  g_depthPassTextureLocation =
-      glGetUniformLocation(g_program.program, "u_depthPassTexture");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_depthPassMatrixLocation = glGetUniformLocation(g_program.program, "u_depthPassMatrix");
+  g_diffuseColorLocation = glGetUniformLocation(g_program.program, "u_diffuseColor");
+  g_scatterColorLocation = glGetUniformLocation(g_program.program, "u_scatterColor");
+  g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
+  g_depthPassTextureLocation = glGetUniformLocation(g_program.program, "u_depthPassTexture");
   g_nearFarLocation = glGetUniformLocation(g_program.program, "u_nearFar");
   g_wrapLocation = glGetUniformLocation(g_program.program, "u_wrap");
-  g_scatterWidthLocation =
-      glGetUniformLocation(g_program.program, "u_scatterWidth");
-  g_scatterFalloffLocation =
-      glGetUniformLocation(g_program.program, "u_scatterFalloff");
+  g_scatterWidthLocation = glGetUniformLocation(g_program.program, "u_scatterWidth");
+  g_scatterFalloffLocation = glGetUniformLocation(g_program.program, "u_scatterFalloff");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
   g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
@@ -212,8 +193,8 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_depthPassTexture);
   glBindTexture(GL_TEXTURE_2D, g_depthPassTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, g_depthPassTextureSize,
-               g_depthPassTextureSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, g_depthPassTextureSize, g_depthPassTextureSize, 0,
+               GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -230,12 +211,10 @@ GLUSboolean init(GLUSvoid) {
   glDrawBuffer(GL_NONE);
   glReadBuffer(GL_NONE);
 
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                         g_depthPassTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_depthPassTexture, 0);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -251,22 +230,19 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj",
-                         &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj", &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefrontObj.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefrontObj.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -276,8 +252,8 @@ GLUSboolean init(GLUSvoid) {
 
   glUseProgram(g_program.program);
 
-  glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1],
-                       g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f,
+                       0.0f, 1.0f, 0.0f);
 
   glusMatrix4x4MultiplyVector3f(lightDirection, viewMatrix, lightDirection);
 
@@ -325,9 +301,8 @@ GLUSboolean init(GLUSvoid) {
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height) {
-  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f,
-                                 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f,
-                                 0.5f, 0.5f, 0.5f, 1.0f};
+  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f,
+                                 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
 
   GLfloat projectionMatrix[16];
 
@@ -339,25 +314,20 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glUseProgram(g_programDepthPass.program);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)g_depthPassTextureSize /
-                                (GLfloat)g_depthPassTextureSize,
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)g_depthPassTextureSize / (GLfloat)g_depthPassTextureSize,
                             g_near, g_far);
 
-  glUniformMatrix4fv(g_projectionMatrixDepthPassLocation, 1, GL_FALSE,
-                     projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixDepthPassLocation, 1, GL_FALSE, projectionMatrix);
 
   glusMatrix4x4Identityf(g_depthPassMatrix);
   glusMatrix4x4Multiplyf(g_depthPassMatrix, g_depthPassMatrix, biasMatrix);
-  glusMatrix4x4Multiplyf(g_depthPassMatrix, g_depthPassMatrix,
-                         projectionMatrix);
+  glusMatrix4x4Multiplyf(g_depthPassMatrix, g_depthPassMatrix, projectionMatrix);
 
   //
 
   glUseProgram(g_program.program);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
 }
@@ -380,8 +350,8 @@ GLUSboolean update(GLUSfloat time) {
   glViewport(0, 0, g_depthPassTextureSize, g_depthPassTextureSize);
   glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-  glusMatrix4x4LookAtf(viewMatrix, g_lightPosition[0], g_lightPosition[1],
-                       g_lightPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, g_lightPosition[0], g_lightPosition[1], g_lightPosition[2], 0.0f, 0.0f, 0.0f, 0.0f,
+                       1.0f, 0.0f);
 
   glusMatrix4x4Multiplyf(depthPassMatrix, g_depthPassMatrix, viewMatrix);
 
@@ -397,8 +367,7 @@ GLUSboolean update(GLUSfloat time) {
   glusMatrix4x4Scalef(modelMatrix, 1.05f, 1.05f, 1.05f);
   glusMatrix4x4Multiplyf(modelViewMatrix, viewMatrix, modelMatrix);
 
-  glUniformMatrix4fv(g_modelViewMatrixDepthPassLocation, 1, GL_FALSE,
-                     modelViewMatrix);
+  glUniformMatrix4fv(g_modelViewMatrixDepthPassLocation, 1, GL_FALSE, modelViewMatrix);
 
   glBindVertexArray(g_vaoDepthPass);
 
@@ -419,8 +388,8 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_program.program);
 
-  glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1],
-                       g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f,
+                       0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
   glUniformMatrix4fv(g_depthPassMatrixLocation, 1, GL_FALSE, depthPassMatrix);
@@ -532,11 +501,9 @@ GLUSvoid key(const GLUSboolean pressed, const GLUSint key) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -558,8 +525,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

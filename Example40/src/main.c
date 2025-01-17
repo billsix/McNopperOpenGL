@@ -87,52 +87,36 @@ GLUSboolean init(GLUSvoid) {
   GLfloat sphereCenter[4] = {0.0f, 0.0f, -0.01f, 1.0f};
   GLfloat sphereRadius = 1.0f;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "cloth.comp.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR "shader" PATH_SEPERATOR "cloth.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "cloth.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR "shader" PATH_SEPERATOR "cloth.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "cloth.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example40" PATH_SEPERATOR "shader" PATH_SEPERATOR "cloth.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_verticesPerRowLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_verticesPerRow");
-  g_deltaTimeLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_deltaTime");
-  g_distanceRestLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_distanceRest");
-  g_distanceDiagonalRestLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_distanceDiagonalRest");
-  g_sphereCenterLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_sphereCenter");
-  g_sphereRadiusLocation =
-      glGetUniformLocation(g_computeProgram.program, "u_sphereRadius");
+  g_verticesPerRowLocation = glGetUniformLocation(g_computeProgram.program, "u_verticesPerRow");
+  g_deltaTimeLocation = glGetUniformLocation(g_computeProgram.program, "u_deltaTime");
+  g_distanceRestLocation = glGetUniformLocation(g_computeProgram.program, "u_distanceRest");
+  g_distanceDiagonalRestLocation = glGetUniformLocation(g_computeProgram.program, "u_distanceDiagonalRest");
+  g_sphereCenterLocation = glGetUniformLocation(g_computeProgram.program, "u_sphereCenter");
+  g_sphereRadiusLocation = glGetUniformLocation(g_computeProgram.program, "u_sphereRadius");
 
-  g_modelViewProjectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
-  g_lightDirectionLocation =
-      glGetUniformLocation(g_program.program, "u_lightDirection");
+  g_modelViewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
   g_colorLocation = glGetUniformLocation(g_program.program, "u_color");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
@@ -141,8 +125,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to create a grid plane.
-  glusShapeCreateRectangularGridPlanef(&g_gridPlane, 2.0f, 2.0f, ROWS, ROWS,
-                                       GLUS_FALSE);
+  glusShapeCreateRectangularGridPlanef(&g_gridPlane, 2.0f, 2.0f, ROWS, ROWS, GLUS_FALSE);
 
   // Use x, as only horizontal and vertical springs are used. Adapt this, if
   // diagonal or a non square grid is used.
@@ -154,17 +137,15 @@ GLUSboolean init(GLUSvoid) {
   glusMatrix4x4Translatef(matrix, 0.0f, 1.1f, 0.0f);
   glusMatrix4x4RotateRxf(matrix, -90.0f);
   for (i = 0; i < g_gridPlane.numberVertices; i++) {
-    glusMatrix4x4MultiplyPoint4f(&g_gridPlane.vertices[4 * i], matrix,
-                                 &g_gridPlane.vertices[4 * i]);
+    glusMatrix4x4MultiplyPoint4f(&g_gridPlane.vertices[4 * i], matrix, &g_gridPlane.vertices[4 * i]);
   }
 
   g_numberIndicesPlane = g_gridPlane.numberIndices;
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               g_gridPlane.numberIndices * sizeof(GLuint),
-               (GLuint *)g_gridPlane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_gridPlane.numberIndices * sizeof(GLuint), (GLuint *)g_gridPlane.indices,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -173,8 +154,7 @@ GLUSboolean init(GLUSvoid) {
   normals = (GLfloat *)malloc(g_gridPlane.numberVertices * 4 * sizeof(GLfloat));
 
   // Add one more GLfloat channel as padding for std430 layout.
-  glusPaddingConvertf(normals, g_gridPlane.normals, 3, 1,
-                      g_gridPlane.numberVertices);
+  glusPaddingConvertf(normals, g_gridPlane.normals, 3, 1, g_gridPlane.numberVertices);
 
   free(g_gridPlane.normals);
   g_gridPlane.normals = normals;
@@ -184,26 +164,21 @@ GLUSboolean init(GLUSvoid) {
   glGenBuffers(3, g_verticesBuffer);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_verticesBuffer[0]);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
-               g_gridPlane.vertices, GL_DYNAMIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, g_gridPlane.numberVertices * 4 * sizeof(GLfloat), g_gridPlane.vertices,
+               GL_DYNAMIC_DRAW);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_verticesBuffer[1]);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
-               g_gridPlane.vertices, GL_DYNAMIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, g_gridPlane.numberVertices * 4 * sizeof(GLfloat), g_gridPlane.vertices,
+               GL_DYNAMIC_DRAW);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_verticesBuffer[2]);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               g_gridPlane.numberVertices * 4 * sizeof(GLfloat), 0,
-               GL_DYNAMIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, g_gridPlane.numberVertices * 4 * sizeof(GLfloat), 0, GL_DYNAMIC_DRAW);
 
   glGenBuffers(1, &g_normalsBuffer);
 
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_normalsBuffer);
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
-               g_gridPlane.normals, GL_DYNAMIC_DRAW);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, g_gridPlane.numberVertices * 4 * sizeof(GLfloat), g_gridPlane.normals,
+               GL_DYNAMIC_DRAW);
 
   //
 
@@ -283,18 +258,14 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
   // transposed matrix.
   glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelMatrix);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
-  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glusMatrix4x4Multiplyf(viewProjectionMatrix, projectionMatrix, viewMatrix);
-  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, viewProjectionMatrix,
-                         modelMatrix);
+  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, viewProjectionMatrix, modelMatrix);
 
-  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE,
-                     modelViewProjectionMatrix);
+  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE, modelViewProjectionMatrix);
   glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
 
   glUseProgram(0);
@@ -327,16 +298,10 @@ GLUSboolean update(GLUSfloat time) {
 
   glUniform1f(g_deltaTimeLocation, time);
 
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER,
-                   BINDING_BUFFER_COMP_VERTICES_IN_PREVIOUS,
-                   g_verticesBuffer[previousInput]);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER,
-                   BINDING_BUFFER_COMP_VERTICES_IN_CURRENT,
-                   g_verticesBuffer[currentInput]);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_OUT,
-                   g_verticesBuffer[currentOutput]);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_NORMALS_OUT,
-                   g_normalsBuffer);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_IN_PREVIOUS, g_verticesBuffer[previousInput]);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_IN_CURRENT, g_verticesBuffer[currentInput]);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_OUT, g_verticesBuffer[currentOutput]);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_NORMALS_OUT, g_normalsBuffer);
 
   // Process all vertices.
   glDispatchCompute(1, 1, 1);
@@ -344,14 +309,10 @@ GLUSboolean update(GLUSfloat time) {
   // Make sure, all vertices and normals are written.
   glMemoryBarrier(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
 
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER,
-                   BINDING_BUFFER_COMP_VERTICES_IN_PREVIOUS, 0);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER,
-                   BINDING_BUFFER_COMP_VERTICES_IN_CURRENT, 0);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_OUT,
-                   0);
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_NORMALS_OUT,
-                   0);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_IN_PREVIOUS, 0);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_IN_CURRENT, 0);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_VERTICES_OUT, 0);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_COMP_NORMALS_OUT, 0);
 
   //
   // Drawing part.
@@ -385,13 +346,11 @@ GLUSboolean update(GLUSfloat time) {
     currentOutput = 2;
 
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_verticesBuffer[previousInput]);
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0,
-                    g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
                     g_gridPlane.vertices);
 
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, g_verticesBuffer[currentInput]);
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0,
-                    g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, g_gridPlane.numberVertices * 4 * sizeof(GLfloat),
                     g_gridPlane.vertices);
 
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -466,10 +425,8 @@ GLUSvoid terminate(GLUSvoid) {
 
 int main(int argc, char *argv[]) {
   EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS,  1,
-      EGL_SAMPLES,      4, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,     8, EGL_BLUE_SIZE, 8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS, 1, EGL_SAMPLES,   4, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
       EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
@@ -492,9 +449,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 1024, 768, GLUS_FALSE,
-                        GLUS_FALSE, eglConfigAttributes, eglContextAttributes,
-                        0)) {
+  if (!glusWindowCreate("GLUS Example Window", 1024, 768, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

@@ -79,21 +79,18 @@ static const GLint QUADRANT_STEP = 2;
  * The height map of the terrain. Width and height does not have to be the same
  * but they have to be power of two plus one.
  */
-static const char *HEIGHT_MAP =
-    RESOURCE_PATH PATH_SEPERATOR "grand_canyon_height.tga";
+static const char *HEIGHT_MAP = RESOURCE_PATH PATH_SEPERATOR "grand_canyon_height.tga";
 
 /**
  * The color map of the terrain.
  */
-static const char *COLOR_MAP =
-    RESOURCE_PATH PATH_SEPERATOR "grand_canyon_color.tga";
+static const char *COLOR_MAP = RESOURCE_PATH PATH_SEPERATOR "grand_canyon_color.tga";
 
 /**
  * The normal map of the terrain. Width and height does not have to be the same
  * but they have to be power of two plus one.
  */
-static const char *NORMAL_MAP =
-    RESOURCE_PATH PATH_SEPERATOR "grand_canyon_normal.tga";
+static const char *NORMAL_MAP = RESOURCE_PATH PATH_SEPERATOR "grand_canyon_normal.tga";
 
 /**
  * Flag, if animation is on or off
@@ -254,31 +251,29 @@ GLUSboolean init(GLUSvoid) {
 
   glusVector3Normalizef(lightDirection);
 
-  g_topView =
-      (ViewData){.cameraPosition[0] = 0.0f,
-                 .cameraPosition[1] = 30000.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
-                 .cameraPosition[2] = 0.0f,
-                 .cameraPosition[3] = 1.0,
-                 .cameraDirection[0] = 0.0f,
-                 .cameraDirection[1] = -1.0f,
-                 .cameraDirection[2] = 0.0f,
-                 .cameraUp[0] = 0.0f,
-                 .cameraUp[1] = 0.0f,
-                 .cameraUp[2] = -1.0f,
-                 .fov = 40.0f};
+  g_topView = (ViewData){.cameraPosition[0] = 0.0f,
+                         .cameraPosition[1] = 30000.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
+                         .cameraPosition[2] = 0.0f,
+                         .cameraPosition[3] = 1.0,
+                         .cameraDirection[0] = 0.0f,
+                         .cameraDirection[1] = -1.0f,
+                         .cameraDirection[2] = 0.0f,
+                         .cameraUp[0] = 0.0f,
+                         .cameraUp[1] = 0.0f,
+                         .cameraUp[2] = -1.0f,
+                         .fov = 40.0f};
 
-  g_personView =
-      (ViewData){.cameraPosition[0] = 0.0f,
-                 .cameraPosition[1] = 4700.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
-                 .cameraPosition[2] = 0.0f,
-                 .cameraPosition[3] = 1.0,
-                 .cameraDirection[0] = 0.0f,
-                 .cameraDirection[1] = 0.0f,
-                 .cameraDirection[2] = -1.0f,
-                 .cameraUp[0] = 0.0f,
-                 .cameraUp[1] = 1.0f,
-                 .cameraUp[2] = 0.0f,
-                 .fov = 60.0f};
+  g_personView = (ViewData){.cameraPosition[0] = 0.0f,
+                            .cameraPosition[1] = 4700.0f * METERS_TO_VIRTUAL_WORLD_SCALE,
+                            .cameraPosition[2] = 0.0f,
+                            .cameraPosition[3] = 1.0,
+                            .cameraDirection[0] = 0.0f,
+                            .cameraDirection[1] = 0.0f,
+                            .cameraDirection[2] = -1.0f,
+                            .cameraUp[0] = 0.0f,
+                            .cameraUp[1] = 1.0f,
+                            .cameraUp[2] = 0.0f,
+                            .fov = 60.0f};
 
   g_activeView = &g_personView;
 
@@ -294,8 +289,8 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_RECTANGLE, g_normalMapTexture);
 
-  glTexImage2D(GL_TEXTURE_RECTANGLE, 0, image.format, image.width, image.height,
-               0, image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_RECTANGLE, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -314,8 +309,8 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_RECTANGLE, g_heightMapTexture);
 
-  glTexImage2D(GL_TEXTURE_RECTANGLE, 0, image.format, image.width, image.height,
-               0, image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_RECTANGLE, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -338,26 +333,21 @@ GLUSboolean init(GLUSvoid) {
 
   // Do checking of calculated parameters
   if (MINIMUM_DETAIL_LEVEL > overallMaxDetailLevel) {
-    printf("Detail level to high %d > %d\n", MINIMUM_DETAIL_LEVEL,
-           overallMaxDetailLevel);
+    printf("Detail level to high %d > %d\n", MINIMUM_DETAIL_LEVEL, overallMaxDetailLevel);
 
     return GLUS_FALSE;
   }
 
   if (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS > overallMaxDetailLevel) {
-    printf("First pass detail level to high %d > %d\n",
-           MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS,
+    printf("First pass detail level to high %d > %d\n", MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS,
            overallMaxDetailLevel);
 
     return GLUS_FALSE;
   }
 
-  if (powf(2.0f, overallMaxDetailLevel - (MINIMUM_DETAIL_LEVEL +
-                                          DETAIL_LEVEL_FIRST_PASS)) > 32.0f) {
+  if (powf(2.0f, overallMaxDetailLevel - (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS)) > 32.0f) {
     printf("Tessellation level to high %d > 32\n",
-           (GLint)powf(2.0f,
-                       overallMaxDetailLevel -
-                           (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS)));
+           (GLint)powf(2.0f, overallMaxDetailLevel - (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS)));
 
     return GLUS_FALSE;
   }
@@ -378,10 +368,8 @@ GLUSboolean init(GLUSvoid) {
 
   for (t = 0; t < g_tNumPoints; t++) {
     for (s = 0; s < g_sNumPoints; s++) {
-      map[t * g_sNumPoints * 2 + s * 2 + 0] =
-          0.5f + detailStep / 2.0f + (GLfloat)s * detailStep;
-      map[t * g_sNumPoints * 2 + s * 2 + 1] =
-          0.5f + detailStep / 2.0f + (GLfloat)t * detailStep;
+      map[t * g_sNumPoints * 2 + s * 2 + 0] = 0.5f + detailStep / 2.0f + (GLfloat)s * detailStep;
+      map[t * g_sNumPoints * 2 + s * 2 + 1] = 0.5f + detailStep / 2.0f + (GLfloat)t * detailStep;
 
       indices[t * g_sNumPoints + s + 0] = (t + 0) * g_sNumPoints + s + 0;
     }
@@ -395,17 +383,13 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesPassOneVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesPassOneVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_sNumPoints * g_tNumPoints * 2 * sizeof(GLfloat), map,
-               GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_sNumPoints * g_tNumPoints * 2 * sizeof(GLfloat), map, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesPassOneVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesPassOneVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               g_sNumPoints * g_tNumPoints * sizeof(GLuint), indices,
-               GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_sNumPoints * g_tNumPoints * sizeof(GLuint), indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -415,10 +399,8 @@ GLUSboolean init(GLUSvoid) {
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesPassTwoVBO);
   // Calculate enough space!
   glBufferData(GL_ARRAY_BUFFER,
-               g_sNumPoints * g_tNumPoints *
-                   (GLuint)pow(4, DETAIL_LEVEL_FIRST_PASS + 1) * 2 *
-                   sizeof(GLfloat),
-               0, GL_STATIC_DRAW);
+               g_sNumPoints * g_tNumPoints * (GLuint)pow(4, DETAIL_LEVEL_FIRST_PASS + 1) * 2 * sizeof(GLfloat), 0,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -442,8 +424,8 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_2D, g_colorMapTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -462,29 +444,19 @@ GLUSboolean init(GLUSvoid) {
 
   // Pass one.
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassOne.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassOne.geom.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassOne.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassOne.frag.glsl",
                    &fragmentSource);
 
   // Compile and ...
-  glusProgramCreateFromSource(&g_programPassOne,
-                              (const GLUSchar **)&vertexSource.text, 0, 0,
-                              (const GLUSchar **)&geometrySource.text,
-                              (const GLUSchar **)&fragmentSource.text);
+  glusProgramCreateFromSource(&g_programPassOne, (const GLUSchar **)&vertexSource.text, 0, 0,
+                              (const GLUSchar **)&geometrySource.text, (const GLUSchar **)&fragmentSource.text);
 
   // ... add the transform variable ...
-  glTransformFeedbackVaryings(g_programPassOne.program, 1,
-                              (const GLchar **)&TRANSFORM_VARYING,
-                              GL_SEPARATE_ATTRIBS);
+  glTransformFeedbackVaryings(g_programPassOne.program, 1, (const GLchar **)&TRANSFORM_VARYING, GL_SEPARATE_ATTRIBS);
 
   // ... and link the program
   if (!glusProgramLink(&g_programPassOne)) {
@@ -498,53 +470,34 @@ GLUSboolean init(GLUSvoid) {
   glusFileDestroyText(&geometrySource);
   glusFileDestroyText(&fragmentSource);
 
-  g_halfDetailStepPassOneLocation =
-      glGetUniformLocation(g_programPassOne.program, "u_halfDetailStep");
+  g_halfDetailStepPassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_halfDetailStep");
 
-  g_detailLevelPassOneLocation =
-      glGetUniformLocation(g_programPassOne.program, "u_detailLevel");
+  g_detailLevelPassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_detailLevel");
 
-  g_fovRadiusPassOneLocation =
-      glGetUniformLocation(g_programPassOne.program, "u_fovRadius");
+  g_fovRadiusPassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_fovRadius");
 
-  g_positionTextureSpacePassOneLocation =
-      glGetUniformLocation(g_programPassOne.program, "u_positionTextureSpace");
-  g_leftNormalTextureSpacePassOneLocation = glGetUniformLocation(
-      g_programPassOne.program, "u_leftNormalTextureSpace");
-  g_rightNormalTextureSpacePassOneLocation = glGetUniformLocation(
-      g_programPassOne.program, "u_rightNormalTextureSpace");
-  g_backNormalTextureSpacePassOneLocation = glGetUniformLocation(
-      g_programPassOne.program, "u_backNormalTextureSpace");
+  g_positionTextureSpacePassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_positionTextureSpace");
+  g_leftNormalTextureSpacePassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_leftNormalTextureSpace");
+  g_rightNormalTextureSpacePassOneLocation =
+      glGetUniformLocation(g_programPassOne.program, "u_rightNormalTextureSpace");
+  g_backNormalTextureSpacePassOneLocation = glGetUniformLocation(g_programPassOne.program, "u_backNormalTextureSpace");
 
   // Pass two.
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassTwo.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassTwo.cont.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.cont.glsl",
                    &controlSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassTwo.eval.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.eval.glsl",
                    &evaluationSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassTwo.geom.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "PassTwo.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example14" PATH_SEPERATOR "shader" PATH_SEPERATOR "PassTwo.frag.glsl",
                    &fragmentSource);
 
-  if (!glusProgramBuildFromSource(&g_shaderProgramPassTwo,
-                                  (const GLUSchar **)&vertexSource.text,
-                                  (const GLUSchar **)&controlSource.text,
-                                  (const GLUSchar **)&evaluationSource.text,
-                                  (const GLUSchar **)&geometrySource.text,
-                                  (const GLUSchar **)&fragmentSource.text)) {
+  if (!glusProgramBuildFromSource(&g_shaderProgramPassTwo, (const GLUSchar **)&vertexSource.text,
+                                  (const GLUSchar **)&controlSource.text, (const GLUSchar **)&evaluationSource.text,
+                                  (const GLUSchar **)&geometrySource.text, (const GLUSchar **)&fragmentSource.text)) {
     printf("Could not build program two\n");
 
     return GLUS_FALSE;
@@ -556,28 +509,22 @@ GLUSboolean init(GLUSvoid) {
   glusFileDestroyText(&geometrySource);
   glusFileDestroyText(&fragmentSource);
 
-  g_maxTessellationLevelPassTwoLocation = glGetUniformLocation(
-      g_shaderProgramPassTwo.program, "u_maxTessellationLevel");
+  g_maxTessellationLevelPassTwoLocation =
+      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_maxTessellationLevel");
 
-  g_quadrantStepPassTwoLocation =
-      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_quadrantStep");
+  g_quadrantStepPassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_quadrantStep");
 
-  g_positionTextureSpacePassTwoLocation = glGetUniformLocation(
-      g_shaderProgramPassTwo.program, "u_positionTextureSpace");
+  g_positionTextureSpacePassTwoLocation =
+      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_positionTextureSpace");
 
-  g_heightMapTexturePassTwoLocation = glGetUniformLocation(
-      g_shaderProgramPassTwo.program, "u_heightMapTexture");
-  g_normalMapTexturePassTwoLocation = glGetUniformLocation(
-      g_shaderProgramPassTwo.program, "u_normalMapTexture");
+  g_heightMapTexturePassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_heightMapTexture");
+  g_normalMapTexturePassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_normalMapTexture");
 
-  g_tmvpPassTwoLocation =
-      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_tmvpMatrix");
+  g_tmvpPassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_tmvpMatrix");
 
-  g_lightDirectionPassTwoLocation =
-      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_lightDirection");
+  g_lightDirectionPassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_lightDirection");
 
-  g_colorMapTexturePassTwoLocation =
-      glGetUniformLocation(g_shaderProgramPassTwo.program, "u_colorMapTexture");
+  g_colorMapTexturePassTwoLocation = glGetUniformLocation(g_shaderProgramPassTwo.program, "u_colorMapTexture");
 
   //
 
@@ -586,8 +533,7 @@ GLUSboolean init(GLUSvoid) {
   glusMatrix4x4Identityf(g_textureToWorldMatrix);
   glusMatrix4x4Identityf(textureToWorldNormalMatrix);
 
-  glusMatrix4x4Scalef(g_textureToWorldMatrix,
-                      HORIZONTAL_PIXEL_SPACING * METERS_TO_VIRTUAL_WORLD_SCALE,
+  glusMatrix4x4Scalef(g_textureToWorldMatrix, HORIZONTAL_PIXEL_SPACING * METERS_TO_VIRTUAL_WORLD_SCALE,
                       VERTICAL_PIXEL_RANGE * METERS_TO_VIRTUAL_WORLD_SCALE,
                       HORIZONTAL_PIXEL_SPACING * METERS_TO_VIRTUAL_WORLD_SCALE);
   // Skip this scale for the normal matrix
@@ -595,16 +541,13 @@ GLUSboolean init(GLUSvoid) {
   glusMatrix4x4Scalef(g_textureToWorldMatrix, 1.0f, 1.0f, -1.0f);
   glusMatrix4x4Scalef(textureToWorldNormalMatrix, 1.0f, 1.0f, -1.0f);
 
-  glusMatrix4x4Translatef(g_textureToWorldMatrix, -g_sMapExtend / 2.0f, 0.0f,
-                          -g_tMapExtend / 2.0f);
+  glusMatrix4x4Translatef(g_textureToWorldMatrix, -g_sMapExtend / 2.0f, 0.0f, -g_tMapExtend / 2.0f);
   // No need for the translation matrix in the normal matrix
 
-  glusMatrix4x4Copyf(g_worldToTextureMatrix, g_textureToWorldMatrix,
-                     GLUS_FALSE);
+  glusMatrix4x4Copyf(g_worldToTextureMatrix, g_textureToWorldMatrix, GLUS_FALSE);
   glusMatrix4x4Inversef(g_worldToTextureMatrix);
 
-  glusMatrix4x4Copyf(g_worldToTextureNormalMatrix, textureToWorldNormalMatrix,
-                     GLUS_FALSE);
+  glusMatrix4x4Copyf(g_worldToTextureNormalMatrix, textureToWorldNormalMatrix, GLUS_FALSE);
   glusMatrix4x4Inversef(g_worldToTextureNormalMatrix);
 
   // Pass one
@@ -613,9 +556,7 @@ GLUSboolean init(GLUSvoid) {
 
   glUniform1f(g_halfDetailStepPassOneLocation, detailStep / 2.0f);
   glUniform1ui(g_detailLevelPassOneLocation, DETAIL_LEVEL_FIRST_PASS);
-  glUniform1f(g_fovRadiusPassOneLocation, FOV_RADIUS /
-                                              HORIZONTAL_PIXEL_SPACING *
-                                              METERS_TO_VIRTUAL_WORLD_SCALE);
+  glUniform1f(g_fovRadiusPassOneLocation, FOV_RADIUS / HORIZONTAL_PIXEL_SPACING * METERS_TO_VIRTUAL_WORLD_SCALE);
 
   glGenVertexArrays(1, &g_vaoPassOne);
   glBindVertexArray(g_vaoPassOne);
@@ -634,8 +575,7 @@ GLUSboolean init(GLUSvoid) {
 
   glUniform3fv(g_lightDirectionPassTwoLocation, 1, lightDirection);
   glUniform1ui(g_maxTessellationLevelPassTwoLocation,
-               overallMaxDetailLevel -
-                   (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS));
+               overallMaxDetailLevel - (MINIMUM_DETAIL_LEVEL + DETAIL_LEVEL_FIRST_PASS));
   glUniform1i(g_quadrantStepPassTwoLocation, QUADRANT_STEP);
 
   glGenVertexArrays(1, &g_vaoPassTwo);
@@ -682,8 +622,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(g_projectionMatrix, g_activeView->fov,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 1000000.0f);
+  glusMatrix4x4Perspectivef(g_projectionMatrix, g_activeView->fov, (GLfloat)width / (GLfloat)height, 1.0f, 1000000.0f);
 }
 
 GLUSvoid key(GLUSboolean pressed, GLUSint key) {
@@ -718,8 +657,7 @@ GLUSvoid key(GLUSboolean pressed, GLUSint key) {
         g_activeView = &g_topView;
       }
 
-      glusMatrix4x4Perspectivef(g_projectionMatrix, g_activeView->fov,
-                                g_width / g_height, 1.0f, 1000000.0f);
+      glusMatrix4x4Perspectivef(g_projectionMatrix, g_activeView->fov, g_width / g_height, 1.0f, 1000000.0f);
     }
   }
 }
@@ -748,29 +686,23 @@ GLUSboolean update(GLUSfloat time) {
   // Animation update
 
   g_personView.cameraPosition[0] =
-      -cosf(2.0f * GLUS_PI * angle / TURN_DURATION) * TURN_RADIUS *
-      METERS_TO_VIRTUAL_WORLD_SCALE;
+      -cosf(2.0f * GLUS_PI * angle / TURN_DURATION) * TURN_RADIUS * METERS_TO_VIRTUAL_WORLD_SCALE;
   g_personView.cameraPosition[2] =
-      -sinf(2.0f * GLUS_PI * angle / TURN_DURATION) * TURN_RADIUS *
-      METERS_TO_VIRTUAL_WORLD_SCALE;
+      -sinf(2.0f * GLUS_PI * angle / TURN_DURATION) * TURN_RADIUS * METERS_TO_VIRTUAL_WORLD_SCALE;
 
-  g_personView.cameraDirection[0] =
-      sinf(2.0f * GLUS_PI * angle / TURN_DURATION);
-  g_personView.cameraDirection[2] =
-      -cosf(2.0f * GLUS_PI * angle / TURN_DURATION);
+  g_personView.cameraDirection[0] = sinf(2.0f * GLUS_PI * angle / TURN_DURATION);
+  g_personView.cameraDirection[2] = -cosf(2.0f * GLUS_PI * angle / TURN_DURATION);
 
   if (g_animationOn) {
     angle += time;
   }
 
-  glusMatrix4x4LookAtf(
-      g_viewMatrix, g_activeView->cameraPosition[0],
-      g_activeView->cameraPosition[1], g_activeView->cameraPosition[2],
-      g_activeView->cameraPosition[0] + g_activeView->cameraDirection[0],
-      g_activeView->cameraPosition[1] + g_activeView->cameraDirection[1],
-      g_activeView->cameraPosition[2] + g_activeView->cameraDirection[2],
-      g_activeView->cameraUp[0], g_activeView->cameraUp[1],
-      g_activeView->cameraUp[2]);
+  glusMatrix4x4LookAtf(g_viewMatrix, g_activeView->cameraPosition[0], g_activeView->cameraPosition[1],
+                       g_activeView->cameraPosition[2],
+                       g_activeView->cameraPosition[0] + g_activeView->cameraDirection[0],
+                       g_activeView->cameraPosition[1] + g_activeView->cameraDirection[1],
+                       g_activeView->cameraPosition[2] + g_activeView->cameraDirection[2], g_activeView->cameraUp[0],
+                       g_activeView->cameraUp[1], g_activeView->cameraUp[2]);
 
   glusMatrix4x4Identityf(tmvpMatrix);
   glusMatrix4x4Multiplyf(tmvpMatrix, tmvpMatrix, g_projectionMatrix);
@@ -784,45 +716,32 @@ GLUSboolean update(GLUSfloat time) {
   xzPosition2D[2] = g_personView.cameraPosition[2];
   xzPosition2D[3] = g_personView.cameraPosition[3];
 
-  glusMatrix4x4MultiplyPoint4f(positionTextureSpace, g_worldToTextureMatrix,
-                               xzPosition2D);
+  glusMatrix4x4MultiplyPoint4f(positionTextureSpace, g_worldToTextureMatrix, xzPosition2D);
 
   // Direction
 
-  glusMatrix4x4MultiplyVector3f(directionTextureSpace, g_worldToTextureMatrix,
-                                g_personView.cameraDirection);
+  glusMatrix4x4MultiplyVector3f(directionTextureSpace, g_worldToTextureMatrix, g_personView.cameraDirection);
 
   // Left normal of field of view
 
   glusMatrix4x4Identityf(rotationMatrix);
-  glusMatrix4x4RotateRyf(
-      rotationMatrix, g_personView.fov * (g_width / g_height) / 2.0f + 90.0f);
-  glusMatrix4x4MultiplyVector3f(leftNormalTextureSpace, rotationMatrix,
-                                g_personView.cameraDirection);
-  glusMatrix4x4MultiplyVector3f(leftNormalTextureSpace,
-                                g_worldToTextureNormalMatrix,
-                                leftNormalTextureSpace);
+  glusMatrix4x4RotateRyf(rotationMatrix, g_personView.fov * (g_width / g_height) / 2.0f + 90.0f);
+  glusMatrix4x4MultiplyVector3f(leftNormalTextureSpace, rotationMatrix, g_personView.cameraDirection);
+  glusMatrix4x4MultiplyVector3f(leftNormalTextureSpace, g_worldToTextureNormalMatrix, leftNormalTextureSpace);
 
   // Right normal of field of view
 
   glusMatrix4x4Identityf(rotationMatrix);
-  glusMatrix4x4RotateRyf(
-      rotationMatrix, -g_personView.fov * (g_width / g_height) / 2.0f - 90.0f);
-  glusMatrix4x4MultiplyVector3f(rightNormalTextureSpace, rotationMatrix,
-                                g_personView.cameraDirection);
-  glusMatrix4x4MultiplyVector3f(rightNormalTextureSpace,
-                                g_worldToTextureNormalMatrix,
-                                rightNormalTextureSpace);
+  glusMatrix4x4RotateRyf(rotationMatrix, -g_personView.fov * (g_width / g_height) / 2.0f - 90.0f);
+  glusMatrix4x4MultiplyVector3f(rightNormalTextureSpace, rotationMatrix, g_personView.cameraDirection);
+  glusMatrix4x4MultiplyVector3f(rightNormalTextureSpace, g_worldToTextureNormalMatrix, rightNormalTextureSpace);
 
   // Back normal of field of view
 
   glusMatrix4x4Identityf(rotationMatrix);
   glusMatrix4x4RotateRyf(rotationMatrix, 180.0f);
-  glusMatrix4x4MultiplyVector3f(backNormalTextureSpace, rotationMatrix,
-                                g_personView.cameraDirection);
-  glusMatrix4x4MultiplyVector3f(backNormalTextureSpace,
-                                g_worldToTextureNormalMatrix,
-                                backNormalTextureSpace);
+  glusMatrix4x4MultiplyVector3f(backNormalTextureSpace, rotationMatrix, g_personView.cameraDirection);
+  glusMatrix4x4MultiplyVector3f(backNormalTextureSpace, g_worldToTextureNormalMatrix, backNormalTextureSpace);
 
   // OpenGL stuff
 
@@ -836,12 +755,9 @@ GLUSboolean update(GLUSfloat time) {
   glUseProgram(g_programPassOne.program);
 
   glUniform4fv(g_positionTextureSpacePassOneLocation, 1, positionTextureSpace);
-  glUniform3fv(g_leftNormalTextureSpacePassOneLocation, 1,
-               leftNormalTextureSpace);
-  glUniform3fv(g_rightNormalTextureSpacePassOneLocation, 1,
-               rightNormalTextureSpace);
-  glUniform3fv(g_backNormalTextureSpacePassOneLocation, 1,
-               backNormalTextureSpace);
+  glUniform3fv(g_leftNormalTextureSpacePassOneLocation, 1, leftNormalTextureSpace);
+  glUniform3fv(g_rightNormalTextureSpacePassOneLocation, 1, rightNormalTextureSpace);
+  glUniform3fv(g_backNormalTextureSpacePassOneLocation, 1, backNormalTextureSpace);
 
   glBindVertexArray(g_vaoPassOne);
 
@@ -849,8 +765,7 @@ GLUSboolean update(GLUSfloat time) {
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, g_verticesPassTwoVBO);
 
   // We need to know, how many primitives are written. So start the query.
-  glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN,
-               g_transformFeedbackQuery);
+  glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, g_transformFeedbackQuery);
 
   // Start the operation ...
   glBeginTransformFeedback(GL_POINTS);
@@ -880,8 +795,7 @@ GLUSboolean update(GLUSfloat time) {
   glBindVertexArray(g_vaoPassTwo);
 
   // Now get the number of primitives written in the first render pass.
-  glGetQueryObjectuiv(g_transformFeedbackQuery, GL_QUERY_RESULT,
-                      &primitivesWritten);
+  glGetQueryObjectuiv(g_transformFeedbackQuery, GL_QUERY_RESULT, &primitivesWritten);
 
   // No draw the final terrain.
   glDrawArrays(GL_PATCHES, 0, primitivesWritten);
@@ -975,11 +889,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -1001,8 +913,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

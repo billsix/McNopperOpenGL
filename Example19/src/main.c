@@ -89,15 +89,13 @@ static GLuint g_height;
 
 //
 
-static struct LightProperties g_light = {
-    .direction = {1.0f, 1.0f, 1.0f},
-    .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
-    .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
-    .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
+static struct LightProperties g_light = {.direction = {1.0f, 1.0f, 1.0f},
+                                         .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                         .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                         .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
-static struct CameraProperties g_camera = {.eye = {0.0f, 1.0f, 7.0f},
-                                           .center = {0.0f, 0.0f, 0.0f},
-                                           .up = {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {
+    .eye = {0.0f, 1.0f, 7.0f}, .center = {0.0f, 0.0f, 0.0f}, .up = {0.0f, 1.0f, 0.0f}};
 
 GLUSboolean init(GLUSvoid) {
   GLUStextfile vertexSource;
@@ -109,10 +107,8 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1],
-                       g_camera.eye[2], g_camera.center[0], g_camera.center[1],
-                       g_camera.center[2], g_camera.up[0], g_camera.up[1],
-                       g_camera.up[2]);
+  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1], g_camera.eye[2], g_camera.center[0],
+                       g_camera.center[1], g_camera.center[2], g_camera.up[0], g_camera.up[1], g_camera.up[2]);
 
   //
 
@@ -122,17 +118,15 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "basic_proj.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example19" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "texture_multi_proj.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -140,20 +134,15 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Retrieve the uniform locations in the program.
-  g_viewProjectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewProjectionMatrix");
-  g_viewProjectionBiasTextureMatrixLocation = glGetUniformLocation(
-      g_program.program, "u_viewProjectionBiasTextureMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
-  g_lightDirectionLocation =
-      glGetUniformLocation(g_program.program, "u_lightDirection");
+  g_viewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_viewProjectionMatrix");
+  g_viewProjectionBiasTextureMatrixLocation =
+      glGetUniformLocation(g_program.program, "u_viewProjectionBiasTextureMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
   g_repeatLocation = glGetUniformLocation(g_program.program, "u_repeat");
   g_textureLocation = glGetUniformLocation(g_program.program, "u_texture");
-  g_mirrorTextureLocation =
-      glGetUniformLocation(g_program.program, "u_mirrorTexture");
+  g_mirrorTextureLocation = glGetUniformLocation(g_program.program, "u_mirrorTexture");
 
   // Retrieve the attribute locations in the program.
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
@@ -169,15 +158,14 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Mipmap generation is now included in OpenGL 3 and above
   glGenerateMipmap(GL_TEXTURE_2D);
 
   // Trilinear filtering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -192,8 +180,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, g_mirrorTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -206,8 +193,7 @@ GLUSboolean init(GLUSvoid) {
 
   glGenRenderbuffers(1, &g_depthMirrorTexture);
   glBindRenderbuffer(GL_RENDERBUFFER, g_depthMirrorTexture);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, TEXTURE_WIDTH,
-                        TEXTURE_HEIGHT);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -217,16 +203,13 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_fboMirrorTexture);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_mirrorTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_mirrorTexture, 0);
 
   // ... and the depth buffer,
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, g_depthMirrorTexture);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, g_depthMirrorTexture);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -243,25 +226,21 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)plane.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)plane.normals, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -329,16 +308,13 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(g_viewProjectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(g_viewProjectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
-  glusMatrix4x4Multiplyf(g_viewProjectionMatrix, g_viewProjectionMatrix,
-                         g_viewMatrix);
+  glusMatrix4x4Multiplyf(g_viewProjectionMatrix, g_viewProjectionMatrix, g_viewMatrix);
 
   glUseProgram(g_program.program);
 
-  glUniformMatrix4fv(g_viewProjectionMatrixLocation, 1, GL_FALSE,
-                     g_viewProjectionMatrix);
+  glUniformMatrix4fv(g_viewProjectionMatrixLocation, 1, GL_FALSE, g_viewProjectionMatrix);
 
   glusMatrix4x4Identityf(modelMatrix);
   glusMatrix4x4Translatef(modelMatrix, 0.0f, 0.0f, 3.0f);
@@ -350,8 +326,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
   glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
   glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
 
-  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix,
-                                g_light.direction);
+  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix, g_light.direction);
   // Direction already normalized
   glUniform3fv(g_lightDirectionLocation, 1, lightDirection);
 }
@@ -394,11 +369,9 @@ GLUSboolean update(GLUSfloat time) {
 
   // Save the current projection matrix for later usage.
 
-  glusMatrix4x4Copyf(viewProjectionBiasTextureMatrix, g_viewProjectionMatrix,
-                     GLUS_FALSE);
+  glusMatrix4x4Copyf(viewProjectionBiasTextureMatrix, g_viewProjectionMatrix, GLUS_FALSE);
 
-  glusMatrix4x4Multiplyf(viewProjectionBiasTextureMatrix, biasMatrix,
-                         viewProjectionBiasTextureMatrix);
+  glusMatrix4x4Multiplyf(viewProjectionBiasTextureMatrix, biasMatrix, viewProjectionBiasTextureMatrix);
 
   //
   // Scene rendering
@@ -422,8 +395,7 @@ GLUSboolean update(GLUSfloat time) {
 
   // This matrix is needed to calculate the vertices into the frame buffer
   // render pass.
-  glUniformMatrix4fv(g_viewProjectionBiasTextureMatrixLocation, 1, GL_FALSE,
-                     viewProjectionBiasTextureMatrix);
+  glUniformMatrix4fv(g_viewProjectionBiasTextureMatrixLocation, 1, GL_FALSE, viewProjectionBiasTextureMatrix);
 
   glBindVertexArray(g_vao);
 
@@ -513,11 +485,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -537,9 +507,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT,
-                        GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
-                        eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT, GLUS_FALSE, GLUS_FALSE,
+                        eglConfigAttributes, eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

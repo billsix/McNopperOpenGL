@@ -48,31 +48,24 @@ GLUSboolean init(GLUSvoid) {
   GLUStextfile geometrySource;
   GLUStextfile fragmentSource;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.cont.glsl",
                    &controlSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.eval.glsl",
                    &evaluationSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example13" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             (const GLUSchar **)&controlSource.text,
-                             (const GLUSchar **)&evaluationSource.text,
-                             (const GLUSchar **)&geometrySource.text,
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, (const GLUSchar **)&controlSource.text,
+                             (const GLUSchar **)&evaluationSource.text, (const GLUSchar **)&geometrySource.text,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -83,10 +76,8 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
 
   //
@@ -95,15 +86,13 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_numberIndicesSphere * sizeof(GLuint),
-               (GLuint *)planeIndices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_numberIndicesSphere * sizeof(GLuint), (GLuint *)planeIndices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -114,8 +103,7 @@ GLUSboolean init(GLUSvoid) {
   glUseProgram(g_program.program);
 
   // Calculate the view matrix ...
-  glusMatrix4x4LookAtf(modelViewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f,
-                       0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(modelViewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_modelViewMatrixLocation, 1, GL_FALSE, modelViewMatrix);
 
@@ -145,8 +133,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
 }
@@ -190,11 +177,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -214,8 +199,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

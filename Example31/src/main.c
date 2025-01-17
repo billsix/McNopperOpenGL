@@ -147,17 +147,14 @@ GLUSboolean init(GLUSvoid) {
   // Each point light is rendered as a sphere.
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "point_light.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "point_light.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_programPointLight,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_programPointLight, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -165,30 +162,19 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_projectionMatrix");
-  g_viewMatrixPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_viewMatrix");
-  g_modelMatrixPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_modelMatrix");
-  g_positionMatrixPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_positionMatrix");
-  g_biasMatrixPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_biasMatrix");
-  g_radiusPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_lightRadius");
+  g_projectionMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_projectionMatrix");
+  g_viewMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_viewMatrix");
+  g_modelMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_modelMatrix");
+  g_positionMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_positionMatrix");
+  g_biasMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_biasMatrix");
+  g_radiusPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_lightRadius");
 
-  g_diffusePointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_diffuse");
-  g_specularPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_specular");
-  g_positionPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_position");
-  g_normalPointLightLocation =
-      glGetUniformLocation(g_programPointLight.program, "u_normal");
+  g_diffusePointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_diffuse");
+  g_specularPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_specular");
+  g_positionPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_position");
+  g_normalPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_normal");
 
-  g_vertexPointLightLocation =
-      glGetAttribLocation(g_programPointLight.program, "a_vertex");
+  g_vertexPointLightLocation = glGetAttribLocation(g_programPointLight.program, "a_vertex");
 
   // Use a helper function to create a cube.
   glusShapeCreateSpheref(&sphere, POINT_LIGHT_RADIUS, 32);
@@ -199,14 +185,14 @@ GLUSboolean init(GLUSvoid) {
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesPointLightVBO);
 
   // Transfer the vertices from CPU to GPU.
-  glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)sphere.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)sphere.vertices,
+               GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesPointLightVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesPointLightVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.numberIndices * sizeof(GLuint),
-               (GLuint *)sphere.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.numberIndices * sizeof(GLuint), (GLuint *)sphere.indices,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -216,8 +202,7 @@ GLUSboolean init(GLUSvoid) {
   glBindVertexArray(g_vaoPointLight);
 
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesPointLightVBO);
-  glVertexAttribPointer(g_vertexPointLightLocation, 4, GL_FLOAT, GL_FALSE, 0,
-                        0);
+  glVertexAttribPointer(g_vertexPointLightLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(g_vertexPointLightLocation);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesPointLightVBO);
@@ -235,8 +220,7 @@ GLUSboolean init(GLUSvoid) {
   // Note: If more than 16 lights are used, make sure to store them in another
   // matrix or buffer.
   for (GLint i = 0; i < POINT_LIGHT_COUNT; i++) {
-    g_positionMatrix[i] =
-        glusRandomUniformf(0.0f, (float)POINT_LIGHT_COUNT - 2.0f);
+    g_positionMatrix[i] = glusRandomUniformf(0.0f, (float)POINT_LIGHT_COUNT - 2.0f);
 
     g_directionMatrix[i] = rand() % 2 == 0 ? 1.0f : -1.0f;
   }
@@ -245,17 +229,14 @@ GLUSboolean init(GLUSvoid) {
   //
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "deferred_shading.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example31" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "deferred_shading.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_programDeferredShading,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_programDeferredShading, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -263,34 +244,22 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation = glGetUniformLocation(
-      g_programDeferredShading.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_programDeferredShading.program, "u_viewMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_programDeferredShading.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_programDeferredShading.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_viewMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_normalMatrix");
 
   g_material = (struct MaterialLocations){
-      .diffuseColorLocation = glGetUniformLocation(
-          g_programDeferredShading.program, "u_material.diffuseColor"),
-      .specularColorLocation = glGetUniformLocation(
-          g_programDeferredShading.program, "u_material.specularColor"),
-      .specularExponentLocation = glGetUniformLocation(
-          g_programDeferredShading.program, "u_material.specularExponent"),
-      .diffuseTextureLocation = glGetUniformLocation(
-          g_programDeferredShading.program, "u_material.diffuseTexture")};
+      .diffuseColorLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.specularExponent"),
+      .diffuseTextureLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.diffuseTexture")};
 
-  g_useTextureLocation =
-      glGetUniformLocation(g_programDeferredShading.program, "u_useTexture");
+  g_useTextureLocation = glGetUniformLocation(g_programDeferredShading.program, "u_useTexture");
 
-  g_vertexLocation =
-      glGetAttribLocation(g_programDeferredShading.program, "a_vertex");
-  g_normalLocation =
-      glGetAttribLocation(g_programDeferredShading.program, "a_normal");
-  g_texCoordLocation =
-      glGetAttribLocation(g_programDeferredShading.program, "a_texCoord");
+  g_vertexLocation = glGetAttribLocation(g_programDeferredShading.program, "a_vertex");
+  g_normalLocation = glGetAttribLocation(g_programDeferredShading.program, "a_normal");
+  g_texCoordLocation = glGetAttribLocation(g_programDeferredShading.program, "a_texCoord");
 
   //
   // Use a helper function to load the wavefront object file.
@@ -300,21 +269,18 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_wavefront.verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_wavefront.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)g_wavefront.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)g_wavefront.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_wavefront.normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_wavefront.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)g_wavefront.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)g_wavefront.normals,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_wavefront.texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_wavefront.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)g_wavefront.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)g_wavefront.texCoords,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -328,8 +294,7 @@ GLUSboolean init(GLUSvoid) {
   while (groupWalker) {
     glGenBuffers(1, &groupWalker->group.indicesVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 groupWalker->group.numberIndices * sizeof(GLuint),
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.numberIndices * sizeof(GLuint),
                  (GLuint *)groupWalker->group.indices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -373,12 +338,11 @@ GLUSboolean init(GLUSvoid) {
       glBindTexture(GL_TEXTURE_2D, materialWalker->material.diffuseTextureName);
 
       // Transfer the image data from the CPU to the GPU.
-      glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-                   image.format, GL_UNSIGNED_BYTE, image.data);
+      glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+                   image.data);
 
       // Setting the texture parameters.
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                      GL_LINEAR_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -399,8 +363,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, g_dsDiffuseTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GL_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -415,8 +378,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, g_dsSpecularTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GL_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -431,8 +393,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, g_dsPositionTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GL_RGBA, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGBA, GL_FLOAT, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -447,8 +408,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE3);
   glBindTexture(GL_TEXTURE_2D, g_dsNormalTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GL_RGB, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_FLOAT, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -463,8 +423,8 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE4);
   glBindTexture(GL_TEXTURE_2D, g_dsDepthTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, TEXTURE_WIDTH,
-               TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT,
+               GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -480,28 +440,22 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_dsFBO);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_dsDiffuseTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_dsDiffuseTexture, 0);
 
   // Attach the normal buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D,
-                         g_dsSpecularTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, g_dsSpecularTexture, 0);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D,
-                         g_dsPositionTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, g_dsPositionTexture, 0);
 
   // Attach the normal buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D,
-                         g_dsNormalTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, g_dsNormalTexture, 0);
 
   // ... and the depth buffer,
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                         g_dsDepthTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_dsDepthTexture, 0);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -530,17 +484,15 @@ GLUSboolean init(GLUSvoid) {
 GLUSvoid reshape(GLUSint width, GLUSint height) {
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 }
 
 GLUSboolean update(GLUSfloat time) {
-  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f,
-                                 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f,
-                                 0.5f, 0.5f, 0.5f, 1.0f};
+  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f,
+                                 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
 
-  static GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,
-                                 GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3};
+  static GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2,
+                                 GL_COLOR_ATTACHMENT3};
 
   static GLfloat angle = 0.0f;
 
@@ -567,12 +519,10 @@ GLUSboolean update(GLUSfloat time) {
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
-  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE,
-                     g_projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
 
   // Orbit camera around models
-  glusMatrix4x4LookAtf(viewMatrix, sinf(angle) * 10.0f, 4.0f,
-                       cosf(angle) * 10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, sinf(angle) * 10.0f, 4.0f, cosf(angle) * 10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
 
@@ -580,8 +530,8 @@ GLUSboolean update(GLUSfloat time) {
 
   glusMatrix4x4Identityf(modelMatrix);
 
-  glusMatrix4x4Translatef(modelMatrix, -(float)OBJECTS_COLUMNS / 2.0f + 0.5f,
-                          0.0f, (float)OBJECTS_COLUMNS / 2.0f - 0.5f);
+  glusMatrix4x4Translatef(modelMatrix, -(float)OBJECTS_COLUMNS / 2.0f + 0.5f, 0.0f,
+                          (float)OBJECTS_COLUMNS / 2.0f - 0.5f);
 
   // Scale the model up
   glusMatrix4x4Scalef(modelMatrix, 10.0f, 10.0f, 10.0f);
@@ -599,19 +549,15 @@ GLUSboolean update(GLUSfloat time) {
   groupWalker = g_wavefront.groups;
   while (groupWalker) {
     // Set up material values.
-    glUniform4fv(g_material.diffuseColorLocation, 1,
-                 groupWalker->group.material->diffuse);
-    glUniform4fv(g_material.specularColorLocation, 1,
-                 groupWalker->group.material->specular);
-    glUniform1f(g_material.specularExponentLocation,
-                groupWalker->group.material->shininess);
+    glUniform4fv(g_material.diffuseColorLocation, 1, groupWalker->group.material->diffuse);
+    glUniform4fv(g_material.specularColorLocation, 1, groupWalker->group.material->specular);
+    glUniform1f(g_material.specularExponentLocation, groupWalker->group.material->shininess);
 
     // Enable only texturing, if the material has a texture
     if (groupWalker->group.material->diffuseTextureName) {
       glUniform1i(g_useTextureLocation, 1);
       glUniform1i(g_material.diffuseTextureLocation, 0);
-      glBindTexture(GL_TEXTURE_2D,
-                    groupWalker->group.material->diffuseTextureName);
+      glBindTexture(GL_TEXTURE_2D, groupWalker->group.material->diffuseTextureName);
     } else {
       glUniform1i(g_useTextureLocation, 0);
       glUniform1i(g_material.diffuseTextureLocation, 0);
@@ -620,8 +566,7 @@ GLUSboolean update(GLUSfloat time) {
 
     glBindVertexArray(groupWalker->group.vao);
 
-    glDrawElementsInstanced(GL_TRIANGLES, groupWalker->group.numberIndices,
-                            GL_UNSIGNED_INT, 0,
+    glDrawElementsInstanced(GL_TRIANGLES, groupWalker->group.numberIndices, GL_UNSIGNED_INT, 0,
                             OBJECTS_COLUMNS * OBJECTS_COLUMNS);
 
     groupWalker = groupWalker->next;
@@ -640,8 +585,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUniformMatrix4fv(g_projectionMatrixPointLightLocation, 1, GL_FALSE,
-                     g_projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixPointLightLocation, 1, GL_FALSE, g_projectionMatrix);
 
   glUniformMatrix4fv(g_viewMatrixPointLightLocation, 1, GL_FALSE, viewMatrix);
 
@@ -662,8 +606,7 @@ GLUSboolean update(GLUSfloat time) {
 
     if (g_positionMatrix[i] > (float)POINT_LIGHT_COUNT - 2.0f) {
       g_positionMatrix[i] =
-          ((float)POINT_LIGHT_COUNT - 2.0f) -
-          (g_positionMatrix[i] - ((float)POINT_LIGHT_COUNT - 2.0f));
+          ((float)POINT_LIGHT_COUNT - 2.0f) - (g_positionMatrix[i] - ((float)POINT_LIGHT_COUNT - 2.0f));
       g_directionMatrix[i] *= -1.0f;
     } else if (g_positionMatrix[i] < 0.0f) {
       g_positionMatrix[i] = -g_positionMatrix[i];
@@ -671,8 +614,7 @@ GLUSboolean update(GLUSfloat time) {
     }
   }
 
-  glUniformMatrix4fv(g_positionMatrixPointLightLocation, 1, GL_FALSE,
-                     g_positionMatrix);
+  glUniformMatrix4fv(g_positionMatrixPointLightLocation, 1, GL_FALSE, g_positionMatrix);
 
   glUniformMatrix4fv(g_biasMatrixPointLightLocation, 1, GL_FALSE, biasMatrix);
 
@@ -704,8 +646,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glBindVertexArray(g_vaoPointLight);
 
-  glDrawElementsInstanced(GL_TRIANGLES, g_numberIndicesPointLight,
-                          GL_UNSIGNED_INT, 0, POINT_LIGHT_COUNT);
+  glDrawElementsInstanced(GL_TRIANGLES, g_numberIndicesPointLight, GL_UNSIGNED_INT, 0, POINT_LIGHT_COUNT);
 
   glEnable(GL_DEPTH_TEST);
   glDisable(GL_BLEND);
@@ -863,11 +804,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -888,9 +827,8 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // Again, makes programming for this example easier.
-  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT,
-                        GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
-                        eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT, GLUS_FALSE, GLUS_FALSE,
+                        eglConfigAttributes, eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

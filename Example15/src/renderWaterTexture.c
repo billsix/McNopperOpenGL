@@ -78,17 +78,14 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "WaterTexture.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example15" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "WaterTexture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_programWaterTexture,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_programWaterTexture, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -96,24 +93,16 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
 
   //
 
-  g_projectionMatrixWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_projectionMatrix");
-  g_modelViewMatrixWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_modelViewMatrix");
+  g_projectionMatrixWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_projectionMatrix");
+  g_modelViewMatrixWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_modelViewMatrix");
 
-  g_waterPlaneLengthWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_waterPlaneLength");
-  g_passedTimeWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_passedTime");
-  g_waveParametersWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_waveParameters");
-  g_waveDirectionsWaterTextureLocation =
-      glGetUniformLocation(g_programWaterTexture.program, "u_waveDirections");
+  g_waterPlaneLengthWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_waterPlaneLength");
+  g_passedTimeWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_passedTime");
+  g_waveParametersWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_waveParameters");
+  g_waveDirectionsWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_waveDirections");
 
-  g_vertexWaterTextureLocation =
-      glGetAttribLocation(g_programWaterTexture.program, "a_vertex");
-  g_texCoordWaterTextureLocation =
-      glGetAttribLocation(g_programWaterTexture.program, "a_texCoord");
+  g_vertexWaterTextureLocation = glGetAttribLocation(g_programWaterTexture.program, "a_vertex");
+  g_texCoordWaterTextureLocation = glGetAttribLocation(g_programWaterTexture.program, "a_texCoord");
 
   //
 
@@ -121,8 +110,7 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, g_mirrorTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_SIZE, TEXTURE_SIZE, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_SIZE, TEXTURE_SIZE, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -135,8 +123,7 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
 
   glGenRenderbuffers(1, &g_depthMirrorTexture);
   glBindRenderbuffer(GL_RENDERBUFFER, g_depthMirrorTexture);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, TEXTURE_SIZE,
-                        TEXTURE_SIZE);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, TEXTURE_SIZE, TEXTURE_SIZE);
 
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -146,16 +133,13 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_fboWaterTexture);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_mirrorTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_mirrorTexture, 0);
 
   // ... and the depth buffer,
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, g_depthMirrorTexture);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, g_depthMirrorTexture);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -173,20 +157,17 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
 
   glGenBuffers(1, &g_verticesWaterTextureVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesWaterTextureVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsWaterTextureVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsWaterTextureVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesWaterTextureVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesWaterTextureVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -196,16 +177,12 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
 
   glUseProgram(g_programWaterTexture.program);
 
-  glusMatrix4x4LookAtf(modelViewMatrixWaterTexture, 0.0f, 0.0f, 5.0f, 0.0f,
-                       0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-  glUniformMatrix4fv(g_modelViewMatrixWaterTextureLocation, 1, GL_FALSE,
-                     modelViewMatrixWaterTexture);
+  glusMatrix4x4LookAtf(modelViewMatrixWaterTexture, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  glUniformMatrix4fv(g_modelViewMatrixWaterTextureLocation, 1, GL_FALSE, modelViewMatrixWaterTexture);
 
-  glusMatrix4x4Orthof(projectionMatrixWaterTexture, -(GLfloat)TEXTURE_SIZE / 2,
-                      (GLfloat)TEXTURE_SIZE / 2, -(GLfloat)TEXTURE_SIZE / 2,
-                      (GLfloat)TEXTURE_SIZE / 2, 1.0f, 100.0f);
-  glUniformMatrix4fv(g_projectionMatrixWaterTextureLocation, 1, GL_FALSE,
-                     projectionMatrixWaterTexture);
+  glusMatrix4x4Orthof(projectionMatrixWaterTexture, -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2,
+                      -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2, 1.0f, 100.0f);
+  glUniformMatrix4fv(g_projectionMatrixWaterTextureLocation, 1, GL_FALSE, projectionMatrixWaterTexture);
 
   glUniform1f(g_waterPlaneLengthWaterTextureLocation, waterPlaneLength);
 
@@ -215,13 +192,11 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength) {
   glBindVertexArray(g_vaoWaterTexture);
 
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesWaterTextureVBO);
-  glVertexAttribPointer(g_vertexWaterTextureLocation, 4, GL_FLOAT, GL_FALSE, 0,
-                        0);
+  glVertexAttribPointer(g_vertexWaterTextureLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(g_vertexWaterTextureLocation);
 
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsWaterTextureVBO);
-  glVertexAttribPointer(g_texCoordWaterTextureLocation, 2, GL_FLOAT, GL_FALSE,
-                        0, 0);
+  glVertexAttribPointer(g_texCoordWaterTextureLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(g_texCoordWaterTextureLocation);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesWaterTextureVBO);
@@ -266,8 +241,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime) {
   waveParameters[0].amplitude = 0.02f;
   waveParameters[0].wavelength = 0.3f;
   waveParameters[0].steepness =
-      overallSteepness / (waveParameters[0].wavelength *
-                          waveParameters[0].amplitude * (GLfloat)NUMBERWAVES);
+      overallSteepness / (waveParameters[0].wavelength * waveParameters[0].amplitude * (GLfloat)NUMBERWAVES);
   waveDirections[0].x = +1.0f;
   waveDirections[0].z = +1.5f;
 
@@ -276,8 +250,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime) {
   waveParameters[1].amplitude = 0.01f;
   waveParameters[1].wavelength = 0.4f;
   waveParameters[1].steepness =
-      overallSteepness / (waveParameters[1].wavelength *
-                          waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+      overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
   waveDirections[1].x = +0.8f;
   waveDirections[1].z = +0.2f;
 
@@ -286,8 +259,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime) {
   waveParameters[2].amplitude = 0.035f;
   waveParameters[2].wavelength = 0.1f;
   waveParameters[2].steepness =
-      overallSteepness / (waveParameters[1].wavelength *
-                          waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+      overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
   waveDirections[2].x = -0.2f;
   waveDirections[2].z = -0.1f;
 
@@ -296,8 +268,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime) {
   waveParameters[3].amplitude = 0.007f;
   waveParameters[3].wavelength = 0.2f;
   waveParameters[3].steepness =
-      overallSteepness / (waveParameters[1].wavelength *
-                          waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+      overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
   waveDirections[3].x = -0.4f;
   waveDirections[3].z = -0.3f;
 
@@ -312,10 +283,8 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime) {
   glUseProgram(g_programWaterTexture.program);
 
   glUniform1f(g_passedTimeWaterTextureLocation, passedTime);
-  glUniform4fv(g_waveParametersWaterTextureLocation, 4 * NUMBERWAVES,
-               (GLfloat *)waveParameters);
-  glUniform2fv(g_waveDirectionsWaterTextureLocation, 2 * NUMBERWAVES,
-               (GLfloat *)waveDirections);
+  glUniform4fv(g_waveParametersWaterTextureLocation, 4 * NUMBERWAVES, (GLfloat *)waveParameters);
+  glUniform2fv(g_waveDirectionsWaterTextureLocation, 2 * NUMBERWAVES, (GLfloat *)waveDirections);
 
   glFrontFace(GL_CCW);
 

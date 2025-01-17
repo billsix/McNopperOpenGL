@@ -32,8 +32,7 @@
 #define Eta (Air / Bubble)
 
 // see http://en.wikipedia.org/wiki/Refractive_index Reflectivity
-#define R0                                                                     \
-  (((Air - Bubble) * (Air - Bubble)) / ((Air + Bubble) * (Air + Bubble)))
+#define R0 (((Air - Bubble) * (Air - Bubble)) / ((Air + Bubble) * (Air + Bubble)))
 
 typedef struct _Material {
   GLfloat emissiveColor[4];
@@ -141,11 +140,10 @@ Sphere g_allSpheres[NUM_SPHERES] = {
                   .alpha = 1.0f,
                   .reflectivity = 0.2f}}};
 
-PointLight g_allLights[NUM_LIGHTS] = {
-    {.position = {0.0f, 5.0f, -5.0f, 1.0f}, .color = {1.0f, 1.0f, 1.0f, 1.0f}}};
+PointLight g_allLights[NUM_LIGHTS] = {{.position = {0.0f, 5.0f, -5.0f, 1.0f}, .color = {1.0f, 1.0f, 1.0f, 1.0f}}};
 
-static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
-                    const GLfloat rayDirection[3], const GLint depth) {
+static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4], const GLfloat rayDirection[3],
+                    const GLint depth) {
   const GLfloat bias = 1e-4f;
 
   GLint i, k;
@@ -181,9 +179,8 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
 
     Sphere *currentSphere = &g_allSpheres[i];
 
-    GLint numberIntersections = glusIntersectRaySpheref(
-        &t0, &t1, &insideSphere, rayPosition, rayDirection,
-        currentSphere->center, currentSphere->radius);
+    GLint numberIntersections = glusIntersectRaySpheref(&t0, &t1, &insideSphere, rayPosition, rayDirection,
+                                                        currentSphere->center, currentSphere->radius);
 
     if (numberIntersections) {
       // If intersection happened inside the sphere, take second intersection
@@ -229,10 +226,8 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
 
   // Biasing, to avoid artifacts.
   glusVector3MultiplyScalarf(biasedHitDirection, hitDirection, bias);
-  glusPoint4AddVector3f(biasedPositiveHitPosition, hitPosition,
-                        biasedHitDirection);
-  glusPoint4SubtractVector3f(biasedNegativeHitPosition, hitPosition,
-                             biasedHitDirection);
+  glusPoint4AddVector3f(biasedPositiveHitPosition, hitPosition, biasedHitDirection);
+  glusPoint4SubtractVector3f(biasedNegativeHitPosition, hitPosition, biasedHitDirection);
 
   //
 
@@ -248,8 +243,7 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
     glusVector3Reflectf(reflectionDirection, rayDirection, hitDirection);
     glusVector3Normalizef(reflectionDirection);
 
-    trace(reflectionColor, biasedPositiveHitPosition, reflectionDirection,
-          depth + 1);
+    trace(reflectionColor, biasedPositiveHitPosition, reflectionDirection, depth + 1);
   }
 
   // ... refraction.
@@ -262,8 +256,7 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
     glusVector3Refractf(refractionDirection, rayDirection, hitDirection, eta);
     glusVector3Normalizef(refractionDirection);
 
-    trace(refractionColor, biasedNegativeHitPosition, refractionDirection,
-          depth + 1);
+    trace(refractionColor, biasedNegativeHitPosition, refractionDirection, depth + 1);
   } else {
     fresnel = 1.0f;
   }
@@ -280,8 +273,7 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
     GLfloat lightDirection[3];
     GLfloat incidentLightDirection[3];
 
-    glusPoint4SubtractPoint4f(lightDirection, pointLight->position,
-                              hitPosition);
+    glusPoint4SubtractPoint4f(lightDirection, pointLight->position, hitPosition);
     glusVector3Normalizef(lightDirection);
     glusVector3MultiplyScalarf(incidentLightDirection, lightDirection, -1.0f);
 
@@ -293,8 +285,7 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
         continue;
       }
 
-      if (glusIntersectRaySpheref(0, 0, 0, biasedPositiveHitPosition,
-                                  lightDirection, obstacleSphere->center,
+      if (glusIntersectRaySpheref(0, 0, 0, biasedPositiveHitPosition, lightDirection, obstacleSphere->center,
                                   obstacleSphere->radius)) {
         obstacle = GL_TRUE;
 
@@ -304,50 +295,31 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
 
     // If no obstacle, illuminate hit point surface.
     if (!obstacle) {
-      GLfloat diffuseIntensity =
-          glusMathMaxf(0.0f, glusVector3Dotf(hitDirection, lightDirection));
+      GLfloat diffuseIntensity = glusMathMaxf(0.0f, glusVector3Dotf(hitDirection, lightDirection));
 
       if (diffuseIntensity > 0.0f) {
         GLfloat specularReflection[3];
 
         GLfloat eDotR;
 
-        pixelColor[0] =
-            pixelColor[0] + diffuseIntensity *
-                                sphereNear->material.diffuseColor[0] *
-                                pointLight->color[0];
-        pixelColor[1] =
-            pixelColor[1] + diffuseIntensity *
-                                sphereNear->material.diffuseColor[1] *
-                                pointLight->color[1];
-        pixelColor[2] =
-            pixelColor[2] + diffuseIntensity *
-                                sphereNear->material.diffuseColor[2] *
-                                pointLight->color[2];
+        pixelColor[0] = pixelColor[0] + diffuseIntensity * sphereNear->material.diffuseColor[0] * pointLight->color[0];
+        pixelColor[1] = pixelColor[1] + diffuseIntensity * sphereNear->material.diffuseColor[1] * pointLight->color[1];
+        pixelColor[2] = pixelColor[2] + diffuseIntensity * sphereNear->material.diffuseColor[2] * pointLight->color[2];
 
-        glusVector3Reflectf(specularReflection, incidentLightDirection,
-                            hitDirection);
+        glusVector3Reflectf(specularReflection, incidentLightDirection, hitDirection);
         glusVector3Normalizef(specularReflection);
 
-        eDotR = glusMathMaxf(0.0f,
-                             glusVector3Dotf(eyeDirection, specularReflection));
+        eDotR = glusMathMaxf(0.0f, glusVector3Dotf(eyeDirection, specularReflection));
 
         if (eDotR > 0.0f && !insideSphereNear) {
-          GLfloat specularIntensity =
-              powf(eDotR, sphereNear->material.shininess);
+          GLfloat specularIntensity = powf(eDotR, sphereNear->material.shininess);
 
           pixelColor[0] =
-              pixelColor[0] + specularIntensity *
-                                  sphereNear->material.specularColor[0] *
-                                  pointLight->color[0];
+              pixelColor[0] + specularIntensity * sphereNear->material.specularColor[0] * pointLight->color[0];
           pixelColor[1] =
-              pixelColor[1] + specularIntensity *
-                                  sphereNear->material.specularColor[1] *
-                                  pointLight->color[1];
+              pixelColor[1] + specularIntensity * sphereNear->material.specularColor[1] * pointLight->color[1];
           pixelColor[2] =
-              pixelColor[2] + specularIntensity *
-                                  sphereNear->material.specularColor[2] *
-                                  pointLight->color[2];
+              pixelColor[2] + specularIntensity * sphereNear->material.specularColor[2] * pointLight->color[2];
         }
       }
     }
@@ -359,28 +331,18 @@ static GLvoid trace(GLfloat pixelColor[4], const GLfloat rayPosition[4],
   pixelColor[2] = pixelColor[2] + sphereNear->material.emissiveColor[2];
 
   // Final color with reflection and refraction
-  pixelColor[0] =
-      (1.0f - fresnel) * refractionColor[0] *
-          (1.0f - sphereNear->material.alpha) +
-      pixelColor[0] * (1.0f - sphereNear->material.reflectivity) *
-          sphereNear->material.alpha +
-      fresnel * reflectionColor[0] * sphereNear->material.reflectivity;
-  pixelColor[1] =
-      (1.0f - fresnel) * refractionColor[1] *
-          (1.0f - sphereNear->material.alpha) +
-      pixelColor[1] * (1.0f - sphereNear->material.reflectivity) *
-          sphereNear->material.alpha +
-      fresnel * reflectionColor[1] * sphereNear->material.reflectivity;
-  pixelColor[2] =
-      (1.0f - fresnel) * refractionColor[2] *
-          (1.0f - sphereNear->material.alpha) +
-      pixelColor[2] * (1.0f - sphereNear->material.reflectivity) *
-          sphereNear->material.alpha +
-      fresnel * reflectionColor[2] * sphereNear->material.reflectivity;
+  pixelColor[0] = (1.0f - fresnel) * refractionColor[0] * (1.0f - sphereNear->material.alpha) +
+                  pixelColor[0] * (1.0f - sphereNear->material.reflectivity) * sphereNear->material.alpha +
+                  fresnel * reflectionColor[0] * sphereNear->material.reflectivity;
+  pixelColor[1] = (1.0f - fresnel) * refractionColor[1] * (1.0f - sphereNear->material.alpha) +
+                  pixelColor[1] * (1.0f - sphereNear->material.reflectivity) * sphereNear->material.alpha +
+                  fresnel * reflectionColor[1] * sphereNear->material.reflectivity;
+  pixelColor[2] = (1.0f - fresnel) * refractionColor[2] * (1.0f - sphereNear->material.alpha) +
+                  pixelColor[2] * (1.0f - sphereNear->material.reflectivity) * sphereNear->material.alpha +
+                  fresnel * reflectionColor[2] * sphereNear->material.reflectivity;
 }
 
-static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
-                                     const GLint height) {
+static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width, const GLint height) {
   GLint x, y, index;
 
   GLfloat pixelColor[4];
@@ -393,9 +355,8 @@ static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
   }
 
   // Rendering only once, so direction buffer can be overwritten.
-  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer, 0,
-                      width, height, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-                      1.0f, 0.0f);
+  glusRaytraceLookAtf(g_positionBuffer, g_directionBuffer, g_directionBuffer, 0, width, height, 0.0f, 0.0f, 0.0f, 0.0f,
+                      0.0f, -1.0f, 0.0f, 1.0f, 0.0f);
 
   // Ray tracing over all pixels
 
@@ -403,17 +364,13 @@ static GLboolean renderToPixelBuffer(GLubyte *pixels, const GLint width,
     for (x = 0; x < WIDTH; x++) {
       index = (x + y * WIDTH);
 
-      trace(pixelColor, &g_positionBuffer[index * 4],
-            &g_directionBuffer[index * 3], 0);
+      trace(pixelColor, &g_positionBuffer[index * 4], &g_directionBuffer[index * 3], 0);
 
       // Resolve to pixel buffer, which is used for the texture.
 
-      pixels[index * BYTES_PER_PIXEL + 0] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[0]) * 255.0f);
-      pixels[index * BYTES_PER_PIXEL + 1] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[1]) * 255.0f);
-      pixels[index * BYTES_PER_PIXEL + 2] =
-          (GLubyte)(glusMathMinf(1.0f, pixelColor[2]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 0] = (GLubyte)(glusMathMinf(1.0f, pixelColor[0]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 1] = (GLubyte)(glusMathMinf(1.0f, pixelColor[1]) * 255.0f);
+      pixels[index * BYTES_PER_PIXEL + 2] = (GLubyte)(glusMathMinf(1.0f, pixelColor[2]) * 255.0f);
     }
   }
 
@@ -441,17 +398,14 @@ GLUSboolean init(GLUSvoid) {
 
   // Load full screen rendering shaders
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example29" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example29" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example29" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example29" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0,
-                             0, 0, (const GLchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -463,8 +417,7 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -497,9 +450,7 @@ GLUSboolean init(GLUSvoid) {
  * @param w	width of the window
  * @param h	height of the window
  */
-GLUSvoid reshape(GLUSint width, GLUSint height) {
-  glViewport(0, 0, width, height);
-}
+GLUSvoid reshape(GLUSint width, GLUSint height) { glViewport(0, 0, width, height); }
 
 /**
  * Function to render and display content. Swapping of the buffers is
@@ -546,11 +497,9 @@ GLUSvoid terminate(GLUSvoid) {
  * Main entry point.
  */
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -571,9 +520,8 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // To keep the program simple, no resize of the window.
-  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE,
-                        GLUS_TRUE, eglConfigAttributes, eglContextAttributes,
-                        0)) {
+  if (!glusWindowCreate("GLUS Example Window", WIDTH, HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

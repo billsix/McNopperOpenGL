@@ -122,72 +122,54 @@ GLUSboolean init(GLUSvoid) {
                                   .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   // Green color material with white specular color, half transparent.
-  struct MaterialProperties material = {
-      .ambientColor = {0.0f, 1.0f, 0.0f, 1.0f},
-      .diffuseColor = {0.0f, 1.0f, 0.0f, 1.0f},
-      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
-      .specularExponent = 20.0f,
-      .alpha = 0.5f};
+  struct MaterialProperties material = {.ambientColor = {0.0f, 1.0f, 0.0f, 1.0f},
+                                        .diffuseColor = {0.0f, 1.0f, 0.0f, 1.0f},
+                                        .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                        .specularExponent = 20.0f,
+                                        .alpha = 0.5f};
 
-  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f,
-                                 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f,
-                                 0.5f, 0.5f, 0.5f, 1.0f};
+  static GLfloat biasMatrix[] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f,
+                                 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
 
   GLUStextfile vertexSource;
   GLUStextfile fragmentSource;
 
   GLUSshape wavefrontObj;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_depth_peel.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_depth_peel.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_biasMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_biasMatrix");
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_biasMatrixLocation = glGetUniformLocation(g_program.program, "u_biasMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
   g_light = (struct LightLocations){
-      .directionLocation =
-          glGetUniformLocation(g_program.program, "u_light.direction"),
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.specularColor")};
+      .directionLocation = glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
   g_material = (struct MaterialLocations){
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.specularColor"),
-      .specularExponentLocation = glGetUniformLocation(
-          g_program.program, "u_material.specularExponent"),
-      .alphaLocation =
-          glGetUniformLocation(g_program.program, "u_material.alpha")};
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent"),
+      .alphaLocation = glGetUniformLocation(g_program.program, "u_material.alpha")};
 
-  g_peelTextureLocation =
-      glGetUniformLocation(g_program.program, "u_peelTexture");
+  g_peelTextureLocation = glGetUniformLocation(g_program.program, "u_peelTexture");
   g_layerLocation = glGetUniformLocation(g_program.program, "u_layer");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
@@ -195,17 +177,14 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen_blend.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example35" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen_blend.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_blendFullscreenProgram,
-                             (const GLchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar **)&vertexSource.text, 0, 0, 0,
                              (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -213,30 +192,26 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_framebufferTextureBlendFullscreenLocation = glGetUniformLocation(
-      g_blendFullscreenProgram.program, "u_framebufferTexture");
-  g_layersBlendFullscreenLocation =
-      glGetUniformLocation(g_blendFullscreenProgram.program, "u_layers");
+  g_framebufferTextureBlendFullscreenLocation =
+      glGetUniformLocation(g_blendFullscreenProgram.program, "u_framebufferTexture");
+  g_layersBlendFullscreenLocation = glGetUniformLocation(g_blendFullscreenProgram.program, "u_layers");
 
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj",
-                         &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj", &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefrontObj.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefrontObj.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -253,8 +228,7 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_2D_ARRAY, g_colorTexture);
 
-  glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, SCREEN_WIDTH, SCREEN_HEIGHT,
-               LAYERS, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+  glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, SCREEN_WIDTH, SCREEN_HEIGHT, LAYERS, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -269,31 +243,29 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, g_depthTexture[0]);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, SCREEN_WIDTH,
-               SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+               0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE,
-                  GL_COMPARE_REF_TO_TEXTURE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
   // Peel depth test "function". See shader for more information.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_GREATER);
 
   glBindTexture(GL_TEXTURE_2D, g_depthTexture[1]);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, SCREEN_WIDTH,
-               SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+               0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE,
-                  GL_COMPARE_REF_TO_TEXTURE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
   // Peel depth test "function". See shader for more information.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_GREATER);
 
@@ -305,16 +277,13 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_blendFullscreenFBO);
 
   // Attach the color buffer ...
-  glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                            g_colorTexture, 0, 0);
+  glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, g_colorTexture, 0, 0);
 
   // ... and the depth buffer,
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                         g_depthTexture[1], 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_depthTexture[1], 0);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -352,8 +321,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   //
 
@@ -395,8 +363,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
@@ -446,16 +413,13 @@ GLUSboolean update(GLUSfloat time) {
     glBindFramebuffer(GL_FRAMEBUFFER, g_blendFullscreenFBO);
 
     // Now color buffer ...
-    glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              g_colorTexture, 0, peelLayer);
+    glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, g_colorTexture, 0, peelLayer);
 
     // ... and default depth buffer can be used as the frame buffer.
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                           g_depthTexture[defaultDepth], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_depthTexture[defaultDepth], 0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-             glCheckFramebufferStatus(GL_FRAMEBUFFER));
+      printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
       return GLUS_FALSE;
     }
@@ -560,11 +524,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -584,8 +546,7 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
                         eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;

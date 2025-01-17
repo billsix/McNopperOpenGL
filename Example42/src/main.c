@@ -48,15 +48,13 @@ static GLuint g_colorDepthFBO;
 
 //
 
-static struct LightProperties g_light = {
-    .direction = {1.0f, 1.0f, 1.0f},
-    .ambientColor = {0.2f, 0.2f, 0.2f, 1.0f},
-    .diffuseColor = {0.8f, 0.8f, 0.8f, 1.0f},
-    .specularColor = {0.8f, 0.8f, 0.8f, 1.0f}};
+static struct LightProperties g_light = {.direction = {1.0f, 1.0f, 1.0f},
+                                         .ambientColor = {0.2f, 0.2f, 0.2f, 1.0f},
+                                         .diffuseColor = {0.8f, 0.8f, 0.8f, 1.0f},
+                                         .specularColor = {0.8f, 0.8f, 0.8f, 1.0f}};
 
-static struct CameraProperties g_camera = {.eye = {0.0f, 0.0f, 10.0f},
-                                           .center = {0.0f, 0.0f, 0.0f},
-                                           .up = {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {
+    .eye = {0.0f, 0.0f, 10.0f}, .center = {0.0f, 0.0f, 0.0f}, .up = {0.0f, 1.0f, 0.0f}};
 
 //
 
@@ -76,10 +74,8 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1],
-                       g_camera.eye[2], g_camera.center[0], g_camera.center[1],
-                       g_camera.center[2], g_camera.up[0], g_camera.up[1],
-                       g_camera.up[2]);
+  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1], g_camera.eye[2], g_camera.center[0],
+                       g_camera.center[1], g_camera.center[2], g_camera.up[0], g_camera.up[1], g_camera.up[2]);
 
   //
 
@@ -89,17 +85,13 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "fxaa.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "fxaa.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "fxaa.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example42" PATH_SEPERATOR "shader" PATH_SEPERATOR "fxaa.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -108,8 +100,7 @@ GLUSboolean init(GLUSvoid) {
   g_showEdgesLocation = glGetUniformLocation(g_program.program, "u_showEdges");
   g_fxaaOnLocation = glGetUniformLocation(g_program.program, "u_fxaaOn");
 
-  g_lumaThresholdLocation =
-      glGetUniformLocation(g_program.program, "u_lumaThreshold");
+  g_lumaThresholdLocation = glGetUniformLocation(g_program.program, "u_lumaThreshold");
   g_mulReduceLocation = glGetUniformLocation(g_program.program, "u_mulReduce");
   g_minReduceLocation = glGetUniformLocation(g_program.program, "u_minReduce");
   g_maxSpanLocation = glGetUniformLocation(g_program.program, "u_maxSpan");
@@ -121,8 +112,7 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_colorTexture);
   glBindTexture(GL_TEXTURE_2D, g_colorTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -135,8 +125,7 @@ GLUSboolean init(GLUSvoid) {
 
   glGenRenderbuffers(1, &g_depthRenderbuffer);
   glBindRenderbuffer(GL_RENDERBUFFER, g_depthRenderbuffer);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH,
-                        SCREEN_HEIGHT);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -146,16 +135,13 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_colorDepthFBO);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_colorTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_colorTexture, 0);
 
   // ... and the depth buffer,
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, g_depthRenderbuffer);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, g_depthRenderbuffer);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -168,8 +154,7 @@ GLUSboolean init(GLUSvoid) {
 
   glUseProgram(g_program.program);
 
-  glUniform2f(g_texelStepLocation, 1.0f / (GLfloat)SCREEN_WIDTH,
-              1.0f / (GLfloat)SCREEN_HEIGHT);
+  glUniform2f(g_texelStepLocation, 1.0f / (GLfloat)SCREEN_WIDTH, 1.0f / (GLfloat)SCREEN_HEIGHT);
 
   glGenVertexArrays(1, &g_vao);
   glBindVertexArray(g_vao);
@@ -196,8 +181,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
 
   glBindFramebuffer(GL_FRAMEBUFFER, g_colorDepthFBO);
 
@@ -330,11 +314,9 @@ GLUSvoid key(const GLUSboolean pressed, const GLUSint key) {
 
     g_lumaThreshold = glusMathClampf(g_lumaThreshold, 0.0f, 1.0f);
 
-    g_mulReduceReciprocal =
-        glusMathClampf(g_mulReduceReciprocal, 1.0f, MAX_MUL_REDUCE_RECIPROCAL);
+    g_mulReduceReciprocal = glusMathClampf(g_mulReduceReciprocal, 1.0f, MAX_MUL_REDUCE_RECIPROCAL);
 
-    g_minReduceReciprocal =
-        glusMathClampf(g_minReduceReciprocal, 1.0f, MAX_MIN_REDUCE_RECIPROCAL);
+    g_minReduceReciprocal = glusMathClampf(g_minReduceReciprocal, 1.0f, MAX_MIN_REDUCE_RECIPROCAL);
 
     g_maxSpan = glusMathClampf(g_maxSpan, 1.0f, MAX_MAX_SPAN);
   }
@@ -343,11 +325,9 @@ GLUSvoid key(const GLUSboolean pressed, const GLUSint key) {
 int main(int argc, char *argv[]) {
   // No depth buffer, as we finally render a full screen rectangle.
   // No MSAA, as we use FXAA.
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -372,8 +352,7 @@ int main(int argc, char *argv[]) {
   glusWindowSetTerminateFunc(terminate);
 
   // Fixed, non re-sizable screen size for simpler example code.
-  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
                         eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;

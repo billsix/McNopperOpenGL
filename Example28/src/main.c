@@ -22,8 +22,7 @@
 #define SSAO_RADIUS 1.0f
 
 #define ROTATION_NOISE_SIDE_LENGTH 4
-#define ROTATION_NOISE_SIZE                                                    \
-  (ROTATION_NOISE_SIDE_LENGTH * ROTATION_NOISE_SIDE_LENGTH)
+#define ROTATION_NOISE_SIZE (ROTATION_NOISE_SIDE_LENGTH * ROTATION_NOISE_SIDE_LENGTH)
 
 //
 
@@ -159,15 +158,13 @@ static GLuint g_blurVAO;
 
 //
 
-static struct LightProperties g_light = {
-    .direction = {1.0f, 1.0f, 1.0f},
-    .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
-    .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
-    .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
+static struct LightProperties g_light = {.direction = {1.0f, 1.0f, 1.0f},
+                                         .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                         .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                         .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
-static struct CameraProperties g_camera = {.eye = {0.0f, 15.0f, 15.0f},
-                                           .center = {0.0f, 0.0f, 0.0f},
-                                           .up = {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {
+    .eye = {0.0f, 15.0f, 15.0f}, .center = {0.0f, 0.0f, 0.0f}, .up = {0.0f, 1.0f, 0.0f}};
 
 static GLfloat g_kernel[3 * KERNEL_SIZE];
 
@@ -189,10 +186,8 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1],
-                       g_camera.eye[2], g_camera.center[0], g_camera.center[1],
-                       g_camera.center[2], g_camera.up[0], g_camera.up[1],
-                       g_camera.up[2]);
+  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1], g_camera.eye[2], g_camera.center[0],
+                       g_camera.center[1], g_camera.center[2], g_camera.up[0], g_camera.up[1], g_camera.up[2]);
 
   //
 
@@ -202,17 +197,13 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -220,14 +211,10 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Retrieve the uniform locations in the program.
-  g_viewProjectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewProjectionMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
-  g_lightDirectionLocation =
-      glGetUniformLocation(g_program.program, "u_lightDirection");
+  g_viewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_viewProjectionMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
   g_repeatLocation = glGetUniformLocation(g_program.program, "u_repeat");
   g_textureLocation = glGetUniformLocation(g_program.program, "u_texture");
 
@@ -240,17 +227,12 @@ GLUSboolean init(GLUSvoid) {
   // SSAO shader etc.
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "ssao.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "ssao.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "ssao.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "ssao.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_ssaoProgram,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_ssaoProgram, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -259,45 +241,30 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Retrieve the uniform locations in the program.
-  g_ssaoTextureLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_texture");
-  g_ssaoNormalTextureLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_normalTexture");
-  g_ssaoDepthTextureLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_depthTexture");
-  g_ssaoKernelLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_kernel");
-  g_ssaoRotationNoiseTextureLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_rotationNoiseTexture");
-  g_ssaoRotationNoiseScaleLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_rotationNoiseScale");
-  g_ssaoInverseProjectionMatrixLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_inverseProjectionMatrix");
-  g_ssaoProjectionMatrixLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_projectionMatrix");
-  g_ssaoRadiusLocation =
-      glGetUniformLocation(g_ssaoProgram.program, "u_radius");
+  g_ssaoTextureLocation = glGetUniformLocation(g_ssaoProgram.program, "u_texture");
+  g_ssaoNormalTextureLocation = glGetUniformLocation(g_ssaoProgram.program, "u_normalTexture");
+  g_ssaoDepthTextureLocation = glGetUniformLocation(g_ssaoProgram.program, "u_depthTexture");
+  g_ssaoKernelLocation = glGetUniformLocation(g_ssaoProgram.program, "u_kernel");
+  g_ssaoRotationNoiseTextureLocation = glGetUniformLocation(g_ssaoProgram.program, "u_rotationNoiseTexture");
+  g_ssaoRotationNoiseScaleLocation = glGetUniformLocation(g_ssaoProgram.program, "u_rotationNoiseScale");
+  g_ssaoInverseProjectionMatrixLocation = glGetUniformLocation(g_ssaoProgram.program, "u_inverseProjectionMatrix");
+  g_ssaoProjectionMatrixLocation = glGetUniformLocation(g_ssaoProgram.program, "u_projectionMatrix");
+  g_ssaoRadiusLocation = glGetUniformLocation(g_ssaoProgram.program, "u_radius");
 
   // Retrieve the attribute locations in the program.
   g_ssaoVertexLocation = glGetAttribLocation(g_ssaoProgram.program, "a_vertex");
-  g_ssaoTexCoordLocation =
-      glGetAttribLocation(g_ssaoProgram.program, "a_texCoord");
+  g_ssaoTexCoordLocation = glGetAttribLocation(g_ssaoProgram.program, "a_texCoord");
 
   //
   // Blur shader etc.
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "blur.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "blur.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "blur.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example28" PATH_SEPERATOR "shader" PATH_SEPERATOR "blur.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_blurProgram,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_blurProgram, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -306,22 +273,17 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Retrieve the uniform locations in the program.
-  g_blurColorTextureLocation =
-      glGetUniformLocation(g_blurProgram.program, "u_colorTexture");
+  g_blurColorTextureLocation = glGetUniformLocation(g_blurProgram.program, "u_colorTexture");
 
-  g_blurSSAOTextureLocation =
-      glGetUniformLocation(g_blurProgram.program, "u_ssaoTexture");
+  g_blurSSAOTextureLocation = glGetUniformLocation(g_blurProgram.program, "u_ssaoTexture");
 
-  g_blurTexelStepLocation =
-      glGetUniformLocation(g_blurProgram.program, "u_texelStep");
+  g_blurTexelStepLocation = glGetUniformLocation(g_blurProgram.program, "u_texelStep");
 
-  g_blurNoSSAOLocation =
-      glGetUniformLocation(g_blurProgram.program, "u_noSSAO");
+  g_blurNoSSAOLocation = glGetUniformLocation(g_blurProgram.program, "u_noSSAO");
 
   // Retrieve the attribute locations in the program.
   g_blurVertexLocation = glGetAttribLocation(g_blurProgram.program, "a_vertex");
-  g_blurTexCoordLocation =
-      glGetAttribLocation(g_blurProgram.program, "a_texCoord");
+  g_blurTexCoordLocation = glGetAttribLocation(g_blurProgram.program, "a_texCoord");
 
   //
   // Texture set up for the ground plane.
@@ -332,15 +294,14 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_texture);
   glBindTexture(GL_TEXTURE_2D, g_texture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Mipmap generation is now included in OpenGL 3 and above
   glGenerateMipmap(GL_TEXTURE_2D);
 
   // Trilinear filtering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -355,8 +316,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, g_ssaoTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -371,8 +331,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, g_ssaoNormalTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -387,8 +346,8 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, g_ssaoDepthTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, TEXTURE_WIDTH,
-               TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+               0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -403,20 +362,16 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_ssaoFBO);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_ssaoTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_ssaoTexture, 0);
 
   // Attach the normal buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D,
-                         g_ssaoNormalTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, g_ssaoNormalTexture, 0);
 
   // ... and the depth buffer,
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                         g_ssaoDepthTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_ssaoDepthTexture, 0);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -431,8 +386,7 @@ GLUSboolean init(GLUSvoid) {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, g_blurTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
-               GLUS_RGB, GL_UNSIGNED_BYTE, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -447,12 +401,10 @@ GLUSboolean init(GLUSvoid) {
   glBindFramebuffer(GL_FRAMEBUFFER, g_blurFBO);
 
   // Attach the color buffer ...
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         g_blurTexture, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_blurTexture, 0);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x",
-           glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
     return GLUS_FALSE;
   }
@@ -469,25 +421,21 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)plane.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)plane.normals, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -535,20 +483,17 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_postprocessVerticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_postprocessVerticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_postprocessTexCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_postprocessTexCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_postprocessIndicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_postprocessIndicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -589,19 +534,15 @@ GLUSboolean init(GLUSvoid) {
   for (i = 0; i < KERNEL_SIZE; i++) {
     g_kernel[i * 3 + 0] = glusRandomUniformf(-1.0f, 1.0f);
     g_kernel[i * 3 + 1] = glusRandomUniformf(-1.0f, 1.0f);
-    g_kernel[i * 3 + 2] = glusRandomUniformf(
-        0.0f, 1.0f); // Kernel hemisphere points to positive Z-Axis.
+    g_kernel[i * 3 + 2] = glusRandomUniformf(0.0f, 1.0f);  // Kernel hemisphere points to positive Z-Axis.
 
-    glusVector3Normalizef(
-        &g_kernel[i * 3]); // Normalize, so included in the hemisphere.
+    glusVector3Normalizef(&g_kernel[i * 3]);  // Normalize, so included in the hemisphere.
 
-    GLfloat scale =
-        (GLfloat)i /
-        (GLfloat)KERNEL_SIZE; // Create a scale value between [0;1[ .
+    GLfloat scale = (GLfloat)i / (GLfloat)KERNEL_SIZE;  // Create a scale value between [0;1[ .
 
     scale = glusMathClampf(scale * scale, 0.1f,
-                           1.0f); // Adjust scale, that there are more values
-                                  // closer to the center of the g_kernel.
+                           1.0f);  // Adjust scale, that there are more values
+                                   // closer to the center of the g_kernel.
 
     glusVector3MultiplyScalarf(&g_kernel[i * 3], &g_kernel[i * 3], scale);
   }
@@ -616,10 +557,9 @@ GLUSboolean init(GLUSvoid) {
   for (i = 0; i < ROTATION_NOISE_SIZE; i++) {
     g_rotationNoise[i * 3 + 0] = glusRandomUniformf(-1.0f, 1.0f);
     g_rotationNoise[i * 3 + 1] = glusRandomUniformf(-1.0f, 1.0f);
-    g_rotationNoise[i * 3 + 2] = 0.0f; // Rotate on x-y-plane, so z is zero.
+    g_rotationNoise[i * 3 + 2] = 0.0f;  // Rotate on x-y-plane, so z is zero.
 
-    glusVector3Normalizef(
-        &g_rotationNoise[i * 3]); // Normalized rotation vector.
+    glusVector3Normalizef(&g_rotationNoise[i * 3]);  // Normalized rotation vector.
   }
 
   //
@@ -627,8 +567,7 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_ssaoRotationNoiseTexture);
   glBindTexture(GL_TEXTURE_2D, g_ssaoRotationNoiseTexture);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, ROTATION_NOISE_SIDE_LENGTH,
-               ROTATION_NOISE_SIDE_LENGTH, 0, GL_RGB, GL_FLOAT,
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, ROTATION_NOISE_SIDE_LENGTH, ROTATION_NOISE_SIDE_LENGTH, 0, GL_RGB, GL_FLOAT,
                g_rotationNoise);
 
   // No filtering
@@ -642,10 +581,8 @@ GLUSboolean init(GLUSvoid) {
   //
   //
 
-  g_rotationNoiseScale[0] =
-      (GLfloat)TEXTURE_WIDTH / (GLfloat)ROTATION_NOISE_SIDE_LENGTH;
-  g_rotationNoiseScale[1] =
-      (GLfloat)TEXTURE_HEIGHT / (GLfloat)ROTATION_NOISE_SIDE_LENGTH;
+  g_rotationNoiseScale[0] = (GLfloat)TEXTURE_WIDTH / (GLfloat)ROTATION_NOISE_SIDE_LENGTH;
+  g_rotationNoiseScale[1] = (GLfloat)TEXTURE_HEIGHT / (GLfloat)ROTATION_NOISE_SIDE_LENGTH;
 
   // Pass the scale, as the rotation noise texture is repeated over the screen x
   // / y times.
@@ -711,8 +648,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   // Calculate the inverse. Needed for the SSAO shader to get from projection to
   // view space.
@@ -723,21 +659,17 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glUseProgram(g_ssaoProgram.program);
 
-  glUniformMatrix4fv(g_ssaoInverseProjectionMatrixLocation, 1, GL_FALSE,
-                     g_inverseProjectionMatrix);
+  glUniformMatrix4fv(g_ssaoInverseProjectionMatrixLocation, 1, GL_FALSE, g_inverseProjectionMatrix);
 
-  glUniformMatrix4fv(g_ssaoProjectionMatrixLocation, 1, GL_FALSE,
-                     g_projectionMatrix);
+  glUniformMatrix4fv(g_ssaoProjectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
 
   //
 
-  glusMatrix4x4Multiplyf(g_viewProjectionMatrix, g_projectionMatrix,
-                         g_viewMatrix);
+  glusMatrix4x4Multiplyf(g_viewProjectionMatrix, g_projectionMatrix, g_viewMatrix);
 
   glUseProgram(g_program.program);
 
-  glUniformMatrix4fv(g_viewProjectionMatrixLocation, 1, GL_FALSE,
-                     g_viewProjectionMatrix);
+  glUniformMatrix4fv(g_viewProjectionMatrixLocation, 1, GL_FALSE, g_viewProjectionMatrix);
 
   glusMatrix4x4Identityf(modelMatrix);
   glusMatrix4x4RotateRxf(modelMatrix, -90.0f);
@@ -748,8 +680,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
   glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
   glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
 
-  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix,
-                                g_light.direction);
+  glusMatrix4x4MultiplyVector3f(lightDirection, g_viewMatrix, g_light.direction);
   // Direction already normalized
   glUniform3fv(g_lightDirectionLocation, 1, lightDirection);
 }
@@ -832,8 +763,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glBindVertexArray(g_ssaoVAO);
 
-  glDrawElements(GL_TRIANGLES, g_numberIndicesPostprocessPlane, GL_UNSIGNED_INT,
-                 0);
+  glDrawElements(GL_TRIANGLES, g_numberIndicesPostprocessPlane, GL_UNSIGNED_INT, 0);
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -857,8 +787,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glBindVertexArray(g_blurVAO);
 
-  glDrawElements(GL_TRIANGLES, g_numberIndicesPostprocessPlane, GL_UNSIGNED_INT,
-                 0);
+  glDrawElements(GL_TRIANGLES, g_numberIndicesPostprocessPlane, GL_UNSIGNED_INT, 0);
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -1017,11 +946,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -1045,9 +972,8 @@ int main(int argc, char *argv[]) {
 
   // No resizing for convenience. If resizing is allowed, dynamically resize the
   // SSAO and Blur frame buffer as well.
-  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
-                        eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT, GLUS_FALSE, GLUS_TRUE,
+                        eglConfigAttributes, eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

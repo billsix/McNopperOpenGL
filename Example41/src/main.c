@@ -48,8 +48,7 @@
 #define WIND_SPEED 10.0f
 
 // Wind direction.
-#define WIND_DIRECTION                                                         \
-  { 1.0f, 1.0f }
+#define WIND_DIRECTION {1.0f, 1.0f}
 
 // Largest possible wave arising.
 #define LPWA (WIND_SPEED * WIND_SPEED / GRAVITY)
@@ -104,8 +103,7 @@ static GLuint g_vao;
 
 static GLuint g_numberIndices;
 
-static GLfloat phillipsSpectrum(GLfloat A, GLfloat L, GLfloat waveDirection[2],
-                                GLfloat windDirection[2]) {
+static GLfloat phillipsSpectrum(GLfloat A, GLfloat L, GLfloat waveDirection[2], GLfloat windDirection[2]) {
   GLfloat k = glusVector2Lengthf(waveDirection);
   GLfloat waveDotWind = glusVector2Dotf(waveDirection, windDirection);
 
@@ -114,8 +112,7 @@ static GLfloat phillipsSpectrum(GLfloat A, GLfloat L, GLfloat waveDirection[2],
     return 0.0f;
   }
 
-  return A * expf(-1.0f / (k * L * k * L)) / (k * k * k * k) * waveDotWind *
-         waveDotWind;
+  return A * expf(-1.0f / (k * L * k * L)) / (k * k * k * k) * waveDotWind * waveDotWind;
 }
 
 GLUSboolean init(GLUSvoid) {
@@ -153,67 +150,51 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "ocean_update_ht.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeUpdateHtProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeUpdateHtProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "ocean_fft.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeFftProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeFftProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "ocean_update_normal.comp.glsl",
                    &computeSource);
 
-  glusProgramBuildComputeFromSource(&g_computeUpdateNormalProgram,
-                                    (const GLchar **)&computeSource.text);
+  glusProgramBuildComputeFromSource(&g_computeUpdateNormalProgram, (const GLchar **)&computeSource.text);
 
   glusFileDestroyText(&computeSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "ocean.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR "shader" PATH_SEPERATOR "ocean.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "ocean.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example41" PATH_SEPERATOR "shader" PATH_SEPERATOR "ocean.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_totalTimeUpdateHtLocation =
-      glGetUniformLocation(g_computeUpdateHtProgram.program, "u_totalTime");
+  g_totalTimeUpdateHtLocation = glGetUniformLocation(g_computeUpdateHtProgram.program, "u_totalTime");
 
-  g_processColumnFftLocation =
-      glGetUniformLocation(g_computeFftProgram.program, "u_processColumn");
-  g_stepsFftLocation =
-      glGetUniformLocation(g_computeFftProgram.program, "u_steps");
+  g_processColumnFftLocation = glGetUniformLocation(g_computeFftProgram.program, "u_processColumn");
+  g_stepsFftLocation = glGetUniformLocation(g_computeFftProgram.program, "u_steps");
 
-  g_modelViewProjectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
-  g_lightDirectionLocation =
-      glGetUniformLocation(g_program.program, "u_lightDirection");
+  g_modelViewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
   g_colorLocation = glGetUniformLocation(g_program.program, "u_color");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
@@ -222,8 +203,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Use a helper function to create a grid plane.
-  glusShapeCreateRectangularGridPlanef(&gridPlane, LENGTH, LENGTH, N - 1, N - 1,
-                                       GLUS_FALSE);
+  glusShapeCreateRectangularGridPlanef(&gridPlane, LENGTH, LENGTH, N - 1, N - 1, GLUS_FALSE);
 
   g_numberIndices = gridPlane.numberIndices;
 
@@ -231,27 +211,25 @@ GLUSboolean init(GLUSvoid) {
   glusMatrix4x4Identityf(matrix);
   glusMatrix4x4RotateRxf(matrix, -90.0f);
   for (i = 0; i < gridPlane.numberVertices; i++) {
-    glusMatrix4x4MultiplyPoint4f(&gridPlane.vertices[4 * i], matrix,
-                                 &gridPlane.vertices[4 * i]);
+    glusMatrix4x4MultiplyPoint4f(&gridPlane.vertices[4 * i], matrix, &gridPlane.vertices[4 * i]);
   }
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, gridPlane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)gridPlane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, gridPlane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)gridPlane.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, gridPlane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)gridPlane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, gridPlane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)gridPlane.texCoords,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               gridPlane.numberIndices * sizeof(GLuint),
-               (GLuint *)gridPlane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, gridPlane.numberIndices * sizeof(GLuint), (GLuint *)gridPlane.indices,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -271,22 +249,15 @@ GLUSboolean init(GLUSvoid) {
 
   for (i = 0; i < N; i++) {
     // Positive N, that it matches with OpenGL z-axis.
-    waveDirection[1] =
-        ((GLfloat)N / 2.0f - (GLfloat)i) * (2.0f * GLUS_PI / LENGTH);
+    waveDirection[1] = ((GLfloat)N / 2.0f - (GLfloat)i) * (2.0f * GLUS_PI / LENGTH);
 
     for (k = 0; k < N; k++) {
-      waveDirection[0] =
-          ((GLfloat)-N / 2.0f + (GLfloat)k) * (2.0f * GLUS_PI / LENGTH);
+      waveDirection[0] = ((GLfloat)-N / 2.0f + (GLfloat)k) * (2.0f * GLUS_PI / LENGTH);
 
-      phillipsSpectrumValue =
-          phillipsSpectrum(AMPLITUDE, LPWA, waveDirection, windDirection);
+      phillipsSpectrumValue = phillipsSpectrum(AMPLITUDE, LPWA, waveDirection, windDirection);
 
-      h0Data[i * 2 * N + k * 2 + 0] = 1.0f / sqrtf(2.0f) *
-                                      glusRandomNormalf(0.0f, 1.0f) *
-                                      phillipsSpectrumValue;
-      h0Data[i * 2 * N + k * 2 + 1] = 1.0f / sqrtf(2.0f) *
-                                      glusRandomNormalf(0.0f, 1.0f) *
-                                      phillipsSpectrumValue;
+      h0Data[i * 2 * N + k * 2 + 0] = 1.0f / sqrtf(2.0f) * glusRandomNormalf(0.0f, 1.0f) * phillipsSpectrumValue;
+      h0Data[i * 2 * N + k * 2 + 1] = 1.0f / sqrtf(2.0f) * glusRandomNormalf(0.0f, 1.0f) * phillipsSpectrumValue;
     }
   }
 
@@ -381,8 +352,7 @@ GLUSboolean init(GLUSvoid) {
 
   // FIXME: On AMD hardware, an integer texture can not be created. So floats
   // are used as a workaround.
-  glTexImage1D(GL_TEXTURE_1D, 0, GL_R32F, N, 0, GL_RED, GL_FLOAT,
-               butterflyIndicesAsFloat);
+  glTexImage1D(GL_TEXTURE_1D, 0, GL_R32F, N, 0, GL_RED, GL_FLOAT, butterflyIndicesAsFloat);
 
   glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -456,18 +426,14 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelMatrix);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 2000.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 2000.0f);
 
-  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 5.0f, LENGTH / 2.0f, 0.0f, 0.0f, 0.0f,
-                       0.0f, 1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 5.0f, LENGTH / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glusMatrix4x4Multiplyf(viewProjectionMatrix, projectionMatrix, viewMatrix);
-  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, viewProjectionMatrix,
-                         modelMatrix);
+  glusMatrix4x4Multiplyf(modelViewProjectionMatrix, viewProjectionMatrix, modelMatrix);
 
-  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE,
-                     modelViewProjectionMatrix);
+  glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE, modelViewProjectionMatrix);
   glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
 
   glUseProgram(0);
@@ -506,16 +472,14 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_computeFftProgram.program);
 
-  glBindImageTexture(2, g_textureIndices, 0, GL_FALSE, 0, GL_READ_ONLY,
-                     GL_R32F);
+  glBindImageTexture(2, g_textureIndices, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
 
   //
   // FFT per row pass.
   //
 
   glBindImageTexture(0, g_textureHt, 0, GL_FALSE, 0, GL_READ_ONLY, GL_RG32F);
-  glBindImageTexture(1, g_textureDisplacement[0], 0, GL_FALSE, 0, GL_WRITE_ONLY,
-                     GL_RG32F);
+  glBindImageTexture(1, g_textureDisplacement[0], 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RG32F);
 
   glUniform1i(g_processColumnFftLocation, 0);
 
@@ -530,10 +494,8 @@ GLUSboolean update(GLUSfloat time) {
   // FFT per column pass.
   //
 
-  glBindImageTexture(0, g_textureDisplacement[0], 0, GL_FALSE, 0, GL_READ_ONLY,
-                     GL_RG32F);
-  glBindImageTexture(1, g_textureDisplacement[1], 0, GL_FALSE, 0, GL_WRITE_ONLY,
-                     GL_RG32F);
+  glBindImageTexture(0, g_textureDisplacement[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RG32F);
+  glBindImageTexture(1, g_textureDisplacement[1], 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RG32F);
 
   glUniform1i(g_processColumnFftLocation, 1);
 
@@ -550,10 +512,8 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_computeUpdateNormalProgram.program);
 
-  glBindImageTexture(0, g_textureDisplacement[1], 0, GL_FALSE, 0, GL_READ_ONLY,
-                     GL_RG32F);
-  glBindImageTexture(1, g_textureNormal, 0, GL_FALSE, 0, GL_WRITE_ONLY,
-                     GL_RGBA32F);
+  glBindImageTexture(0, g_textureDisplacement[1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RG32F);
+  glBindImageTexture(1, g_textureNormal, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 
   // Process all vertices. No synchronization needed, so start NxN threads with
   // local size of 1x1.
@@ -677,10 +637,8 @@ GLUSvoid terminate(GLUSvoid) {
 
 int main(int argc, char *argv[]) {
   EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS,  1,
-      EGL_SAMPLES,      4, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,     8, EGL_BLUE_SIZE, 8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS, 1, EGL_SAMPLES,   4, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
       EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
@@ -703,9 +661,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 1024, 768, GLUS_FALSE,
-                        GLUS_FALSE, eglConfigAttributes, eglContextAttributes,
-                        0)) {
+  if (!glusWindowCreate("GLUS Example Window", 1024, 768, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

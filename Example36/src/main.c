@@ -122,12 +122,11 @@ GLUSboolean init(GLUSvoid) {
                                   .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
   // Green color material with white specular color, half transparent.
-  struct MaterialProperties material = {
-      .ambientColor = {0.0f, 1.0f, 0.0f, 1.0f},
-      .diffuseColor = {0.0f, 1.0f, 0.0f, 1.0f},
-      .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
-      .specularExponent = 20.0f,
-      .alpha = 0.5f};
+  struct MaterialProperties material = {.ambientColor = {0.0f, 1.0f, 0.0f, 1.0f},
+                                        .diffuseColor = {0.0f, 1.0f, 0.0f, 1.0f},
+                                        .specularColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                        .specularExponent = 20.0f,
+                                        .alpha = 0.5f};
 
   // Buffer for cleaning the head index testure.
   static GLuint clearBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
@@ -146,51 +145,37 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_linked_list.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "phong_linked_list.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
   g_light = (struct LightLocations){
-      .directionLocation =
-          glGetUniformLocation(g_program.program, "u_light.direction"),
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.specularColor")};
+      .directionLocation = glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
   g_material = (struct MaterialLocations){
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_material.specularColor"),
-      .specularExponentLocation = glGetUniformLocation(
-          g_program.program, "u_material.specularExponent"),
-      .alphaLocation =
-          glGetUniformLocation(g_program.program, "u_material.alpha")};
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor"),
+      .specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent"),
+      .alphaLocation = glGetUniformLocation(g_program.program, "u_material.alpha")};
 
   g_maxNodesLocation = glGetUniformLocation(g_program.program, "u_maxNodes");
 
@@ -199,17 +184,14 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen_blend.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example36" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen_blend.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_blendFullscreenProgram,
-                             (const GLchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar **)&vertexSource.text, 0, 0, 0,
                              (const GLchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -219,8 +201,7 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_freeNodeIndex);
 
-  glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, BINDING_ATOMIC_FREE_INDEX,
-                   g_freeNodeIndex);
+  glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, BINDING_ATOMIC_FREE_INDEX, g_freeNodeIndex);
   glBufferData(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), 0, GL_DYNAMIC_DRAW);
 
   // Head index texture/image, which contains the
@@ -228,8 +209,7 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_headIndexTexture);
 
   glBindTexture(GL_TEXTURE_2D, g_headIndexTexture);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_R32UI, SCREEN_WIDTH, SCREEN_HEIGHT, 0,
-               GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_R32UI, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -238,50 +218,41 @@ GLUSboolean init(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
-  glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, g_headIndexTexture, 0, GL_FALSE,
-                     0, GL_READ_WRITE, GL_R32UI);
+  glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, g_headIndexTexture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
 
   // Buffer to clearet the head pointers.
 
   glGenBuffers(1, &g_clearBuffer);
 
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, g_clearBuffer);
-  glBufferData(GL_PIXEL_UNPACK_BUFFER,
-               SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(GLuint), clearBuffer,
-               GL_STATIC_COPY);
+  glBufferData(GL_PIXEL_UNPACK_BUFFER, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(GLuint), clearBuffer, GL_STATIC_COPY);
 
   // Buffer for the linked list.
 
   glGenBuffers(1, &g_linkedListBuffer);
 
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_LINKED_LIST,
-                   g_linkedListBuffer);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_LINKED_LIST, g_linkedListBuffer);
   // Size is RGBA, depth (5 * GLfloat), next pointer (1 * GLuint) and 2 paddings
   // (2 * GLfloat).
-  glBufferData(GL_SHADER_STORAGE_BUFFER,
-               MAX_NODES * (sizeof(GLfloat) * 5 + sizeof(GLuint) * 1) +
-                   sizeof(GLfloat) * 2,
+  glBufferData(GL_SHADER_STORAGE_BUFFER, MAX_NODES * (sizeof(GLfloat) * 5 + sizeof(GLuint) * 1) + sizeof(GLfloat) * 2,
                0, GL_DYNAMIC_DRAW);
 
   //
 
   // Use a helper function to load an wavefront object file.
-  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj",
-                         &wavefrontObj);
+  glusShapeLoadWavefront(RESOURCE_PATH PATH_SEPERATOR "dragon.obj", &wavefrontObj);
 
   g_numberVertices = wavefrontObj.numberVertices;
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)wavefrontObj.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               wavefrontObj.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)wavefrontObj.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)wavefrontObj.normals,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -315,8 +286,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   //
 
@@ -352,8 +322,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
@@ -393,8 +362,7 @@ GLUSboolean update(GLUSfloat time) {
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, g_clearBuffer);
 
   glBindTexture(GL_TEXTURE_2D, g_headIndexTexture);
-  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
-                  GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
+  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
   glBindTexture(GL_TEXTURE_2D, 0);
 
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -469,8 +437,7 @@ GLUSvoid terminate(GLUSvoid) {
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
-  glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, 0, 0, GL_FALSE, 0, GL_READ_WRITE,
-                     GL_R32UI);
+  glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, 0, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
 
   if (g_headIndexTexture) {
     glDeleteTextures(1, &g_headIndexTexture);
@@ -500,11 +467,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -524,8 +489,7 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+  if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
                         eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;

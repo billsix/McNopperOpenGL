@@ -70,22 +70,15 @@ GLUSboolean init(GLUSvoid) {
 
   GLfloat halfPixelSize[2];
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "voxelize.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "voxelize.geom.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "voxelize.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR "voxelize.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, (const GLUSchar **)&geometrySource.text,
-                             (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0,
+                             (const GLUSchar **)&geometrySource.text, (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&geometrySource);
@@ -93,15 +86,11 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
 
-  g_halfPixelSizeLocation =
-      glGetUniformLocation(g_program.program, "u_halfPixelSize");
+  g_halfPixelSizeLocation = glGetUniformLocation(g_program.program, "u_halfPixelSize");
 
   //
   // 3D model
@@ -111,15 +100,13 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_wavefront.verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_wavefront.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)g_wavefront.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)g_wavefront.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_wavefront.texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER,
-               g_wavefront.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)g_wavefront.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)g_wavefront.texCoords,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -133,8 +120,7 @@ GLUSboolean init(GLUSvoid) {
   while (groupWalker) {
     glGenBuffers(1, &groupWalker->group.indicesVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 groupWalker->group.numberIndices * sizeof(GLuint),
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.numberIndices * sizeof(GLuint),
                  (GLuint *)groupWalker->group.indices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -169,8 +155,7 @@ GLUSboolean init(GLUSvoid) {
   while (materialWalker) {
     if (materialWalker->material.diffuseTextureFilename[0] != '\0') {
       // Load the image.
-      if (!glusImageLoadTga(materialWalker->material.diffuseTextureFilename,
-                            &image)) {
+      if (!glusImageLoadTga(materialWalker->material.diffuseTextureFilename, &image)) {
         return GLUS_FALSE;
       }
 
@@ -179,8 +164,8 @@ GLUSboolean init(GLUSvoid) {
       glBindTexture(GL_TEXTURE_2D, materialWalker->material.diffuseTextureName);
 
       // Transfer the image data from the CPU to the GPU.
-      glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-                   image.format, GL_UNSIGNED_BYTE, image.data);
+      glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+                   image.data);
 
       // Setting the texture parameters.
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -202,20 +187,16 @@ GLUSboolean init(GLUSvoid) {
   // Matrix setup.
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, EYE, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, EYE, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
 
   //
 
-  glusMatrix4x4Orthof(g_projectionMatrix, -(GLfloat)VOXEL_GRID_SIZE * 0.5f,
-                      (GLfloat)VOXEL_GRID_SIZE * 0.5f,
-                      -(GLfloat)VOXEL_GRID_SIZE * 0.5f,
-                      (GLfloat)VOXEL_GRID_SIZE * 0.5f, NEAR, FAR);
+  glusMatrix4x4Orthof(g_projectionMatrix, -(GLfloat)VOXEL_GRID_SIZE * 0.5f, (GLfloat)VOXEL_GRID_SIZE * 0.5f,
+                      -(GLfloat)VOXEL_GRID_SIZE * 0.5f, (GLfloat)VOXEL_GRID_SIZE * 0.5f, NEAR, FAR);
 
-  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE,
-                     g_projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
 
   //
 
@@ -238,8 +219,8 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_voxelGrid);
   glBindTexture(GL_TEXTURE_3D, g_voxelGrid);
 
-  glTexImage3D(GL_TEXTURE_3D, 0, GL_R32UI, VOXEL_GRID_SIZE, VOXEL_GRID_SIZE,
-               VOXEL_GRID_SIZE, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
+  glTexImage3D(GL_TEXTURE_3D, 0, GL_R32UI, VOXEL_GRID_SIZE, VOXEL_GRID_SIZE, VOXEL_GRID_SIZE, 0, GL_RED_INTEGER,
+               GL_UNSIGNED_INT, 0);
 
   glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -253,17 +234,14 @@ GLUSboolean init(GLUSvoid) {
   // Full screen rendering.
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "fullscreen.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example45" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "draw_voxels.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_fullscreenProgram,
-                             (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+  glusProgramBuildFromSource(&g_fullscreenProgram, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -326,13 +304,11 @@ GLUSboolean update(GLUSfloat time) {
 
   glusMatrix4x4Identityf(g_modelMatrix);
 
-  glusMatrix4x4Translatef(g_modelMatrix, 0.0f,
-                          -200.0f * VOXEL_GRID_SIZE / WINDOW_SIZE, 0.0f);
+  glusMatrix4x4Translatef(g_modelMatrix, 0.0f, -200.0f * VOXEL_GRID_SIZE / WINDOW_SIZE, 0.0f);
 
   glusMatrix4x4RotateRyf(g_modelMatrix, angle);
 
-  glusMatrix4x4Scalef(g_modelMatrix, 3000.0f * VOXEL_GRID_SIZE / WINDOW_SIZE,
-                      3000.0f * VOXEL_GRID_SIZE / WINDOW_SIZE,
+  glusMatrix4x4Scalef(g_modelMatrix, 3000.0f * VOXEL_GRID_SIZE / WINDOW_SIZE, 3000.0f * VOXEL_GRID_SIZE / WINDOW_SIZE,
                       3000.0f * VOXEL_GRID_SIZE / WINDOW_SIZE);
 
   glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, g_modelMatrix);
@@ -341,8 +317,7 @@ GLUSboolean update(GLUSfloat time) {
 
   //
 
-  glBindImageTexture(BINDING_VOXEL_GRID, g_voxelGrid, 0, GL_TRUE, 0,
-                     GL_WRITE_ONLY, GL_R32UI);
+  glBindImageTexture(BINDING_VOXEL_GRID, g_voxelGrid, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_R32UI);
 
   glViewport(0, 0, VOXEL_GRID_SIZE, VOXEL_GRID_SIZE);
 
@@ -356,16 +331,14 @@ GLUSboolean update(GLUSfloat time) {
   while (groupWalker) {
     // Enable only texturing, if the material has a texture
     if (groupWalker->group.material->diffuseTextureName) {
-      glBindTexture(GL_TEXTURE_2D,
-                    groupWalker->group.material->diffuseTextureName);
+      glBindTexture(GL_TEXTURE_2D, groupWalker->group.material->diffuseTextureName);
     } else {
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     glBindVertexArray(groupWalker->group.vao);
 
-    glDrawElements(GL_TRIANGLES, groupWalker->group.numberIndices,
-                   GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, groupWalker->group.numberIndices, GL_UNSIGNED_INT, 0);
 
     groupWalker = groupWalker->next;
   }
@@ -376,8 +349,7 @@ GLUSboolean update(GLUSfloat time) {
 
   //
 
-  glBindImageTexture(BINDING_VOXEL_GRID, 0, 0, GL_TRUE, 0, GL_WRITE_ONLY,
-                     GL_R32UI);
+  glBindImageTexture(BINDING_VOXEL_GRID, 0, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_R32UI);
 
   //
   // Dump the voxelized model to the screen.
@@ -387,8 +359,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_fullscreenProgram.program);
 
-  glBindImageTexture(BINDING_VOXEL_GRID, g_voxelGrid, 0, GL_TRUE, 0,
-                     GL_READ_ONLY, GL_R32UI);
+  glBindImageTexture(BINDING_VOXEL_GRID, g_voxelGrid, 0, GL_TRUE, 0, GL_READ_ONLY, GL_R32UI);
 
   glViewport(0, 0, WINDOW_SIZE, WINDOW_SIZE);
 
@@ -396,8 +367,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  glBindImageTexture(BINDING_VOXEL_GRID, 0, 0, GL_TRUE, 0, GL_READ_ONLY,
-                     GL_R32UI);
+  glBindImageTexture(BINDING_VOXEL_GRID, 0, 0, GL_TRUE, 0, GL_READ_ONLY, GL_R32UI);
 
   return GLUS_TRUE;
 }
@@ -482,11 +452,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      0,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8, EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 0, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -508,8 +476,7 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", WINDOW_SIZE, WINDOW_SIZE,
-                        GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
+  if (!glusWindowCreate("GLUS Example Window", WINDOW_SIZE, WINDOW_SIZE, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes,
                         eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;

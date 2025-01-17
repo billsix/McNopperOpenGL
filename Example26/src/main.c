@@ -127,38 +127,28 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR
-                   "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR
-                   "ambient_diffuse_texture.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR
+                                                "ambient_diffuse_texture.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR
-                   "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR
-                   "ambient_diffuse_texture.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR
+                                                "ambient_diffuse_texture.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "fur.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "fur.geom.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "fur.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example26" PATH_SEPERATOR "shader" PATH_SEPERATOR "fur.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_programFur,
-                             (const GLUSchar **)&vertexSource.text, 0, 0,
-                             (const GLUSchar **)&geometrySource.text,
-                             (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_programFur, (const GLUSchar **)&vertexSource.text, 0, 0,
+                             (const GLUSchar **)&geometrySource.text, (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&geometrySource);
@@ -166,49 +156,34 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
   g_light = (struct LightLocations){
-      .directionLocation =
-          glGetUniformLocation(g_program.program, "u_light.direction"),
-      .ambientColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.ambientColor"),
-      .diffuseColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
-      .specularColorLocation =
-          glGetUniformLocation(g_program.program, "u_light.specularColor")};
+      .directionLocation = glGetUniformLocation(g_program.program, "u_light.direction"),
+      .ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor"),
+      .diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor"),
+      .specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor")};
 
-  g_textureLocation =
-      glGetUniformLocation(g_program.program, "u_textureFurColor");
+  g_textureLocation = glGetUniformLocation(g_program.program, "u_textureFurColor");
 
   g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
   g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
   g_texCoordLocation = glGetAttribLocation(g_program.program, "a_texCoord");
 
-  g_projectionMatrixFurLocation =
-      glGetUniformLocation(g_programFur.program, "u_projectionMatrix");
-  g_modelViewMatrixFurLocation =
-      glGetUniformLocation(g_programFur.program, "u_modelViewMatrix");
-  g_normalMatrixFurLocation =
-      glGetUniformLocation(g_programFur.program, "u_normalMatrix");
+  g_projectionMatrixFurLocation = glGetUniformLocation(g_programFur.program, "u_projectionMatrix");
+  g_modelViewMatrixFurLocation = glGetUniformLocation(g_programFur.program, "u_modelViewMatrix");
+  g_normalMatrixFurLocation = glGetUniformLocation(g_programFur.program, "u_normalMatrix");
 
-  g_lightDirectionFurLocation =
-      glGetUniformLocation(g_programFur.program, "u_lightDirection");
+  g_lightDirectionFurLocation = glGetUniformLocation(g_programFur.program, "u_lightDirection");
 
-  g_textureFurColorLocation =
-      glGetUniformLocation(g_programFur.program, "u_textureFurColor");
-  g_textureFurStrengthLocation =
-      glGetUniformLocation(g_programFur.program, "u_textureFurStrength");
+  g_textureFurColorLocation = glGetUniformLocation(g_programFur.program, "u_textureFurColor");
+  g_textureFurStrengthLocation = glGetUniformLocation(g_programFur.program, "u_textureFurStrength");
 
   g_vertexFurLocation = glGetAttribLocation(g_programFur.program, "a_vertex");
   g_normalFurLocation = glGetAttribLocation(g_programFur.program, "a_normal");
-  g_texCoordFurLocation =
-      glGetAttribLocation(g_programFur.program, "a_texCoord");
+  g_texCoordFurLocation = glGetAttribLocation(g_programFur.program, "a_texCoord");
 
   //
 
@@ -219,15 +194,14 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_textureFurColor);
   glBindTexture(GL_TEXTURE_2D, g_textureFurColor);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Mipmap generation is now included in OpenGL 3 and above
   glGenerateMipmap(GL_TEXTURE_2D);
 
   // Trilinear filtering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -243,15 +217,14 @@ GLUSboolean init(GLUSvoid) {
   glGenTextures(1, &g_textureFurStrength);
   glBindTexture(GL_TEXTURE_2D, g_textureFurStrength);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Mipmap generation is now included in OpenGL 3 and above
   glGenerateMipmap(GL_TEXTURE_2D);
 
   // Trilinear filtering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -272,18 +245,18 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)bunnyShape.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)bunnyShape.vertices,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)bunnyShape.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)bunnyShape.normals,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)bunnyShape.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, bunnyShape.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)bunnyShape.texCoords,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -327,8 +300,7 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.75f, 3.0f, 0.0f, 0.75f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.75f, 3.0f, 0.0f, 0.75f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   //
 
@@ -385,8 +357,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   glUseProgram(g_program.program);
 
@@ -398,8 +369,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   // Just pass the projection matrix. The final matrix is calculated in the
   // shader.
-  glUniformMatrix4fv(g_projectionMatrixFurLocation, 1, GL_FALSE,
-                     projectionMatrix);
+  glUniformMatrix4fv(g_projectionMatrixFurLocation, 1, GL_FALSE, projectionMatrix);
 }
 
 GLUSboolean update(GLUSfloat time) {
@@ -435,8 +405,7 @@ GLUSboolean update(GLUSfloat time) {
 
   glUseProgram(g_programFur.program);
 
-  glUniformMatrix4fv(g_modelViewMatrixFurLocation, 1, GL_FALSE,
-                     modelViewMatrix);
+  glUniformMatrix4fv(g_modelViewMatrixFurLocation, 1, GL_FALSE, modelViewMatrix);
   glUniformMatrix3fv(g_normalMatrixFurLocation, 1, GL_FALSE, normalMatrix);
 
   glBindVertexArray(g_vaoFur);
@@ -507,10 +476,8 @@ GLUSvoid terminate(GLUSvoid) {
 
 int main(int argc, char *argv[]) {
   EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS,  1,
-      EGL_SAMPLES,      8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,     8, EGL_BLUE_SIZE, 8, EGL_DEPTH_SIZE,      24,
+      EGL_STENCIL_SIZE, 0, EGL_SAMPLE_BUFFERS, 1, EGL_SAMPLES,   8, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
       EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
@@ -531,8 +498,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

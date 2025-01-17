@@ -49,15 +49,13 @@ static GLuint g_vao;
 
 static GLuint g_numberIndicesPlane;
 
-static struct LightProperties g_light = {
-    .direction = {1.0f, 1.0f, 1.0f},
-    .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
-    .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
-    .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
+static struct LightProperties g_light = {.direction = {1.0f, 1.0f, 1.0f},
+                                         .ambientColor = {0.3f, 0.3f, 0.3f, 1.0f},
+                                         .diffuseColor = {1.0f, 1.0f, 1.0f, 1.0f},
+                                         .specularColor = {1.0f, 1.0f, 1.0f, 1.0f}};
 
-static struct CameraProperties g_camera = {.eye = {0.0f, 0.0f, 10.0f},
-                                           .center = {0.0f, 0.0f, 0.0f},
-                                           .up = {0.0f, 1.0f, 0.0f}};
+static struct CameraProperties g_camera = {
+    .eye = {0.0f, 0.0f, 10.0f}, .center = {0.0f, 0.0f, 0.0f}, .up = {0.0f, 1.0f, 0.0f}};
 
 GLUSboolean init(GLUSvoid) {
   GLfloat modelViewMatrix[16];
@@ -69,10 +67,8 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1],
-                       g_camera.eye[2], g_camera.center[0], g_camera.center[1],
-                       g_camera.center[2], g_camera.up[0], g_camera.up[1],
-                       g_camera.up[2]);
+  glusMatrix4x4LookAtf(g_viewMatrix, g_camera.eye[0], g_camera.eye[1], g_camera.eye[2], g_camera.center[0],
+                       g_camera.center[1], g_camera.center[2], g_camera.up[0], g_camera.up[1], g_camera.up[2]);
 
   if (!initWavefront(g_viewMatrix, &g_light)) {
     return GLUS_FALSE;
@@ -80,17 +76,13 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example20" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "checker.vert.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example20" PATH_SEPERATOR "shader" PATH_SEPERATOR "checker.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example20" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
-                                                "checker.frag.glsl",
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example20" PATH_SEPERATOR "shader" PATH_SEPERATOR "checker.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             0, 0, 0, (const GLUSchar **)&fragmentSource.text);
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, 0, 0, 0,
+                             (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
   glusFileDestroyText(&fragmentSource);
@@ -98,12 +90,9 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Retrieve the uniform locations in the program.
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_modelViewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-  g_textureMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_textureMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+  g_textureMatrixLocation = glGetUniformLocation(g_program.program, "u_textureMatrix");
   g_repeatLocation = glGetUniformLocation(g_program.program, "u_repeat");
 
   // Retrieve the attribute locations in the program.
@@ -118,20 +107,17 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -187,8 +173,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glViewport(0, 0, width, height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
   reshapeWavefront(projectionMatrix);
 
@@ -271,11 +256,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    3,
@@ -295,8 +278,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }

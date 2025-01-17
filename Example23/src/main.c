@@ -92,31 +92,24 @@ GLUSboolean init(GLUSvoid) {
 
   GLUStgaimage image;
 
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.vert.glsl",
                    &vertexSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.cont.glsl",
                    &controlSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.eval.glsl",
                    &evaluationSource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.geom.glsl",
                    &geometrySource);
-  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR
-                                                "shader" PATH_SEPERATOR
+  glusFileLoadText(RESOURCE_PATH PATH_SEPERATOR "Example23" PATH_SEPERATOR "shader" PATH_SEPERATOR
                                                 "tessellation.frag.glsl",
                    &fragmentSource);
 
-  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text,
-                             (const GLUSchar **)&controlSource.text,
-                             (const GLUSchar **)&evaluationSource.text,
-                             (const GLUSchar **)&geometrySource.text,
+  glusProgramBuildFromSource(&g_program, (const GLUSchar **)&vertexSource.text, (const GLUSchar **)&controlSource.text,
+                             (const GLUSchar **)&evaluationSource.text, (const GLUSchar **)&geometrySource.text,
                              (const GLUSchar **)&fragmentSource.text);
 
   glusFileDestroyText(&vertexSource);
@@ -127,28 +120,19 @@ GLUSboolean init(GLUSvoid) {
 
   //
 
-  g_projectionMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_projectionMatrix");
-  g_viewMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_viewMatrix");
-  g_modelMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_modelMatrix");
-  g_normalMatrixLocation =
-      glGetUniformLocation(g_program.program, "u_normalMatrix");
+  g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+  g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+  g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+  g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-  g_colorTextureLocation =
-      glGetUniformLocation(g_program.program, "u_colorTexture");
-  g_normalTextureLocation =
-      glGetUniformLocation(g_program.program, "u_normalTexture");
+  g_colorTextureLocation = glGetUniformLocation(g_program.program, "u_colorTexture");
+  g_normalTextureLocation = glGetUniformLocation(g_program.program, "u_normalTexture");
 
-  g_displacementScaleLocation =
-      glGetUniformLocation(g_program.program, "u_displacementScale");
+  g_displacementScaleLocation = glGetUniformLocation(g_program.program, "u_displacementScale");
 
-  g_screenDistanceLocation =
-      glGetUniformLocation(g_program.program, "u_screenDistance");
+  g_screenDistanceLocation = glGetUniformLocation(g_program.program, "u_screenDistance");
 
-  g_doTessellateLocation =
-      glGetUniformLocation(g_program.program, "u_doTessellate");
+  g_doTessellateLocation = glGetUniformLocation(g_program.program, "u_doTessellate");
 
   g_widthLocation = glGetUniformLocation(g_program.program, "u_width");
   g_heightLocation = glGetUniformLocation(g_program.program, "u_height");
@@ -162,8 +146,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Load the image.
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_color.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_color.tga", &image);
 
   glActiveTexture(GL_TEXTURE0);
 
@@ -172,8 +155,8 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D, g_colorTexture);
 
   // Transfer the image data from the CPU to the GPU.
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Setting the texture parameters.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -186,8 +169,7 @@ GLUSboolean init(GLUSvoid) {
   //
 
   // Load the image.
-  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_normal.tga",
-                   &image);
+  glusImageLoadTga(RESOURCE_PATH PATH_SEPERATOR "four_shapes_normal.tga", &image);
 
   glActiveTexture(GL_TEXTURE1);
 
@@ -196,8 +178,8 @@ GLUSboolean init(GLUSvoid) {
   glBindTexture(GL_TEXTURE_2D, g_normalTexture);
 
   // Transfer the image data from the CPU to the GPU.
-  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0,
-               image.format, GL_UNSIGNED_BYTE, image.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE,
+               image.data);
 
   // Setting the texture parameters.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -220,35 +202,30 @@ GLUSboolean init(GLUSvoid) {
 
   glGenBuffers(1, &g_verticesVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat),
-               (GLfloat *)plane.vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat *)plane.vertices, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_tangentsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_tangentsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)plane.tangents, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)plane.tangents, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_bitangentsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_bitangentsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)plane.bitangents, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)plane.bitangents,
+               GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_normalsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat),
-               (GLfloat *)plane.normals, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 3 * sizeof(GLfloat), (GLfloat *)plane.normals, GL_STATIC_DRAW);
 
   glGenBuffers(1, &g_texCoordsVBO);
   glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat),
-               (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat *)plane.texCoords, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &g_indicesVBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_numberIndicesPlane * sizeof(GLuint),
-               (GLuint *)plane.indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_numberIndicesPlane * sizeof(GLuint), (GLuint *)plane.indices, GL_STATIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -259,8 +236,7 @@ GLUSboolean init(GLUSvoid) {
   glUseProgram(g_program.program);
 
   // Calculate the view matrix ...
-  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                       1.0f, 0.0f);
+  glusMatrix4x4LookAtf(viewMatrix, 0.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
 
@@ -329,8 +305,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
   glUniform1f(g_widthLocation, (GLfloat)width);
   glUniform1f(g_heightLocation, (GLfloat)height);
 
-  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f,
-                            (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+  glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
 
   glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
 }
@@ -473,11 +448,9 @@ GLUSvoid terminate(GLUSvoid) {
 }
 
 int main(int argc, char *argv[]) {
-  EGLint eglConfigAttributes[] = {
-      EGL_RED_SIZE,     8, EGL_GREEN_SIZE,      8,
-      EGL_BLUE_SIZE,    8, EGL_DEPTH_SIZE,      24,
-      EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-      EGL_NONE};
+  EGLint eglConfigAttributes[] = {EGL_RED_SIZE,   8,  EGL_GREEN_SIZE,   8, EGL_BLUE_SIZE,       8,
+                                  EGL_DEPTH_SIZE, 24, EGL_STENCIL_SIZE, 0, EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+                                  EGL_NONE};
 
   EGLint eglContextAttributes[] = {EGL_CONTEXT_MAJOR_VERSION,
                                    4,
@@ -499,8 +472,8 @@ int main(int argc, char *argv[]) {
 
   glusWindowSetTerminateFunc(terminate);
 
-  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE,
-                        eglConfigAttributes, eglContextAttributes, 0)) {
+  if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes,
+                        eglContextAttributes, 0)) {
     printf("Could not create window!\n");
     return -1;
   }
