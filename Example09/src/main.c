@@ -270,13 +270,13 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   GLfloat viewMatrix[16];
 
   g_widthViewport = width;
   g_heightViewport = height;
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, fb_width, fb_height);
 
   glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 

@@ -410,7 +410,7 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   GLfloat modelMatrix[16];
   GLfloat normalMatrix[9];
   GLfloat viewMatrix[16];
@@ -420,7 +420,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   glUseProgram(g_program.program);
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, fb_width, fb_height);
 
   glusMatrix4x4Identityf(modelMatrix);
 

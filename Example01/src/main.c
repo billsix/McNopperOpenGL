@@ -30,9 +30,9 @@ GLUSboolean init(GLUSvoid) {
  * @param w	width of the window
  * @param h	height of the window
  */
-GLUSvoid reshape(GLUSint width, GLUSint height) {
-  // Set the viewport depending on the width and height of the window.
-  glViewport(0, 0, width, height);
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
+  // Set the viewport depending on the framebuffer width, fb_width, and the framebuffer height, fb_height, of the window.
+  glViewport(0, 0, fb_width, fb_height);
 }
 
 /**

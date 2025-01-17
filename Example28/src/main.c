@@ -636,7 +636,7 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   GLfloat modelMatrix[16];
   GLfloat modelViewMatrix[16];
   GLfloat normalMatrix[9];
@@ -646,7 +646,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height) {
 
   //
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, fb_width, fb_height);
 
   glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 

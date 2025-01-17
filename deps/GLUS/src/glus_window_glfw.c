@@ -38,7 +38,7 @@ static GLUSint g_width = 640;
 static GLUSint g_height = 480;
 
 static GLUSboolean (*glusInit)(GLUSvoid) = NULL;
-static GLUSvoid (*glusReshape)(GLUSint width, GLUSint height) = NULL;
+static GLUSvoid (*glusReshape)(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) = NULL;
 static GLUSboolean (*glusUpdate)(GLUSfloat time) = NULL;
 static GLUSvoid (*glusTerminate)(GLUSvoid) = NULL;
 
@@ -75,8 +75,8 @@ glusWindowSetInitFunc(GLUSboolean (*glusNewInit)(GLUSvoid)) {
   glusInit = glusNewInit;
 }
 
-GLUSvoid GLUSAPIENTRY glusWindowSetReshapeFunc(
-    GLUSvoid (*glusNewReshape)(GLUSint width, GLUSint height)) {
+GLUSvoid GLUSAPIENTRY
+glusWindowSetReshapeFunc(GLUSvoid (*glusNewReshape)(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height)) {
   glusReshape = glusNewReshape;
 }
 
@@ -124,7 +124,9 @@ GLUSvoid _glusWindowInternalReshape(GLFWwindow *window, GLUSint width,
   }
 
   if (glusReshape && g_initdone) {
-    glusReshape(width, height);
+      GLUSint fb_width, fb_height;
+      glfwGetFramebufferSize(g_window, &fb_width, &fb_height);
+      glusReshape(width, height, fb_width, fb_height);
   }
 }
 
@@ -607,7 +609,9 @@ GLUSboolean GLUSAPIENTRY glusWindowStartup(GLUSvoid) {
 
   // Do the first reshape
   if (glusReshape) {
-    glusReshape(g_width, g_height);
+      GLUSint fb_width, fb_height;
+      glfwGetFramebufferSize(g_window, &fb_width, &fb_height);
+      glusReshape(g_width, g_height, fb_width, fb_height);
   }
 
   return GLUS_TRUE;

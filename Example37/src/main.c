@@ -464,7 +464,7 @@ GLUSboolean init(GLUSvoid) {
  * @param w	width of the window
  * @param h	height of the window
  */
-GLUSvoid reshape(GLUSint width, GLUSint height) { glViewport(0, 0, width, height); }
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) { glViewport(0, 0, fb_width, fb_height); }
 
 /**
  * Function to render and display content. Swapping of the buffers is

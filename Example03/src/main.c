@@ -180,11 +180,11 @@ GLUSboolean init(GLUSvoid) {
   return GLUS_TRUE;
 }
 
-GLUSvoid reshape(GLUSint width, GLUSint height) {
+GLUSvoid reshape(GLUSint width, GLUSint height, GLUSint fb_width, GLUSint fb_height) {
   GLfloat viewMatrix[16];
   GLfloat modelViewProjectionMatrix[16];
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, fb_width, fb_height);
 
   // Create the view matrix.
   glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);

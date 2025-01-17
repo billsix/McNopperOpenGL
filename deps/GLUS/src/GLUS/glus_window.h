@@ -114,7 +114,7 @@ GLUSAPI GLUSvoid GLUSAPIENTRY
  * The function receives the current width and height of the resized window.
  */
 GLUSAPI GLUSvoid GLUSAPIENTRY glusWindowSetReshapeFunc(
-    GLUSvoid (*glusNewReshape)(const GLUSint width, const GLUSint height));
+    GLUSvoid (*glusNewReshape)(const GLUSint width, const GLUSint height, const GLUSint fb_width, const GLUSint fb_height));
 
 /**
  * Sets the users update function, which is called every frame.
